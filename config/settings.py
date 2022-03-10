@@ -40,8 +40,15 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
+
 # 프로젝트 상 서비스 app 추가
-PROJECT_APPS = []
+PROJECT_APPS = [
+    'user',
+    'post',
+    'mountain',
+    'help',
+]
+
 
 # 패키지 설치 후 추가 필요하면 추가
 THIRD_PARTY_APPS = [
@@ -65,7 +72,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
