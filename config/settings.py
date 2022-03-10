@@ -40,7 +40,12 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
-PROJECT_APPS = []
+PROJECT_APPS = [
+    'user',
+    'post',
+    'mountain',
+    'help',
+]
 
 THIRD_PARTY_APPS = [
     'storages',
@@ -63,7 +68,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
