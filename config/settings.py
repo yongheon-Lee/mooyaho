@@ -48,6 +48,7 @@ PROJECT_APPS = [
     'help',
 ]
 
+
 # 패키지 설치 후 추가 필요하면 추가
 THIRD_PARTY_APPS = [
     'storages',
@@ -70,7 +71,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
