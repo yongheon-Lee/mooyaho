@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
+# 장고 기본 설정 app 추가
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,6 +40,8 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 
+
+# 프로젝트 상 서비스 app 추가
 PROJECT_APPS = [
     'user',
     'post',
@@ -47,6 +49,8 @@ PROJECT_APPS = [
     'help',
 ]
 
+
+# 패키지 설치 후 추가 필요하면 추가
 THIRD_PARTY_APPS = [
     'storages',
 ]
