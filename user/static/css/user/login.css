@@ -1,0 +1,61 @@
+/* header, footer 사용 안 할때 */
+#header {
+    display: none;
+}
+
+#footer {
+    display: none;
+}
+
+#content {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+/* header, footer 사용 안 할때 end */
+
+/* 로고 */
+#logo-wrapper {
+    text-align: center;
+    margin-top: 8rem;
+    margin-bottom: 4rem;
+}
+
+#logo-wrapper > img {
+    width: 16rem;
+}
+
+/* 입력 공통 */
+#input-wrapper {
+    background-color: #9dcdbf;
+    padding: 4rem 2rem;
+    margin: auto 2rem;
+
+    border-radius: 15px;
+}
+
+/* 아이디, 패스워드 입력 */
+#input-wrapper > div:nth-child(2) {
+    margin-bottom: 2rem;
+}
+
+
+/* 로그인, 회원가입 버튼 */
+#input-wrapper #button-area {
+    display: flex;
+    justify-content: space-between;
+}
+
+#button-area > button {
+    width: 100%;
+}
+
+#button-area > button:first-child {
+    margin-right: 1rem;
+    background-color: #ffc159;
+    color: white;
+}
+
+#button-area > button:last-child {
+    background-color: #bad072;
+    border-color: #bad072;
+}
