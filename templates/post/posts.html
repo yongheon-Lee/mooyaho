@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    포스팅
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="post-box">
+        <div class="image-box">
+            <img src="https://imagescdn.gettyimagesbank.com/500/14/518/883/0/525916307.jpg" alt="사진"/>
+        </div>
+
+        <div class="content-box">
+            <div class="title">
+                <h1>무야호~</h1>
+            </div>
+            <div class="post-location">
+                <p>대구광역시</p>
+            </div>
+            <div class="post-text">
+                <p>hello</p>
+            </div>
+        </div>
+
+    </div>
+
+    {% csrf_token %}
+{% endblock %}
+
+{% block js %}
+
+{% endblock %}
