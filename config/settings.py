@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os.path
 from pathlib import Path
 from .my_settings import MY_SECRET, MY_DATABASES, MY_AWS
 
@@ -128,6 +128,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Media files (User uploaded images)
+# 실제 파일이 저장되는 절대 경로 지정
+MEDIA_ROOT = os.path.join(BASE_DIR, 'upload_media')
+# 저장된 이미지 파일을 웹브라우저에서 url로 접근할 때, 어떤 경로에서 해당 file을 탐색할지 지정
+MEDIA_URL = '/upload_media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
