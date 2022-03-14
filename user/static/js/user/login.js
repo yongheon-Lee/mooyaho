@@ -30,7 +30,7 @@ const submitDynamicForm = (loginInfo) => {
 const clickedButton = (e) => {
     if (e.target.innerText == '로그인') {
         const inputInfo = {
-            'user_id': document.querySelector('#userId').value,
+            'email': document.querySelector('#email').value,
             'password': document.querySelector('#userPw').value,
         }
         submitDynamicForm(inputInfo);

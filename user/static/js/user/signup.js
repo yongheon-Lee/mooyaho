@@ -12,7 +12,7 @@ const validateSurvey = (e, groupInfo) => {
 }
 
 const clickedSubmitBtn = (e) => {
-    // 아이디 중복 체크 필요
+    // 이메일 중복 체크 필요
 
     const pwInput = document.querySelector('#userPw');
     const pwInputConfirm = document.querySelector('#userPwConfirm');
