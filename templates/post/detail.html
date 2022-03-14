@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    글 자세히 보기
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/posts.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div id="detail-contents">
+        <img src="https://imagescdn.gettyimagesbank.com/500/14/518/883/0/525916307.jpg" alt="사진"/>
+        <h1>백운산 인증!!</h1>
+        <p>location</p>
+        <p>content</p>
+    </div>
+    <div id="detail-icons">
+
+    </div>
+    <div id="detail-comments">
+
+    </div>
+
+    <div id="detail-enter-comment">
+        <form>
+            <label>
+<textarea></textarea>
+            </label>
+
+            <input type="submit" value="게시">
+        </form>
+    </div>
+{% endblock %}
