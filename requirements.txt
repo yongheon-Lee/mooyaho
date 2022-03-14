@@ -5,8 +5,10 @@ Django==4.0.3
 django-storages==1.12.3
 jmespath==0.10.0
 mysqlclient==2.1.0
+Pillow==9.0.1
 python-dateutil==2.8.2
 s3transfer==0.5.2
 six==1.16.0
 sqlparse==0.4.2
+tzdata==2021.5
 urllib3==1.26.8
