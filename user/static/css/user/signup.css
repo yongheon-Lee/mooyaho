@@ -1,0 +1,92 @@
+/* header, footer 사용 안 할때 */
+#header {
+    display: none;
+}
+
+#footer {
+    display: none;
+}
+
+#content {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+/* header, footer 사용 안 할때 end */
+
+/* 로고 */
+#logo-wrapper {
+    text-align: center;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+}
+
+#logo-wrapper > img {
+    width: 16rem;
+}
+
+/* 입력 공통 */
+#input-wrapper {
+    background-color: #9dcdbf;
+    padding: 2rem 2rem;
+    margin: auto 2rem 2rem 2rem;
+
+    border-radius: 15px;
+}
+
+/* 설문조사 공통 */
+#survey-area > div{
+    margin-top: 1rem;
+    border-bottom: 1px solid white;
+    border-radius: 6px;
+    padding: 0.5rem;
+}
+
+#survey-area > div > label{
+    margin-bottom: 0.5rem;
+}
+
+/* 성별 선택 */
+#input-wrapper #gender-area #gender-select-area{
+    display: flex;
+    justify-content: space-between;
+}
+
+#gender-select-area > label {
+    width: 7rem;
+}
+
+/* 연령대, 등산경력 공통 */
+.radio-area .radio-select-area {
+    display: flex;
+    justify-content: space-between;
+}
+.radio-area .radio-select-area > label {
+    display:inline-block;
+    text-align:center;
+    margin:0 0.2em;
+    font-size: 0.8rem;
+}
+
+.radio-area .radio-select-area > label > input {
+    display:block;
+    margin:0.1em auto;
+}
+
+/* 등산목적 */
+#reason-area #exp-select-area .a-row {
+    display: flex;
+}
+
+.a-row > div {
+    width: 100%;
+}
+
+/* 버튼 영역 */
+#button-area {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+#button-area > button {
+    width: 7.4rem;
+}
