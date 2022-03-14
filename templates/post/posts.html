@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    포스팅
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/posts.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <div class="post-box">
+        <div class="image-box">
+            <img src="https://imagescdn.gettyimagesbank.com/500/14/518/883/0/525916307.jpg" alt="사진"/>
+        </div>
+        <hr>
+        <div class="content-box">
+            <div class="title">
+                <h2>무야호~</h2>
+            </div>
+            <div class="post-location">
+                <p>대구광역시</p>
+            </div>
+            <div class="post-text">
+                <p>hello</p>
+            </div>
+        </div>
+    </div>
+    <div class="post-box">
+        <div class="image-box">
+            <img src="https://imagescdn.gettyimagesbank.com/500/14/518/883/0/525916307.jpg" alt="사진"/>
+        </div>
+        <hr>
+        <div class="content-box">
+            <div class="title">
+                <h2>무야호~</h2>
+            </div>
+            <div class="post-location">
+                <p>대구광역시</p>
+            </div>
+            <div class="post-text">
+                <p>hello</p>
+            </div>
+        </div>
+    </div>
+    {% csrf_token %}
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/posts.js' %}"></script>
+{% endblock %}
