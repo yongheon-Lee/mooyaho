@@ -1,16 +1,35 @@
 {% extends 'base.html' %}
 
 {% block title %}
-새 글 쓰기
+    새 글 쓰기
 {% endblock %}
 
 {% load static %}
 
 {% block css %}
+    <link rel="stylesheet" href="{% static 'css/posts.css' %}">
 {% endblock %}
 
-
 {% block content %}
+    <form id="new-post-form">
+        <div id="image-area">
+            <img src="" alt="여기에 사진 업로드">
+        </div>
+        <input type="file" placeholder="이미지입력">
+        <div class="new-box">
+
+            <label>
+                <input type="text" placeholder="산 이름 입력" name="inputMt">
+            </label>
+            <label>
+                <input type="text" placeholder="산의 후기 남겨주세요" name="inputReview">
+            </label>
+        </div>
+        <div class="new-box">
+            <input type="submit" value="등록">
+            <button type="button" onclick="location.href='/posts'">취소</button>
+        </div>
+    </form>
 
 
 {% endblock %}
