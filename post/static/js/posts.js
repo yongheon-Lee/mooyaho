@@ -1,6 +1,5 @@
 $(function() {
     changeSearchToAdd();
-    console.log("loaded");
 })
 
 function changeSearchToAdd() {
