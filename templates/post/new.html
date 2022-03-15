@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-    <form id="new-post-form">
+    <form id="new-post-form" action="/posts/new" method="post">
         <div id="image-area">
             <img src="" alt="여기에 사진 업로드">
         </div>
@@ -19,15 +19,15 @@
         <div class="new-box">
 
             <label>
-                <input type="text" placeholder="산 이름 입력" name="inputMt">
+                <input type="text" class="form-control" placeholder="산 이름 입력" name="location" id="location">
             </label>
             <label>
-                <input type="text" placeholder="산의 후기 남겨주세요" name="inputReview">
+                <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="content" id="content">
             </label>
         </div>
         <div class="new-box">
-            <input type="submit" value="등록">
-            <button type="button" onclick="location.href='/posts'">취소</button>
+            <input type="submit" class="btn btn-light" value="등록">
+            <button type="button" class="btn btn-light" onclick="location.href='/posts'">취소</button>
         </div>
     </form>
 
