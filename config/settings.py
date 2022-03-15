@@ -16,7 +16,6 @@ from .my_settings import MY_SECRET, MY_DATABASES, MY_AWS
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -28,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 # 장고 기본 설정 app 추가
 DJANGO_APPS = [
@@ -38,23 +36,23 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'config',  # template 경로를 인식시키기 위해 프로젝트 설정 디렉토리명 추가
 ]
 
 # 프로젝트 상 서비스 app 추가
 PROJECT_APPS = [
-    'user',
+    'user',  # 커스텀된 유저 모델 인식 문제로 인해 위치 이동
     'post',
     'mountain',
     'help',
 ]
-
 
 # 패키지 설치 후 추가 필요하면 추가
 THIRD_PARTY_APPS = [
     'storages',
 ]
 
-INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
+INSTALLED_APPS = PROJECT_APPS + DJANGO_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -86,11 +84,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = MY_DATABASES
+
+# 유저 모델 커스텀
+AUTH_USER_MODEL = 'user.MooyahoUser'
+
+# 아이디를 이메일로 로그인 구현하도록 설정
+# 로그인 시 username이 아닌 email 사용하도록 설정
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# 회원가입 시 이메일을 필수 항목으로 만들기
+ACCOUNT_EMAIL_REQUIRED = True
+# username을 필수 항목에서 제거
+ACCOUNT_USERNAME_REQUIRED = False
 
 
 # Password validation
@@ -111,7 +119,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -123,17 +130,22 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
 
-# Media files (User uploaded images)
-# 실제 파일이 저장되는 절대 경로 지정
-MEDIA_ROOT = os.path.join(BASE_DIR, 'upload_media')
+# User media files (User app uploaded images)
+# user 앱의 업로드되는 파일이 저장되는 절대 경로 지정
+USER_MEDIA_ROOT = os.path.join(BASE_DIR, 'user_upload_images')
 # 저장된 이미지 파일을 웹브라우저에서 url로 접근할 때, 어떤 경로에서 해당 file을 탐색할지 지정
-MEDIA_URL = '/upload_media/'
+USER_MEDIA_URL = '/user_upload_images/'
+
+# Post media files (Post app uploaded images)
+# post 앱의 업로드되는 파일이 저장되는 절대 경로 지정
+POST_MEDIA_ROOT = os.path.join(BASE_DIR, 'post_upload_images')
+# 저장된 이미지 파일을 웹브라우저에서 url로 접근할 때, 어떤 경로에서 해당 file을 탐색할지 지정
+POST_MEDIA_URL = '/post_upload_images/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
