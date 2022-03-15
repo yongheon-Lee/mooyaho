@@ -53,10 +53,10 @@ notification_important
         <input type="submit" value="신고하기">
     </form>
 
-    <button id="modalClose" onclick="modalClose()">닫기</btton>
+    <button id="modalClose" onclick="modalClose()">닫기</button>
     </div>
 
-
+    {% csrf_token %}
 {% endblock %}
 
 {% block js %}
