@@ -1,3 +1,15 @@
 from django.db import models
 
-# Create your models here.
+class Mountain(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    mountain_id = models.FloatField(blank=True, null=True)
+    mountain_name = models.CharField(max_length=30, blank=True, null=True)
+    subtitle = models.TextField(blank=True, null=True)
+    height = models.IntegerField(blank=True, null=True)
+    location = models.CharField(max_length=300, blank=True, null=True)
+    information = models.TextField(blank=True, null=True)
+    location_code = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'mountain'
