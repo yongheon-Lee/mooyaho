@@ -1,11 +1,12 @@
 .help-list {
     margin: 0 auto;
+    width: 370px;
 }
 
-button {
-    width: 100px;
-}
-
-button {
-    margin: 10px 0 10px 0;
+.btn-light2 {
+    background-color: #9DCDBF;
+    width: 90%;
+    height: 60px;
+    margin: 10px;
+    font-size: 20px;
 }
