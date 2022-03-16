@@ -28,8 +28,7 @@
 }
 
 #image-area {
-    height: 200px;
-    background-color: #4ac1f7;
+    max-width: 100%;
 }
 
 .new-box {
@@ -58,4 +57,18 @@
     text-align: center;
     transform: translateX(-50%) translateY(-50%);
 
+}
+
+#new-post-form {
+    text-align: center;
+}
+
+input[type=text] {
+    width: 300px;
+    margin: 10px;
+}
+
+#image-area img{
+    width: 100%;
+    height: 100%;
 }

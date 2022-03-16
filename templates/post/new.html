@@ -13,9 +13,10 @@
 {% block content %}
     <form id="new-post-form" action="/posts/new" method="post">
         <div id="image-area">
-            <img src="" alt="여기에 사진 업로드">
+            <img id="imgPreview" src="#" alt="여기에 사진 업로드">
         </div>
-        <input type="file" placeholder="이미지입력">
+        <label for="imgInput">upload image</label>
+        <input type="file" id="imgInput" accept="image/*">
         <div class="new-box">
 
             <label>
@@ -30,6 +31,21 @@
             <button type="button" class="btn btn-light" onclick="location.href='/posts'">취소</button>
         </div>
     </form>
+    <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPreview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgInput").change(function () {
+            readURL(this);
+        });
+    </script>
 
 
 {% endblock %}
