@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    고객센터
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/help.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="help-list" style="text-align: center; margin: 10px auto">
+
+        <button class="btn btn-light2"  onclick="location.href='/help/notice'">공지사항</button><br>
+        <button class="btn btn-light2" onclick="location.href='/help/review'">리뷰</button>
+    </div>
+{% endblock %}
