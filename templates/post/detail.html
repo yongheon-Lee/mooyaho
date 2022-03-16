@@ -15,23 +15,50 @@
     <div id="detail-contents">
         <img src="https://imagescdn.gettyimagesbank.com/500/14/518/883/0/525916307.jpg" alt="사진"/>
         <h1>백운산 인증!!</h1>
-        <p>location</p>
-        <p>content</p>
+        <div>
+            <span class="material-icons">location_on</span>
+            <p>location</p>
+        </div>
+    </div>
+
+    <p>여기에 포스팅 내용</p>
     </div>
     <div id="detail-icons">
-
+<span class="material-icons">
+favorite_border
+</span>
+    <span class="material-icons" id="modal-report" onclick="modalReport()">
+notification_important
+</span>
     </div>
+    <hr>
     <div id="detail-comments">
 
     </div>
 
     <div id="detail-enter-comment">
-        <form>
+        <form action="/posts/1/comments" method="post">
             <label>
-<textarea></textarea>
+                <textarea class="form-control" id="comments" name="comments"></textarea>
             </label>
 
             <input type="submit" value="게시">
         </form>
     </div>
+
+    <div class="modal">
+        <div class="modal_body">Modal</div>
+    <form action="" method="post">
+        <textarea></textarea>
+        <input type="submit" value="신고하기">
+    </form>
+
+    <button id="modalClose" onclick="modalClose()">닫기</button>
+    </div>
+
+    {% csrf_token %}
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/posts.js' %}"></script>
 {% endblock %}
