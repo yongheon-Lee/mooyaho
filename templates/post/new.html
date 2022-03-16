@@ -28,6 +28,17 @@
                 <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="content" id="content">
             </label>
         </div>
+
+{#        <form name="myform" id="myform" method="post" action="./save">#}
+            <fieldset id="myform">
+                <legend>이모지 별점</legend>
+                <label for="rate1">⭐</label><input type="radio" name="rating" value="1" id="rate1">
+                <label for="rate2">⭐</label><input type="radio" name="rating" value="2" id="rate2">
+                <label for="rate3">⭐</label><input type="radio" name="rating" value="3" id="rate3">
+                <label for="rate4">⭐</label><input type="radio" name="rating" value="4" id="rate4">
+                <label for="rate5">⭐</label><input type="radio" name="rating" value="5" id="rate5">
+            </fieldset>
+{#        </form>#}
         <div class="new-box">
             <input type="submit" class="btn btn-light" value="등록">
             <button type="button" class="btn btn-light"><a href="/posts">취소</a></button>
