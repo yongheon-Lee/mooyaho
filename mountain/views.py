@@ -12,4 +12,4 @@ def mountains(request):
 
 def mountains_detail(request, id):
     my_mountain = Mountain.objects.get(id=id)
-    return render(request, 'mountain/my_mountain.html', {'mountain_info':my_mountain})
+    return render(request, 'mountain/mountains_detail.html', {'mountain_info':my_mountain})
