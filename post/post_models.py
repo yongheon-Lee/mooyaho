@@ -36,7 +36,7 @@ class Post(models.Model):
     user = models.ForeignKey(MooyahoUser, related_name='user_post_ref',
                              db_column='author_id', on_delete=models.CASCADE, default='')
     title = models.CharField(max_length=20, null=False)
-    location = models.CharField(max_length=20, null=False, default='')
+    mountain_name = models.CharField(max_length=20, null=False, default='')
     content = models.TextField(null=False)
     rating = models.CharField(max_length=10, null=False)
     # hiking_img = models.ImageField(null=False, blank=False, upload_to=hiking_img_upload_path)
