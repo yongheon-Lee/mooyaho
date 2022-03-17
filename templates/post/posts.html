@@ -15,18 +15,18 @@
 
     <div class="post-box">
         <div class="image-box">
-            <img src="https://imagescdn.gettyimagesbank.com/500/14/518/883/0/525916307.jpg" alt="사진"/>
+            <img src="{{ all_post.0.hiking_img.url }}" alt="사진"/>
         </div>
         <hr>
         <div class="content-box">
             <div class="title">
-                <h2>무야호~</h2>
+                <h2>{{ all_post.0.title }}</h2>
             </div>
             <div class="post-location">
-                <p>대구광역시</p>
+                <p>{{ all_post0.0.location }}</p>
             </div>
             <div class="post-text">
-                <p>hello</p>
+                <p>{{ all_post.0.content|slice:20}}</p>
             </div>
         </div>
     </div>
