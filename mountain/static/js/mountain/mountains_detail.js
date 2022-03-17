@@ -149,10 +149,18 @@ const clickedArrow = (e) => {
 let hikingCourseList = [];
 let hikingMap;
 let markers = [];
+let isHikingResponseOk = false;
 console.log('markers', markers.length);
 document.querySelector('.mnt-info-area').addEventListener('click', clickedMntInfo);
 document.addEventListener("DOMContentLoaded", function() {
-    const coordinate = JSON.parse(document.querySelector('#hiking-area').dataset.coordinate);
+    // const coordinate = JSON.parse(document.querySelector('#hiking-area').dataset.coordinate);
+    const coordinate = {
+        'maxx': document.querySelector('#hiking-area').dataset.maxx,
+        'maxy': document.querySelector('#hiking-area').dataset.maxy,
+        'minx': document.querySelector('#hiking-area').dataset.minx,
+        'miny': document.querySelector('#hiking-area').dataset.miny
+    }
+    
     const hikingCourseIndex = parseInt(document.querySelector('#hiking-area').dataset.index);
     const centerX = (parseFloat(coordinate['maxx']) + parseFloat(coordinate['minx'])) / 2
     const centerY = (parseFloat(coordinate['maxy']) + parseFloat(coordinate['miny'])) / 2
@@ -172,8 +180,17 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function startDataLayer(geojson) {
+        isHikingResponseOk = true;
         hikingCourseList = geojson.response.result.featureCollection.features;
         drawHikingMap(hikingCourseIndex);
+    }
+
+    // 등산로 코스 요청에 대한 응답을 받지 못한다면,
+    if (!isHikingResponseOk) {
+        document.querySelectorAll('#hiking-area > div').forEach((ele, i) => {
+            if (i > 1) ele.parentElement.removeChild(ele);
+        })
+        document.querySelector('#hiking-course-index').innerHTML = '<span style="color:red">(코스 응답없음)<span>';
     }
 });
 
