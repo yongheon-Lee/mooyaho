@@ -21,4 +21,5 @@ urlpatterns = [
     path('', include('user.urls')),
     path('', include('post.urls')),
     path('', include('mountain.urls')),
+    path('', include('help.urls')),
 ]
