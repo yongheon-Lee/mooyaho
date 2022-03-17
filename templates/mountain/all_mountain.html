@@ -17,7 +17,7 @@
     {% with id=mountain.id|intToStr %}
     <div class="image-wrapper" data-id="{{id}}">
         {% with image_path='images/mountains/mountain_'|add:id|add:'.jpeg' %}
-            {% if forloop.counter0 < 5 %}
+            {% if forloop.counter0 < 10 %}
             <img class="mountain-image" src="{% static image_path %}">
             {% else %}
             <img class="mountain-image lazy" data-src="{% static image_path %}">
