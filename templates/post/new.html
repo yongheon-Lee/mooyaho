@@ -12,38 +12,41 @@
 
 {% block content %}
     <form id="new-post-form" action="/posts/new/" method="post">
+        {% csrf_token %}
         <div id="image-area">
             <img id="imgPreview" src="#" alt="여기에 사진 업로드">
         </div>
         <label for="imgInput">upload image</label>
-        <input type="file" id="imgInput" accept="image/*">
+        <input type="file" id="imgInput" name="hikinh_img" accept="image/*">
         <div class="new-box">
             <label>
                 <input type="text" class="form-control" placeholder="글 제목" name="title" id="title">
             </label>
             <label>
-                <input type="text" class="form-control" placeholder="산 이름 입력" name="location" id="location">
+                <input type="text" class="form-control" placeholder="산 이름 입력" name="inputMt" id="location">
             </label>
             <label>
-                <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="content" id="content">
+                <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content">
             </label>
         </div>
 
-{#        <form name="myform" id="myform" method="post" action="./save">#}
-            <fieldset id="myform">
-                <legend>평점</legend>
-                <label for="rate1">⭐</label><input type="radio" name="rating" value="1" id="rate1">
-                <label for="rate2">⭐</label><input type="radio" name="rating" value="2" id="rate2">
-                <label for="rate3">⭐</label><input type="radio" name="rating" value="3" id="rate3">
-                <label for="rate4">⭐</label><input type="radio" name="rating" value="4" id="rate4">
-                <label for="rate5">⭐</label><input type="radio" name="rating" value="5" id="rate5">
-            </fieldset>
-{#        </form>#}
+        {#        <form name="myform" id="myform" method="post" action="./save">#}
+        <fieldset id="myform">
+            <legend>평점</legend>
+            <label for="rate1">⭐</label><input type="radio" name="rating" value="1" id="rate1">
+            <label for="rate2">⭐</label><input type="radio" name="rating" value="2" id="rate2">
+            <label for="rate3">⭐</label><input type="radio" name="rating" value="3" id="rate3">
+            <label for="rate4">⭐</label><input type="radio" name="rating" value="4" id="rate4">
+            <label for="rate5">⭐</label><input type="radio" name="rating" value="5" id="rate5">
+        </fieldset>
+
+        {#        </form>#}
         <div class="new-box">
             <input type="submit" class="btn btn-light" value="등록">
             <button type="button" class="btn btn-light"><a href="/posts">취소</a></button>
         </div>
     </form>
+    {% csrf_token %}
     <script type="text/javascript">
         function readURL(input) {
             if (input.files && input.files[0]) {
