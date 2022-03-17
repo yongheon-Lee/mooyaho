@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+메인
+{% endblock %}
+
+{% load static %}
+{% load my_filters %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/mountain/main.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="content-wrapper">
+{% for category in mountainInfo %}
+    <div class="recommend-area">
+        <hr>
+        <h2>추천하는 산</h2>
+        <hr>
+        {% for key, mountain in category.items %}
+        {% cycle 'even' 'odd' as step silent %}
+        {% if step == 'even' %}
+            <div class="one-row">
+        {% endif %}
+                <div class="image-wrapper" data-id="{{mountain.id}}">
+                    {% with img_path='images/mountain_'|add:mountain.id|add:'.jpeg' %}
+                        <img class="mountain-images" src="{% static img_path %}" alt="">
+                    {% endwith %}
+                    <p>{{mountain.name}}</p>
+                </div>  
+        {% if step == 'odd' %}
+            </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+{% endfor %}
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/mountain/main.js' %}"></script>
+{% endblock %}

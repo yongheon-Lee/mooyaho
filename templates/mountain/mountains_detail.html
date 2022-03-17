@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}
+상세
+{% endblock %}
+
+{% load static %}
+{% load my_filters %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/mountain/mountains_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="content-wrapper">
+    <div class="image-area">
+        {% with id=mountain_info.id|intToStr %}
+            {% with image_path='images/mountains/mountain_'|add:id|add:'.jpeg' %}
+            <img src="{% static image_path %}" alt="">
+            {% endwith %}
+        {% endwith %}
+        <div class="intro-area">
+            <h1>{{mountain_info.mountain_name}}</h1>
+            <span class="fs-5">"{{ mountain_info.subtitle }}"</span>
+        </div>
+    </div>
+    <div class="mountain-info-area">
+        <hr>
+        <div class="location-area">
+            <span class="material-icons">place</span>
+            <span>{{ mountain_info.location }}</span>
+        </div>
+        <hr>
+        <div class="height-area">
+            <span class="material-icons">height</span>
+            <span>{{ mountain_info.height }} m</span>
+        </div>
+        <hr>
+        <div class="mnt-info-area">
+            <span class="material-icons">description</span>
+            <span class="text-truncate">{{ mountain_info.mountain_information }}</span>
+        </div>
+        <hr>
+        <div id="hiking-area" data-maxx="{{ mountain_info.maxx }}" data-maxy="{{ mountain_info.maxy }}" data-minx="{{ mountain_info.minx }}" data-miny="{{ mountain_info.miny }}" data-index="0">
+            <div><span class="material-icons">hiking</span>등산로<div id="hiking-course-index">1</div></div>
+            <div id="map-wrapper">
+                <div id="map"></div>
+            </div>
+            <div id="hiking-info-wrapper">
+                <div class="arrow-wrapper">
+                    <span class="material-icons" id="b-arrow">
+                        arrow_back_ios
+                    </span>
+                </div>
+                <div id="hiking-info-area"></div>
+                <div class="arrow-wrapper">
+                    <span class="material-icons" id="f-arrow">
+                        arrow_forward_ios
+                    </span>
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="restaurant-info-area"></div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=qda1gzx404"></script>
+<script src="{% static 'js/mountain/mountains_detail.js' %}"></script>
+{% endblock %}

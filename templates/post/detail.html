@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    글 자세히 보기
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/posts.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div id="detail-contents">
+        <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
+        <h1>{{ clicked_post.title }}</h1>
+        <div>
+            <span class="material-icons">location_on</span>
+            <p>{{ clicked_post.location }}</p>
+        </div>
+    </div>
+
+    <p>{{ clicked_post.content }}</p>
+    </div>
+    <div id="detail-icons">
+<span class="material-icons">
+favorite_border
+</span>
+    <span class="material-icons" id="modal-report" onclick="modalReport()">
+notification_important
+</span>
+    </div>
+    <hr>
+    <div id="detail-comments">
+
+    </div>
+
+    <div id="detail-enter-comment">
+        <form action="/posts/1/comments/" method="post">
+            <label>
+                <textarea class="form-control" id="comments" name="comments"></textarea>
+            </label>
+
+            <input type="submit" value="게시">
+        </form>
+    </div>
+
+    <div class="modal">
+        <div class="modal_body">Modal</div>
+    <form action="" method="post">
+        <textarea></textarea>
+        <input type="submit" value="신고하기">
+    </form>
+
+    <button id="modalClose" onclick="modalClose()">닫기</button>
+    </div>
+
+    {% csrf_token %}
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/posts.js' %}"></script>
+{% endblock %}

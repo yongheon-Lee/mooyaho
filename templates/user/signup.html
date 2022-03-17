@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}
+회원가입
+{% endblock %}
+
+{% load static %}
+{% load my_filters %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/user/signup.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="logo-wrapper">
+    <img src="{% static 'images/mooyaho_logo.png'%}" alt="">
+</div>
+<div id="input-section">
+    <div id="input-wrapper">
+        <form action="/signup/" method="post">
+            {% csrf_token %}
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="email" name="email" placeholder="이메일" required
+                oninvalid="this.setCustomValidity('이메일을 입력해주세요')"
+                oninput="this.setCustomValidity('')">
+                <label for="userId">이메일</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="userPw" name="password" placeholder="비밀번호" required
+                oninvalid="this.setCustomValidity('비밀번호를 입력해주세요')"
+                oninput="this.setCustomValidity('')">
+                <label for="userPw">비밀번호</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="userPwConfirm" name="password_confirm" placeholder="비밀번호 확인" required
+                oninvalid="this.setCustomValidity('비밀번호 확인을 입력해주세요')"
+                oninput="this.setCustomValidity('')"> 
+                <label for="userPwConfirm">비밀번호 확인</label>
+                <span id="confirmMsg"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="userNickname" name="nickname" placeholder="닉네임" required
+                oninvalid="this.setCustomValidity('닉네임을 입력해주세요')"
+                oninput="this.setCustomValidity('')">
+                <label for="userNickname">닉네임</label>
+            </div>
+            <div id="survey-area">
+                <div id="gender-area">
+                    <label>성별</label>
+                    <div id="gender-select-area">
+                        <input type="radio" class="btn-check" name="gender" id="select-man" value="0">
+                        <label class="btn btn-outline-light" for="select-man">남</label>
+
+                        <input type="radio" class="btn-check" name="gender" id="select-woman" value="1">
+                        <label class="btn btn-outline-light" for="select-woman">여</label>
+                    </div>
+                </div>
+                <div class="radio-area" id="age-area">
+                    <label>연령대</label>
+                    <div class="radio-select-area">
+                        {% for n in 7|times %}
+                        <label for="age{{n}}">
+                            <input class="form-check-input" type="radio" name="age_gr" id="age{{n}}"
+                                value="{{n}}">
+                            {{n|get_age_group}}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="radio-area" id="exp-area">
+                    <label>등산경력</label>
+                    <div class="radio-select-area">
+                        {% for n in 3|times %}
+                        <label for="exp{{n}}">
+                            <input class="form-check-input" type="radio" name="exp" id="exp{{n}}"
+                                value="{{n}}">
+                            {{n|get_exp_text}}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div id="reason-area">
+                    <label>등산목적 (다중선택 가능)</label>
+                    <div id="exp-select-area">
+                        {% for n in 6|times %}
+                            {% cycle 'odd' 'even' as order silent %}
+                            {% if order == 'odd' %}
+                            <div class="a-row">
+                            {% endif %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="{{n}}" id="reason{{n}}" name="reason">
+                                    <label class="form-check-label" for="reason{{n}}">
+                                        {{ n|get_reason_text }}
+                                    </label>
+                                </div>
+                            {% if order == 'even' %}
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div id="button-area">
+                <button type="submit" class="btn btn-light">가입하기</button>
+                <button class="btn btn-light">취소</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% csrf_token %}
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/user/signup.js' %}"></script>
+{% endblock %}
