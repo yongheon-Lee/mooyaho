@@ -11,13 +11,13 @@
 {% endblock %}
 
 {% block content %}
-    <form id="new-post-form" action="/posts/new/" method="post">
+    <form id="new-post-form" action="/posts/new/" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div id="image-area">
             <img id="imgPreview" src="#" alt="여기에 사진 업로드">
         </div>
         <label for="imgInput">upload image</label>
-        <input type="file" id="imgInput" name="hikinh_img" accept="image/*">
+        <input type="file" id="imgInput" name="hiking_img" accept="image/*">
         <div class="new-box">
             <label>
                 <input type="text" class="form-control" placeholder="글 제목" name="title" id="title">
