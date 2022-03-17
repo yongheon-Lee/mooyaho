@@ -15,7 +15,10 @@ class Mountain(models.Model):
     transportation = models.TextField(blank=True, null=True)
     local_code = models.FloatField(blank=True, null=True)
     local_name = models.TextField(blank=True, null=True)
-
+    maxy = models.FloatField(blank=True, null=True)
+    maxx = models.FloatField(blank=True, null=True)
+    miny = models.FloatField(blank=True, null=True)
+    minx = models.FloatField(blank=True, null=True)
 
     class Meta:
         managed = True
