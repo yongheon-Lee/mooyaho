@@ -13,15 +13,15 @@
 {% block content %}
 
     <div id="detail-contents">
-        <img src="https://imagescdn.gettyimagesbank.com/500/14/518/883/0/525916307.jpg" alt="사진"/>
-        <h1>백운산 인증!!</h1>
+        <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
+        <h1>{{ clicked_post.title }}</h1>
         <div>
             <span class="material-icons">location_on</span>
-            <p>location</p>
+            <p>{{ clicked_post.location }}</p>
         </div>
     </div>
 
-    <p>여기에 포스팅 내용</p>
+    <p>{{ clicked_post.content }}</p>
     </div>
     <div id="detail-icons">
 <span class="material-icons">
