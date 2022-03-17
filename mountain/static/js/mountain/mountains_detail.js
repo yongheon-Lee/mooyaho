@@ -73,6 +73,7 @@ const drawHikingMap = (showIndex, isForward) => {
     })
 
     // 등산로 중간점을 센터로
+    console.log(allFeature.geometryCollection[0].coords.length);
     totalCoordinate = allFeature.geometryCollection[0].coords[0];
     const centerX = totalCoordinate[parseInt(totalCoordinate.length/2)]['y'];
     const centerY = totalCoordinate[parseInt(totalCoordinate.length/2)]['x'];
@@ -81,7 +82,7 @@ const drawHikingMap = (showIndex, isForward) => {
     // 마커 표시
     const markerMessages = ['🔝출발점', '🔚도착점']
     const pointHeight = [allFeature.property_start_z, allFeature.property_end_z]
-    
+    console.log(totalCoordinate);
     for (let i=0; i<markerMessages.length; i++) {
         markers[i] = new naver.maps.Marker({
             position: new naver.maps.LatLng(totalCoordinate[i*(totalCoordinate.length-1)]['y'], totalCoordinate[i*(totalCoordinate.length-1)]['x']),
@@ -118,7 +119,6 @@ const clickedArrow = (e) => {
     const hikingCourseIndex = document.querySelector('#hiking-course-index');
     let nextHikingCourseIndex = 0;
     let isForward = false;
-    console.log(hikingCourseIndex)
     
     if (e.target.id === 'f-arrow') {
         if (currentHikingCourseIndex === totalHikingCourseLength-1) {
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function() {
     hikingMap = new naver.maps.Map('map', mapOptions);
     naver.maps.Event.once(hikingMap, 'init', function () {
         $.ajax({
-            url: `http://api.vworld.kr/req/data?key=63EA231B-2147-3429-8861-ED4408D496F4&request=GetFeature&data=LT_L_FRSTCLIMB&domain=localhost:8000&size=20&geomFilter=BOX(${coordinate['minx']},${coordinate['miny']},${coordinate['maxx']},${coordinate['maxy']})`,
+            url: `http://api.vworld.kr/req/data?key=63EA231B-2147-3429-8861-ED4408D496F4&request=GetFeature&data=LT_L_FRSTCLIMB&domain=localhost:8000&size=100&geomFilter=BOX(${coordinate['minx']},${coordinate['miny']},${coordinate['maxx']},${coordinate['maxy']})`,
             dataType: 'jsonp',
             success: startDataLayer
         });
@@ -184,16 +184,17 @@ document.addEventListener("DOMContentLoaded", function() {
         hikingCourseList = geojson.response.result.featureCollection.features;
         drawHikingMap(hikingCourseIndex);
     }
-
-    // 등산로 코스 요청에 대한 응답을 받지 못한다면,
-    if (!isHikingResponseOk) {
-        document.querySelectorAll('#hiking-area > div').forEach((ele, i) => {
-            if (i > 1) ele.parentElement.removeChild(ele);
-        })
-        document.querySelector('#hiking-course-index').innerHTML = '<span style="color:red">(코스 응답없음)<span>';
-    }
 });
 
 document.querySelectorAll('.arrow-wrapper').forEach(arrowEle => {
     arrowEle.addEventListener('click', clickedArrow);
+})
+
+// 등산로 코스 요청에 대한 응답을 받지 못한다면,
+$(document).ajaxError(function() {
+    console.log('cc')
+    document.querySelectorAll('#hiking-area > div').forEach((ele, i) => {
+        if (i > 1) ele.parentElement.removeChild(ele);
+    })
+    document.querySelector('#hiking-course-index').innerHTML = '<span style="color:red">(코스 응답없음)<span>';
 })
