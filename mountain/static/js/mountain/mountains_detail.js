@@ -1,5 +1,7 @@
 const clickedMntInfo = (e) => {
-    e.target.classList.toggle('text-truncate');
+    if (e.target.classList[0] !== 'material-icons') {
+        e.target.classList.toggle('text-truncate');
+    }
 }
 
 const getSpanElement = (text) => {
@@ -173,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function() {
     hikingMap = new naver.maps.Map('map', mapOptions);
     naver.maps.Event.once(hikingMap, 'init', function () {
         $.ajax({
-            url: `http://api.vworld.kr/req/data?key=63EA231B-2147-3429-8861-ED4408D496F4&request=GetFeature&data=LT_L_FRSTCLIMB&domain=localhost:8000&size=100&geomFilter=BOX(${coordinate['minx']},${coordinate['miny']},${coordinate['maxx']},${coordinate['maxy']})`,
+            url: `http://api.vworld.kr/req/data?key=63EA231B-2147-3429-8861-ED4408D496F4&request=GetFeature&data=LT_L_FRSTCLIMB&domain=localhost:8000&size=1000&geomFilter=BOX(${coordinate['minx']},${coordinate['miny']},${coordinate['maxx']},${coordinate['maxy']})`,
             dataType: 'jsonp',
             success: startDataLayer
         });
