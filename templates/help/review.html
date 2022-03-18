@@ -1,1 +1,26 @@
 {% extends 'base.html' %}
+
+{% block title %}
+    리뷰
+{% endblock %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/help.css' %}">
+{% endblock %}
+
+{% block content %}
+    <button class="btn-light2">리뷰1</button>
+    <br>
+    <button class="btn-light2">리뷰1</button>
+    <br>
+    <button class="btn-light2">리뷰1</button>
+    <br>
+    <button class="btn-light2">리뷰1</button>
+    <br>
+    <button class="btn-light2">리뷰1</button>
+    <br>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/help.js' %}"></script>
+{% endblock %}
