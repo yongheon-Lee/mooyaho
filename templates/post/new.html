@@ -25,10 +25,9 @@
             <label>
                 <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt" id="location">
                 <datalist id="datalist">
-                    <option value="가야산">
-                    <option value="가야1산">
-                    <option value="가야2산">
-                    <option value="가야3산">
+                    {% for mountain in mountains %}
+                    <option value="{{ mountain.mountain_name }}">
+                    {% endfor %}
                 </datalist>
             </label>
             <label>

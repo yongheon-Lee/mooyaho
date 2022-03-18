@@ -31,7 +31,8 @@ def post_detail(request, pk):
 @login_required(login_url='login')
 def post(request):
     if request.method == 'GET':
-        return render(request, 'post/new.html')
+        mt = Mountain.objects.all()
+        return render(request, 'post/new.html', {'mountains': mt})
 
     elif request.method == 'POST':
 
