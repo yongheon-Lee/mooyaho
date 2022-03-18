@@ -7,5 +7,4 @@ urlpatterns = [
     path('login/', user_service.login, name='login'),
     path('signup/', user_service.signup, name='signup'),
     path('logout/', user_service.logout, name='logout'),
-]
-# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.USER_MEDIA_URL, document_root=settings.USER_MEDIA_ROOT)
