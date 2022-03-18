@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from django.db import models
 
+from mountain.models import Mountain
 from user.user_models import MooyahoUser
 
 
@@ -37,11 +38,11 @@ class Post(models.Model):
                              db_column='author_id', on_delete=models.CASCADE, default='')
     title = models.CharField(max_length=20, null=False)
     mountain_name = models.CharField(max_length=20, null=False, default='')
+    # Mountain모델을 참조하기 위한 외래키(참조되는 모델, Mountain에서 Post 역참조 시 'post_set' 대체명, 컬럼명)
+    mountain = models.ForeignKey(Mountain, related_name='post_mt_ref', on_delete=models.CASCADE)
     content = models.TextField(null=False)
     rating = models.CharField(max_length=10, null=False)
-    # hiking_img = models.ImageField(null=False, blank=False, upload_to=hiking_img_upload_path)
-    hiking_img = models.ImageField(null=False, blank=False,
-                                   upload_to='post/post_upload_images/')
+    hiking_img = models.ImageField(null=False, blank=False)
     deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
