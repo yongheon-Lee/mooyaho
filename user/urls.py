@@ -8,4 +8,5 @@ urlpatterns = [
     path('signup/', user_service.signup, name='signup'),
     path('logout/', user_service.logout, name='logout'),
     path('mypage/', user_service.my_page, name='mypage'),
-] + static(settings.USER_MEDIA_URL, document_root=settings.USER_MEDIA_ROOT)
+]
+# + static(settings.USER_MEDIA_URL, document_root=settings.USER_MEDIA_ROOT)
