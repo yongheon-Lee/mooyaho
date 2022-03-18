@@ -128,7 +128,7 @@ def logout(request):
 # 마이 페이지
 @login_required(login_url='login')
 def my_page(request):
-    return render('mypage')
+    return render(request, 'user/mypage.html')
 
 
 # 프로필 수정
