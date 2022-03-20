@@ -18,8 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('mountain.urls')),  # 산 추천 페이지가 메인 페이지이므로 최상단에 위치
+    path('', include('help.urls')),
     path('', include('user.urls')),
     path('', include('post.urls')),
-    path('', include('mountain.urls')),
-    path('', include('help.urls')),
 ]
