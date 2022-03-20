@@ -48,6 +48,10 @@
     margin-top: 1.8rem;
 }
 
+.mountain-info-area .mnt-info-area > span:last-child{
+    cursor: pointer;
+}
+
 .mountain-info-area > hr {
     margin-top: 6px;
 }
@@ -77,6 +81,7 @@
 #hiking-info-wrapper .arrow-wrapper {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 #hiking-info-area {

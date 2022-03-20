@@ -41,9 +41,11 @@
             <span class="text-truncate">{{ mountain_info.mountain_information }}</span>
         </div>
         <hr>
-        <div id="hiking-area" data-coordinate="{{ mountain_info.coordinate }}" data-index="0">
+        <div id="hiking-area" data-maxx="{{ mountain_info.maxx }}" data-maxy="{{ mountain_info.maxy }}" data-minx="{{ mountain_info.minx }}" data-miny="{{ mountain_info.miny }}" data-index="0">
             <div><span class="material-icons">hiking</span>등산로<div id="hiking-course-index">1</div></div>
-            <div id="map"></div>
+            <div id="map-wrapper">
+                <div id="map"></div>
+            </div>
             <div id="hiking-info-wrapper">
                 <div class="arrow-wrapper">
                     <span class="material-icons" id="b-arrow">

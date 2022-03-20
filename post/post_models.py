@@ -5,21 +5,20 @@ from django.utils import timezone
 
 from django.db import models
 
-from mountain.models import Mountain
 from user.user_models import MooyahoUser
 
 
-# 등산사진 업로드 설정 함수
-# def hiking_img_upload_path(instance, filename):
-#     # 날짜로 세분화
-#     prefix = timezone.now().strftime('%Y/%m/%d')
-#     # 길이 32인 uuid값
-#     file_name = uuid4().hex
-#     # 확장자 추출
-#     extension = os.path.splitext(filename)[-1].lower()
-#     # 파일명 설정
-#     custom_file_name = '/'.join([prefix, file_name, extension])
-#     return custom_file_name
+# 등산 사진 업로드명 설정 함수
+def hiking_img_upload_path(instance, filename):
+    # 날짜로 세분화
+    prefix = timezone.now().strftime('%Y/%m/%d')
+    # 길이 32인 uuid값
+    uuid_name = uuid4().hex
+    # 확장자 추출
+    extension = os.path.splitext(filename)[-1].lower()
+    # 파일명 설정
+    custom_file_name = '/'.join([prefix, uuid_name, extension])
+    return custom_file_name
 
 
 # 모델 객체 정의
@@ -35,16 +34,14 @@ class Post(models.Model):
 
     # User모델을 참조하기 위한 외래키(참조되는 모델, User에서 Post 역참조 시 'post_set' 대체명, 컬럼명)
     user = models.ForeignKey(MooyahoUser, related_name='user_post_ref',
-                             db_column='author_id', on_delete=models.CASCADE)
+                             db_column='author_id', on_delete=models.CASCADE, default='')
+    title = models.CharField(max_length=20, null=False)
+    mountain_name = models.CharField(max_length=20, null=False, default='')
+    content = models.TextField(null=False)
+    rating = models.CharField(max_length=10, null=False)
     # hiking_img = models.ImageField(null=False, blank=False, upload_to=hiking_img_upload_path)
     hiking_img = models.ImageField(null=False, blank=False,
-                                   upload_to=f'post/post_upload_images/{user}%Y%m%d')
-    title = models.CharField(max_length=20)
-    # Mountain모델을 참조하기 위한 외래키(참조되는 모델명, Mountain에서 Post 역참조 시 'mountain_set' 대체명, 컬럼명)
-    mountain_id = models.ForeignKey(Mountain, related_name='mountain_post_ref',
-                                    db_column='mountain_id', on_delete=models.CASCADE)
-    content = models.TextField()
-    rating = models.SmallIntegerField()
+                                   upload_to='post/post_upload_images/')
     deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

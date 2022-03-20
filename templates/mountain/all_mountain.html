@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+상세
+{% endblock %}
+
+{% load static %}
+{% load my_filters %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/mountain/all_mountain.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="content-wrapper">
+    {% for mountain in mountains %}
+    {% with id=mountain.id|intToStr %}
+    <div class="image-wrapper" data-id="{{id}}">
+        {% with image_path='images/mountains/mountain_'|add:id|add:'.jpeg' %}
+            {% if forloop.counter0 < 10 %}
+            <img class="mountain-image" src="{% static image_path %}">
+            {% else %}
+            <img class="mountain-image lazy" data-src="{% static image_path %}">
+            {% endif %}
+            <p>{{mountain.mountain_name}}</p>
+        {% endwith %}
+    </div>
+    {% endwith %}
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/mountain/all_mountain.js' %}"></script>
+{% endblock %}

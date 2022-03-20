@@ -24,3 +24,7 @@ def get_exp_text(number):
 def get_reason_text(number):
     reasons = ['친목모임', '친환경', '건강관리', '취미활동', '탐험', '사진']
     return reasons[number]
+
+@register.filter(name='intToStr')
+def intToStr(id):
+    return str(id)
