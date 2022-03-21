@@ -6,6 +6,7 @@ from post.post_models import Post
 from user.user_models import MooyahoUser
 
 
+# 글 전체 페이지 기능
 @ login_required(login_url='login')
 def post_list(request):
     if request.method == 'GET':
@@ -17,6 +18,7 @@ def post_list(request):
         return render(request, 'post/posts.html', post_list_context)
 
 
+# 글 상세 페이지 기능
 @login_required(login_url='login')
 def post_detail(request, pk):
     if request.method == 'GET':
@@ -28,47 +30,63 @@ def post_detail(request, pk):
         return render(request, 'post/detail.html', post_detail_context)
 
 
+# 글 쓰기 기능
 @login_required(login_url='login')
 def post(request):
     if request.method == 'GET':
+        # 산 이름 검색창을 위해 전체 산 데이터 가져오기
         mt = Mountain.objects.all()
         return render(request, 'post/new.html', {'mountains': mt})
 
     elif request.method == 'POST':
-
+        # 산 이름 입력 받기
         input_mt = request.POST['inputMt']
-        mountain_name = Mountain.objects.get(mountain_name=input_mt).mountain_name
-        if input_mt == mountain_name:
-            location = input_mt
-        else:
-            mountain = Mountain()
-            mountain.mountain_name = input_mt
-            mountain.save()
-            location = input_mt
 
+        # Mountain 참조
+        get_mt = Mountain.objects.filter(mountain_name=input_mt)
+
+        # 해당 이름의 산 있으면,
+        if get_mt:
+            # 산 이름 가져오기
+            post_mountain_name = Mountain.objects.get(mountain_name=input_mt).mountain_name
+            # 산 id 가져오기
+            mountain_id = Mountain.objects.get(mountain_name=post_mountain_name).id
+
+        # 없으면,
+        else:
+            # 산 DB에 없는 산 이름 새로 추가
+            mt = Mountain()
+            mt.id = Mountain.objects.all().last().id + 1
+            mt.mountain_name = input_mt
+            mt.save()
+
+            # 입력값을 산 이름에 적용
+            post_mountain_name = input_mt
+            # 추가된 산 id 적용
+            mountain_id = mt.id
+
+        # 포스팅 생성
         new_posting = Post.objects.create(
             user=MooyahoUser.objects.get(id=request.user.id),
             hiking_img=request.FILES.get('hiking_img'),
             title=request.POST['title'],
-            location=location,
+            mountain_name=post_mountain_name,
+            mountain=Mountain.objects.get(id=mountain_id),
             content=request.POST['inputReview'],
             rating=request.POST['rating']
         )
         new_posting.save()
-        return redirect('/posts/' + str(new_posting.id))
+        return redirect(f'/posts/{str(new_posting.id)}/')
 
-    elif request.method == 'PUT':
-        posting = Post.objects.get(id=id)
-        return redirect('/posts/' + str(posting.id))
+
+# 글 수정 및 삭제 기능
+@login_required(login_url='login')
+def edit_post(request, pk):
+    if request.method == 'PUT':
+        posting = Post.objects.get(id=pk)
+        return redirect(f'/posts/{str(posting.id)}/')
 
     elif request.method == 'DELETE':
-        posting = Post.objects.get(id=id)
+        posting = Post.objects.get(id=pk)
         posting.delete()
         return redirect('posts')
-
-
-# https://velog.io/@limsw/Django-Rest-framework-%EB%8B%A4%EB%A3%A8%EA%B8%B0-2
-# https://itsource.tistory.com/50
-# https://wayhome25.github.io/django/2017/05/10/media-file/#%ED%8C%8C%EC%9D%BC-%EC%97%85%EB%A1%9C%EB%93%9C%EC%8B%9C%EC%9D%98-form-enctype-%ED%85%9C%ED%94%8C%EB%A6%BF%EB%82%B4-media-url-%EC%B2%98%EB%A6%AC-template
-# https://hangbokcoding.tistory.com/m/45
-
