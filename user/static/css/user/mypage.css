@@ -1,0 +1,83 @@
+/* 유저 정보 영역 */
+#user-info-area {
+    border: 2px solid #9DCDBF;
+    border-radius: 12px;
+    margin: 1.5rem;
+
+    display: flex;
+}
+#user-photo-wrapper {
+    width: 100%;
+    padding: 1.5rem 1rem 1.5rem 1.5rem;
+}
+#user-info-wrapper {
+    width: 100%;
+    padding: 1.5rem 1.5rem 1.5rem 1rem;
+}
+#user-photo-wrapper > img {
+    width: 100%;
+    height: 7rem;
+    border-radius: 12px;
+}
+
+/* nav탭 */ 
+#tab-area {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #9DCDBF;
+    background-color: white;
+
+    position: sticky;
+    z-index: 1000;
+    top: 59px;
+}
+
+#tab-area > div {
+    width: 100%;
+    height: 2.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    border-radius: 2px;
+}
+
+#tab-area > div::after {
+    transition: all .2s;
+}
+
+.active {
+    background-color: #9DCDBF;
+    transition: all .2s;
+}
+
+/* 포스트 이미지 영역 */
+.tab-area-content {
+    width: 100%;
+    margin-top: 0.2rem;
+}
+
+/* 첫번째(내 포스트) 탭 */
+#post-image-area .a-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.a-row .post-image-wrapper {
+    width: 33.33%;
+    padding: 0.1rem;
+}
+
+.a-row .post-image-wrapper > img {
+    width: 100%;
+    cursor: pointer;
+}
+
+/* 두번째(좋아요) 탭 */
+#like-image-area .a-row {
+    display: flex;
+    flex-direction: row;
+}
