@@ -43,6 +43,7 @@ DJANGO_APPS = [
 PROJECT_APPS = [
     'user',  # 커스텀된 유저 모델 인식 문제로 인해 위치 이동
     'post',
+    'comment',
     'mountain',
     'help',
 ]
