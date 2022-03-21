@@ -78,6 +78,7 @@ def post(request):
         new_posting.save()
         return redirect(f'/posts/{str(new_posting.id)}/')
 
+
 # 글 수정 및 삭제 기능
 @login_required(login_url='login')
 def edit_post(request, pk):
