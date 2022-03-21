@@ -19,9 +19,14 @@ def login(request):
         elif request.method == 'POST':
             email = request.POST['email']
             password = request.POST['password']
+            latitude = request.POST['latitude']
+            longitude = request.POST['longitude']
 
             exist_user = auth.authenticate(request, username=email, password=password)
             if exist_user is not None:
+                exist_user.latitude = latitude
+                exist_user.longitude = longitude
+                exist_user.save()
                 auth.login(request, exist_user)
                 return redirect('main')
 
