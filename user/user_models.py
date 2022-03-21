@@ -74,6 +74,8 @@ class MooyahoUser(AbstractUser):
                                     verbose_name='프로필 사진')
     exp = models.CharField(max_length=10, choices=exp_conf, verbose_name='등산 경력')
     reason = models.CharField(max_length=100, choices=reason_conf, verbose_name='등산 목적')
+    latitude = models.FloatField(default=0, verbose_name='유저 위치 위도')
+    longitude = models.FloatField(default=0, verbose_name='유저 위치 경도')
 
     # 각 유저 객체가 유저 아이디로 표시되도록 설정
     def __str__(self):
