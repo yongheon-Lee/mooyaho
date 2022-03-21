@@ -12,41 +12,25 @@
 
 
 {% block content %}
-
-    <div class="post-box">
-        <div class="image-box">
-            <img src="{{ all_post.0.hiking_img.url }}" alt="사진"/>
-        </div>
-        <hr>
-        <div class="content-box">
-            <div class="title">
-                <h2>{{ all_post.0.title }}</h2>
+    {% for content in all_post %}
+        <div class="post-box" onclick="location.href='/posts/{{ content.id }}/'">
+            <div class="image-box">
+                <img src="{{ content.hiking_img.url }}" alt="사진"/>
             </div>
-            <div class="post-location">
-                <p>{{ all_post0.0.mountain_name }}</p>
-            </div>
-            <div class="post-text">
-                <p>{{ all_post.0.content|slice:20}}</p>
-            </div>
-        </div>
-    </div>
-    <div class="post-box">
-        <div class="image-box">
-            <img src="https://imagescdn.gettyimagesbank.com/500/14/518/883/0/525916307.jpg" alt="사진"/>
-        </div>
-        <hr>
-        <div class="content-box">
-            <div class="title">
-                <h2>무야호~</h2>
-            </div>
-            <div class="post-location">
-                <p>대구광역시</p>
-            </div>
-            <div class="post-text">
-                <p>hello</p>
+            <hr>
+            <div class="content-box">
+                <div class="title">
+                    <h2>{{ content.title }}</h2>
+                </div>
+                <div class="post-location">
+                    <p>{{ content.mountain_name }}</p>
+                </div>
+                <div class="post-text">
+                    <p>{{ content.content|slice:20 }}</p>
+                </div>
             </div>
         </div>
-    </div>
+    {% endfor %}
     {% csrf_token %}
 {% endblock %}
 
