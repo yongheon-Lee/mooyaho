@@ -13,21 +13,26 @@
 {% block content %}
 
     <div id="detail-contents">
-        <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
-        <h1>{{ clicked_post.title }}</h1>
-        <div>
-            <span class="material-icons">location_on</span>
-            <p>{{ clicked_post.mountain_name }}</p>
-        </div>
-    </div>
+        <div class="image-box">
+            <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
 
-    <p>{{ clicked_post.content }}</p>
+            <div class="content-box">
+                <h1>{{ clicked_post.title }}</h1>
+                <div>
+                    <span class="material-icons">location_on</span>
+                    <p>{{ clicked_post.mountain_name }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="post-text">
+            <p>{{ clicked_post.content }}</p>
+        </div>
     </div>
     <div id="detail-icons">
 <span class="material-icons">
 favorite_border
 </span>
-    <span class="material-icons" id="modal-report" onclick="modalReport()">
+        <span class="material-icons" id="modal-report" onclick="modalReport()">
 notification_important
 </span>
     </div>
@@ -48,12 +53,12 @@ notification_important
 
     <div class="modal">
         <div class="modal_body">Modal</div>
-    <form action="" method="post">
-        <textarea></textarea>
-        <input type="submit" value="신고하기">
-    </form>
+        <form action="" method="post">
+            <textarea></textarea>
+            <input type="submit" value="신고하기">
+        </form>
 
-    <button id="modalClose" onclick="modalClose()">닫기</button>
+        <button id="modalClose" onclick="modalClose()">닫기</button>
     </div>
 
     {% csrf_token %}

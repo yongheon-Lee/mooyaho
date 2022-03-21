@@ -2,6 +2,7 @@
     width: 100%;
     max-width: 422px;
     margin: 0 auto;
+    justify-content: center;
 }
 
 /* header */
