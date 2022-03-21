@@ -1,10 +1,33 @@
-from django.shortcuts import render
-from .models import Mountain, main_mountin_test
+from django.contrib import auth
+from django.shortcuts import render, redirect
+from .models import Mountain
 from django.contrib.auth.decorators import login_required
 
 
+# def home(request):
+#     user = request.user
+#     if user.is_authenticated :
+#         user_x = user.longitude
+#         user_y = user.latitude
+#         user_max_x = user_x + 0.3
+#         user_max_y = user_y + 0.3
+#         user_min_x = user_x - 0.3
+#         user_min_y = user_y - 0.3
+#         local_mountain = Mountain.objects.filter(maxx__lt = user_max_x,
+#                                                  maxx__gt = user_min_x,
+#                                                  maxy__lt = user_max_y,
+#                                                  maxy__gt = user_min_y)
+#         return render(request, 'mountain/main.html', {'local_mountains': local_mountain})
+#     else :
+#         return redirect('/login')
+
 def home(request):
-    return render(request, 'mountain/main.html')
+    user = request.user
+    if user.is_authenticated :
+        user_data = user.reason_conf
+        return render(request, 'mountain/mtest.html', {'user_data': user_data})
+    else :
+        return redirect('/login')
 
 
 # @login_required()
@@ -41,20 +64,7 @@ def mountains_detail(request, id):
 # Mountain.objects.filter(maxy <= my and mixy >= My and maxx <= mx and minx >= Mx)
 # Mountain.objects.filter(maxx__lt=a)
 
-# def home(request, id):
-#     # if longitude is not None :
-#     user = main_mountin_test.objects.get(id=id)
-#     user_x = user.longitude
-#     user_y = user.latitude
-#     user_max_x = user_x + 0.3
-#     user_max_y = user_y + 0.3
-#     user_min_x = user_x - 0.3
-#     user_min_y = user_y - 0.3
-#     local_mountain = Mountain.objects.filter(maxx__lt = user_max_x,
-#                                              maxx__gt = user_min_x,
-#                                              maxy__lt = user_max_y,
-#                                              maxy__gt = user_min_y)
-#     return render(request, 'mountain/main.html', {'local_mountains': local_mountain})
+
 
 
 
