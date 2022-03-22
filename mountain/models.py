@@ -23,3 +23,12 @@ class Mountain(models.Model):
     class Meta:
         managed = True
         db_table = 'mountain'
+
+
+class main_mountin_test(models.Model):
+    longitude = models.FloatField(blank=True, null=True)
+    latitude = models.FloatField(blank=True, null=True)
+    bio = models.TextField()
+
+    class MetaL:
+        db_table = 'main_mountin_test'
