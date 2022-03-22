@@ -109,3 +109,7 @@ a { text-decoration:none;
 #detail-icons {
 
 }
+
+.comment-area p{
+    text-align: left;
+}
