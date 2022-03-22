@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from mountain.models import Mountain
 from post.post_models import Post
 from user.user_models import MooyahoUser
+from comment.comment_models import Comment
 
 
 # 글 전체 페이지 기능
@@ -24,8 +25,13 @@ def post_detail(request, pk):
     if request.method == 'GET':
         # 선택한 글의 id를 받아서 해당 id에 맞는 글 가져오기
         clicked_post = Post.objects.get(id=pk)
+
+        # 해당 글의 댓글 모두 가져오기
+        comments = Comment.objects.filter(post_id=clicked_post.id)
+
         post_detail_context = {
-            'clicked_post': clicked_post
+            'clicked_post': clicked_post,
+            'all_comment': comments
         }
         return render(request, 'post/detail.html', post_detail_context)
 
