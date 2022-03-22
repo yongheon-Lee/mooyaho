@@ -1,9 +1,17 @@
 from django.shortcuts import render
 from .models import Mountain, main_mountin_test
 from django.contrib.auth.decorators import login_required
-
+import requests
 
 def home(request):
+    #AI서버와 통신
+    URL="http://127.0.0.1:5000/userviewlog"
+    payload={'userid': request.user.id}
+
+    res=requests.post(URL,data=payload)  #post형식으로 data를 url에 넣어 요청후 응답받음
+    res=res.json() #응답 json으로 바꾸기
+    print(res)
+
     return render(request, 'mountain/main.html')
 
 
