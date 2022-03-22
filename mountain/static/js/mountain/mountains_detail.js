@@ -152,10 +152,8 @@ let hikingCourseList = [];
 let hikingMap;
 let markers = [];
 let isHikingResponseOk = false;
-console.log('markers', markers.length);
 document.querySelector('.mnt-info-area').addEventListener('click', clickedMntInfo);
 document.addEventListener("DOMContentLoaded", function() {
-    // const coordinate = JSON.parse(document.querySelector('#hiking-area').dataset.coordinate);
     const coordinate = {
         'maxx': document.querySelector('#hiking-area').dataset.maxx,
         'maxy': document.querySelector('#hiking-area').dataset.maxy,
@@ -186,6 +184,15 @@ document.addEventListener("DOMContentLoaded", function() {
         hikingCourseList = geojson.response.result.featureCollection.features;
         drawHikingMap(hikingCourseIndex);
     }
+
+    // 맛집 정보 
+    const restaurantInfo = JSON.parse(document.querySelector('.restaurant-info-area').dataset.info);
+    console.log(restaurantInfo);
+    restaurantInfo.items.forEach(goodPlace => {
+        console.log(goodPlace.title);
+    })
+
+    
 });
 
 document.querySelectorAll('.arrow-wrapper').forEach(arrowEle => {
