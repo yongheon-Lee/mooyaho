@@ -92,3 +92,22 @@
 }
 
 /* 맛집 */ 
+.mountain-info-area #restaurant-info-area {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+#restaurant-info-area #restaurant-info-title {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+#restaurant-info-content {
+    text-align: center;
+}
+
+#restaurant-info-content .card {
+    margin-bottom: 0.5rem;
+    border-radius: 12px;
+}
