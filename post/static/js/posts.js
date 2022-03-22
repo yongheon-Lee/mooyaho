@@ -19,3 +19,30 @@ function modalClose() {
     const closeBtn = document.querySelector("#modalClose");
     modal.style.display = 'none';
 }
+
+// 댓글 구현
+let repleBtn = document.querySelector('.repleBtn');
+repleBtn.addEventListener('click', e => {
+    let comment = document.querySelector('#comments').value;
+    let params = {
+        'author': '{{ request.user.nickname }}',
+        'post': '{{ post.id }}',
+        'comment': comment
+    }
+    console.log(params)
+
+    $.ajax({
+        url: "/comments/",
+        type: 'POST',
+        headers: {
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        data: JSON.stringify(params),
+        success: function (data){
+            console.log(data)
+        },
+        error: function (){
+            alert('Nope!!!!!!!!!!!')
+        }
+    })
+})

@@ -7,7 +7,7 @@
 {% load static %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'css/posts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/posts.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -23,10 +23,11 @@
                 <input type="text" class="form-control" placeholder="글 제목" name="title" id="title">
             </label>
             <label>
-                <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt" id="location">
+                <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
+                       id="location">
                 <datalist id="datalist">
                     {% for mountain in mountains %}
-                    <option value="{{ mountain.mountain_name }}">
+                        <option value="{{ mountain.mountain_name }}">
                     {% endfor %}
                 </datalist>
             </label>
