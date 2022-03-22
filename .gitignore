@@ -170,3 +170,7 @@ cython_debug/
 config/my_settings.py
 
 migrations
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
