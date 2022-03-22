@@ -79,14 +79,63 @@ def post(request):
         return redirect(f'/posts/{str(new_posting.id)}/')
 
 
-# 글 수정 및 삭제 기능
+# 글 수정 기능
 @login_required(login_url='login')
 def edit_post(request, pk):
-    if request.method == 'PUT':
-        posting = Post.objects.get(id=pk)
-        return redirect(f'/posts/{str(posting.id)}/')
+    posting = Post.objects.get(id=pk)
 
-    elif request.method == 'DELETE':
-        posting = Post.objects.get(id=pk)
+    # 글 작성자와 요청한 유저가 같은지 확인
+    if posting.author.id == request.user.id:
+        if request.method == 'GET':
+            # 산 이름 검색창을 위해 전체 산 데이터 가져오기
+            mt = Mountain.objects.all()
+            return render(request, 'post/new.html', {'mountains': mt})
+
+        elif request.method == 'PUT':
+
+            # 산 이름 입력 받기
+            input_mt = request.POST['inputMt']
+
+            # Mountain 참조
+            get_mt = Mountain.objects.filter(mountain_name=input_mt)
+
+            # 해당 이름의 산 있으면,
+            if get_mt:
+                # 산 이름 가져오기
+                post_mountain_name = Mountain.objects.get(mountain_name=input_mt).mountain_name
+                # 산 id 가져오기
+                mountain_id = Mountain.objects.get(mountain_name=post_mountain_name).id
+
+            # 없으면,
+            else:
+                # 산 DB에 없는 산 이름 새로 추가
+                mt = Mountain()
+                mt.id = Mountain.objects.all().last().id + 1
+                mt.mountain_name = input_mt
+                mt.save()
+
+                # 입력값을 산 이름에 적용
+                post_mountain_name = input_mt
+                # 추가된 산 id 적용
+                mountain_id = mt.id
+
+            # 수정 내용 반영
+            posting.hiking_img = request.FILES.get('hiking_img')
+            posting.title = request.POST['title']
+            posting.mountain_name = post_mountain_name
+            posting.mountain = mountain_id
+            posting.content = request.POST['inputReview']
+            posting.rating = request.POST['rating']
+            posting.save()
+            return redirect(f'/posts/{str(posting.id)}/')
+
+
+# 글 삭제 기능
+@login_required(login_url='login')
+def delete_post(request, pk):
+    posting = Post.objects.get(id=pk)
+
+    # 글 작성자와 요청한 유저가 같은지 확인
+    if posting.author.id == request.user.id:
         posting.delete()
         return redirect('posts')
