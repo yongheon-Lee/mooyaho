@@ -12,27 +12,11 @@
 
 {% block content %}
     <div>
-        <button class="btn-light2">1번 공지사항</button>
-        <br>
-        <button class="btn-light2">2번 공지사항</button>
-        <br>
-        <button class="btn-light2">3번 공지사항</button>
-        <br>
-        <button class="btn-light2">4번 공지사항</button>
-        <br>
-        <button class="btn-light2">5번 공지사항</button>
-        <br>
-        <button class="btn-light2">6번 공지사항</button>
-        <br>
-        <button class="btn-light2">7번 공지사항</button>
-        <br>
-        <button class="btn-light2">8번 공지사항</button>
-        <br>
-        <button class="btn-light2">9번 공지사항</button>
-        <br>
-        <button class="btn-light2">10번 공지사항</button>
-        <br>
-        <button class="btn-light2">11번 공지사항</button>
+        {% for i in data %}
+            <button onclick="location.href='help/notice/{{ i.id }}'" class="btn-light2">{{ i.title }}</button>
+            <br>
+        {% endfor %}
+        <button onclick="location.href='help/notice/1'" class="btn-light2">1번 공지사항</button>
         <br>
 
     </div>

@@ -1,5 +1,26 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    공지 새글쓰기
+    리뷰 새글쓰기
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/help.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="review-inputbox">
+            <form>
+                <textarea placeholder="여기에 내용 입력"></textarea>
+            </form>
+        </div>
+        <label id="review-radio">
+            <input type="radio"> 비밀글로 하시겠습니까?
+        </label>
+        <button type="submit">등록</button>
+
+    </div>
 {% endblock %}
