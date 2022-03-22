@@ -9,16 +9,11 @@
 {% endblock %}
 
 {% block content %}
-    <button class="btn-light2">리뷰1</button>
-    <br>
-    <button class="btn-light2">리뷰1</button>
-    <br>
-    <button class="btn-light2">리뷰1</button>
-    <br>
-    <button class="btn-light2">리뷰1</button>
-    <br>
-    <button class="btn-light2">리뷰1</button>
-    <br>
+
+    {% for i in content %}
+        <button class="btn-light2">{{ i.title }}</button>
+        <br>
+    {% endfor %}
 {% endblock %}
 
 {% block js %}
