@@ -11,9 +11,12 @@
 {% block content %}
 
     {% for i in content %}
-        <button class="btn-light2">{{ i.title }}</button>
+        <button onclick="location.href='/help/review/{{ content.id }}'" class="btn-light2">{{ i.i }}</button>
         <br>
     {% endfor %}
+
+    <button onclick="location.href='/help/review/1'" class="btn-light2">리뷰1</button>
+    <br>
 {% endblock %}
 
 {% block js %}
