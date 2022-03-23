@@ -11,8 +11,8 @@ from comment.comment_models import Comment
 @ login_required(login_url='login')
 def post_list(request):
     if request.method == 'GET':
-        # 모든 글 가져오기, 포스팅 날짜 역순으로 정렬
-        all_post = Post.objects.all().order_by('-created_at')
+        # 삭제처리 되지 않은 모든 글 가져오기, 포스팅 날짜 역순으로 정렬
+        all_post = Post.objects.filter(deleted=0).order_by('-created_at')
         post_list_context = {
             'all_post': all_post
         }
@@ -143,5 +143,7 @@ def delete_post(request, pk):
 
     # 글 작성자와 요청한 유저가 같은지 확인
     if posting.user.id == request.user.id:
-        posting.delete()
+        # 글을 실제로 삭제하지 않고 삭제된 것처럼 처리
+        posting.deleted = True
+        # posting.delete()
         return redirect('posts')
