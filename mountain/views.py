@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
-import requests
-from .models import Mountain, main_mountin_test
+from .models import Mountain
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/login/')
@@ -46,7 +45,6 @@ def mountains(request):
 def mountains_detail(request, id):
     my_mountain = Mountain.objects.get(id=id)
     return render(request, 'mountain/mountains_detail.html', {'mountain_info': my_mountain})
-
 
 
 
