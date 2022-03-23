@@ -48,6 +48,7 @@ def mountains(request):
 @login_required(login_url='/login/')
 def mountains_detail(request, id):
     my_mountain = Mountain.objects.get(id=id)
+
     # 맛집 정보 요청
     client_id = MY_NAVER_SEARCH['CLIENT_ID']
     client_secret = MY_NAVER_SEARCH['CLIENT_SECRET']
