@@ -1,10 +1,19 @@
-from django.contrib import auth
 from django.shortcuts import render, redirect
-from .models import Mountain
+import requests
+from .models import Mountain, main_mountin_test
 from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='/login/')
 def home(request):
+    # #AI서버와 통신
+    # URL="http://127.0.0.1:5000/userviewlog"
+    # payload={'userid': request.user.id}
+    #
+    # res=requests.post(URL,data=payload)  #post형식으로 data를 url에 넣어 요청후 응답받음
+    # res=res.json() #응답 json으로 바꾸기
+    # print(res)
+    #
+    # return render(request, 'mountain/main.html')
     user = request.user
     # 유저가 로그인했을때
     if user.is_authenticated :
@@ -37,8 +46,6 @@ def mountains(request):
 def mountains_detail(request, id):
     my_mountain = Mountain.objects.get(id=id)
     return render(request, 'mountain/mountains_detail.html', {'mountain_info': my_mountain})
-
-
 
 
 

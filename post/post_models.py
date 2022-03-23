@@ -42,7 +42,7 @@ class Post(models.Model):
     mountain = models.ForeignKey(Mountain, related_name='post_mt_ref', on_delete=models.CASCADE)
     content = models.TextField(null=False)
     rating = models.CharField(max_length=10, null=False)
-    hiking_img = models.ImageField(null=False, blank=False)
+    hiking_img = models.ImageField(null=False, blank=False, upload_to=hiking_img_upload_path)
     deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -7,12 +7,18 @@
 {% load static %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'css/posts.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/posts.css' %}">
 {% endblock %}
 
 {% block content %}
 
     <div id="detail-contents">
+    <p>글쓴이: {{ clicked_post.user }}</p>
+        {% if clicked_post.user == user %}
+            <button>수정</button>
+            <button type="button" onclick="location.href='/posts/{{ clicked_post.id }}/deletion'">삭제</button>
+        {% endif %}
+
         <div class="image-box">
             <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
 
@@ -23,10 +29,11 @@
                     <p>{{ clicked_post.mountain_name }}</p>
                 </div>
             </div>
+            <div class="post-text">
+                <p>{{ clicked_post.content }}</p>
+            </div>
         </div>
-        <div class="post-text">
-            <p>{{ clicked_post.content }}</p>
-        </div>
+
     </div>
     <div id="detail-icons">
 <span class="material-icons">
@@ -42,12 +49,20 @@ notification_important
     </div>
 
     <div id="detail-enter-comment">
-        <form action="/posts/1/comments/" method="post">
+        <div class="comment-area">
+            <p style="display: inline">홍길동 | 안녕하세요.</p>
+            <button>삭제</button>
+            {% for comment in all_comment %}
+                {{ comment.comment }}
+            {% endfor %}
+        </div>
+        <form action="/posts/{{ clicked_post.id }}/comments/" method="post">
             <label>
                 <textarea class="form-control" id="comments" name="comments"></textarea>
             </label>
+            <input type="submit" class="btn btn-light" value="게시">
+            {% csrf_token %}
 
-            <input type="submit" value="게시">
         </form>
     </div>
 
@@ -56,12 +71,13 @@ notification_important
         <form action="" method="post">
             <textarea></textarea>
             <input type="submit" value="신고하기">
+            {% csrf_token %}
+
         </form>
 
         <button id="modalClose" onclick="modalClose()">닫기</button>
     </div>
 
-    {% csrf_token %}
 {% endblock %}
 
 {% block js %}
