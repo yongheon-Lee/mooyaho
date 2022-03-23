@@ -84,7 +84,6 @@ const drawHikingMap = (showIndex, isForward) => {
     // 마커 표시
     const markerMessages = ['🔝출발점', '🔚도착점']
     const pointHeight = [allFeature.property_start_z, allFeature.property_end_z]
-    console.log(totalCoordinate);
     for (let i=0; i<markerMessages.length; i++) {
         markers[i] = new naver.maps.Marker({
             position: new naver.maps.LatLng(totalCoordinate[i*(totalCoordinate.length-1)]['y'], totalCoordinate[i*(totalCoordinate.length-1)]['x']),
@@ -146,16 +145,7 @@ const clickedArrow = (e) => {
     document.querySelector('#hiking-area').dataset.index = nextHikingCourseIndex.toString();
 }
 
-
-// 실행부
-let hikingCourseList = [];
-let hikingMap;
-let markers = [];
-let isHikingResponseOk = false;
-console.log('markers', markers.length);
-document.querySelector('.mnt-info-area').addEventListener('click', clickedMntInfo);
-document.addEventListener("DOMContentLoaded", function() {
-    // const coordinate = JSON.parse(document.querySelector('#hiking-area').dataset.coordinate);
+const setHikingMap = () => {
     const coordinate = {
         'maxx': document.querySelector('#hiking-area').dataset.maxx,
         'maxy': document.querySelector('#hiking-area').dataset.maxy,
@@ -186,6 +176,63 @@ document.addEventListener("DOMContentLoaded", function() {
         hikingCourseList = geojson.response.result.featureCollection.features;
         drawHikingMap(hikingCourseIndex);
     }
+}
+
+const makeInfoCard = (info) => {
+    const infoContent = document.querySelector('#restaurant-info-content');
+    const contentData = [info.address, info.category];
+    let pElement;
+    const topDiv = document.createElement('div');
+    const secondDiv = document.createElement('div');
+    const h5 = document.createElement('h5');
+    const aElement = document.createElement('a');
+
+    topDiv.setAttribute('class', 'card');
+    secondDiv.setAttribute('class', 'card-body');
+    h5.setAttribute('class', 'card-title');
+    
+    aElement.innerHTML = info.title;
+    if (info.link != "") {
+        aElement.setAttribute('href', info.link);    
+    } else {
+        aElement.setAttribute('href', `https://search.naver.com/search.naver?query=${aElement.textContent} ${info.address}`);
+    }
+
+    h5.appendChild(aElement);
+    secondDiv.appendChild(h5);
+    contentData.forEach((data, index) => {
+        pElement = document.createElement('p');
+        pElement.setAttribute('class', 'card-text')
+        pElement.innerText = data;
+        secondDiv.appendChild(pElement);
+    });
+    topDiv.appendChild(secondDiv);
+    infoContent.appendChild(topDiv);
+}
+
+const setNearRestaurantInfo = () => {
+    const restaurantInfo = JSON.parse(document.querySelector('#restaurant-info-area').dataset.info);
+    if (restaurantInfo.items.length < 1) {
+        document.querySelector('#restaurant-info-content').style.textAlign = 'center';
+        document.querySelector('#restaurant-info-content').innerHTML = `
+            <p>검색 결과가 없습니다</p>
+        `;
+    }
+    restaurantInfo.items.forEach(place => {
+        makeInfoCard(place);
+    })
+}
+
+
+// 실행부
+let hikingCourseList = [];
+let hikingMap;
+let markers = [];
+let isHikingResponseOk = false;
+document.querySelector('.mnt-info-area').addEventListener('click', clickedMntInfo);
+document.addEventListener("DOMContentLoaded", function() {
+    setHikingMap();
+    setNearRestaurantInfo();
 });
 
 document.querySelectorAll('.arrow-wrapper').forEach(arrowEle => {
@@ -194,7 +241,6 @@ document.querySelectorAll('.arrow-wrapper').forEach(arrowEle => {
 
 // 등산로 코스 요청에 대한 응답을 받지 못한다면,
 $(document).ajaxError(function() {
-    console.log('cc')
     document.querySelectorAll('#hiking-area > div').forEach((ele, i) => {
         if (i > 1) ele.parentElement.removeChild(ele);
     })
