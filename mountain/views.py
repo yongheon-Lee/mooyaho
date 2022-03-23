@@ -1,68 +1,51 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+import requests
 from .models import Mountain, main_mountin_test
 from django.contrib.auth.decorators import login_required
-import requests
 
+@login_required(login_url='/login/')
 def home(request):
-    #AI서버와 통신
-    URL="http://127.0.0.1:5000/userviewlog"
-    payload={'userid': request.user.id}
+    # #AI서버와 통신
+    # URL="http://127.0.0.1:5000/userviewlog"
+    # payload={'userid': request.user.id}
+    #
+    # res=requests.post(URL,data=payload)  #post형식으로 data를 url에 넣어 요청후 응답받음
+    # res=res.json() #응답 json으로 바꾸기
+    # print(res)
+    #
+    # return render(request, 'mountain/main.html')
+    user = request.user
+    # 유저가 로그인했을때
+    if user.is_authenticated :
+        # 만약 지역 정보가 0.0일떄,
+        if user.longitude == 0.0 and user.latitude == 0.0 :
+            return render(request, 'mountain/main.html', {'noinform': '추천해줄 산이 없습니다.'})
+        else :
+            user_x = user.longitude
+            user_y = user.latitude
+            user_max_x = user_x + 0.3
+            user_max_y = user_y + 0.3
+            user_min_x = user_x - 0.3
+            user_min_y = user_y - 0.3
+            local_mountain = Mountain.objects.filter(maxx__lt = user_max_x,
+                                                     maxx__gt = user_min_x,
+                                                     maxy__lt = user_max_y,
+                                                     maxy__gt = user_min_y)
+            return render(request, 'mountain/main.html', {'local_mountain': local_mountain})
+    else :
+        return redirect('/login')
 
-    res=requests.post(URL,data=payload)  #post형식으로 data를 url에 넣어 요청후 응답받음
-    res=res.json() #응답 json으로 바꾸기
-    print(res)
-
-    return render(request, 'mountain/main.html')
-
-
-# @login_required()
+@login_required(login_url='/login/')
 def mountains(request):
     # user = request.user.is_authenticated
     # 산 모델 중에서 100번째까지만 나타내게 하는 필터값
     all_mountain = Mountain.objects.filter(id__lt=101)
     return render(request, 'mountain/all_mountain.html', {'mountains': all_mountain})
 
-
+@login_required(login_url='/login/')
 def mountains_detail(request, id):
     my_mountain = Mountain.objects.get(id=id)
     return render(request, 'mountain/mountains_detail.html', {'mountain_info': my_mountain})
-
-# main이랑 연결하기
-# def main(request) :
-#     # 만약 유저뷰로그가 안 쌓이고 기본 위치정보를 허용할 때, 허용 안 할땐 정보없음으로 나타내기
-#     if 위치정보 is True :
-#         유저의 위치 정보 = 위도+-0.3, 경도+-0.3
-#         if maxx in range(유저의 최소 위도 정보 : 유저의 최대 위도정보):
-#         if maxy in range(유저의 최소 경도 정보 : 유저의 최대 경도정보):
-#           해당하는 값 나타내기
-#         산 위도에 일치하는 값 = Mountain.object.filter(유저 위치의 범위 내에 있는 maxx)
-#         산 경도에 일치하는 값 = Mountain.objcet.filter(유저 위치의 범위 내에 있는 maxy)
-#     else :
-#         return render(request, 'index.html', {'error': '위치 정보가 존재하지 않습니다. '})
-
-# 위도 경도 +-30분씩 차이나게 하기
-
-
-# 산 모델 중에서 100번째까지만 나타내게 하는 필터값
-# my = 유저의 위도 정보 - 0.3
-# My = 유저의 위도 정보 + 0.3
-# Mountain.objects.filter(maxy <= my and mixy >= My and maxx <= mx and minx >= Mx)
-# Mountain.objects.filter(maxx__lt=a)
-
-# def home(request, id):
-#     # if longitude is not None :
-#     user = main_mountin_test.objects.get(id=id)
-#     user_x = user.longitude
-#     user_y = user.latitude
-#     user_max_x = user_x + 0.3
-#     user_max_y = user_y + 0.3
-#     user_min_x = user_x - 0.3
-#     user_min_y = user_y - 0.3
-#     local_mountain = Mountain.objects.filter(maxx__lt = user_max_x,
-#                                              maxx__gt = user_min_x,
-#                                              maxy__lt = user_max_y,
-#                                              maxy__gt = user_min_y)
-#     return render(request, 'mountain/main.html', {'local_mountains': local_mountain})
 
 
 
