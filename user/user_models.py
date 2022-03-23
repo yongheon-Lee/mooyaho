@@ -20,7 +20,7 @@ def profile_img_upload_path(instance, filename):
     return custom_file_name
 
 
-# 모델 객체 정의
+# 유저 모델 객체 정의
 class MooyahoUser(AbstractUser):
     # 모델의 DB 기본 정보
     class Meta:
@@ -78,3 +78,14 @@ class MooyahoUser(AbstractUser):
     # 각 유저 객체가 유저 아이디로 표시되도록 설정
     def __str__(self):
         return self.nickname
+
+
+# 유저 로그 모델 객체 정의
+class UserViewLog(models.Model):
+    class Meta:
+        db_table = "userviewlog"
+
+    user = models.ForeignKey('user.MooyahoUser', on_delete=models.CASCADE)
+    post = models.ForeignKey('post.Post', on_delete=models.CASCADE, null=True, blank=True)
+    mountain = models.ForeignKey('mountain.Mountain', on_delete=models.CASCADE, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
