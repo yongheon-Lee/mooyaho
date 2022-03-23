@@ -85,7 +85,7 @@ def edit_post(request, pk):
     posting = Post.objects.get(id=pk)
 
     # 글 작성자와 요청한 유저가 같은지 확인
-    if posting.author.id == request.user.id:
+    if posting.user.id == request.user.id:
         if request.method == 'GET':
             # 산 이름 검색창을 위해 전체 산 데이터 가져오기
             mt = Mountain.objects.all()
@@ -136,6 +136,6 @@ def delete_post(request, pk):
     posting = Post.objects.get(id=pk)
 
     # 글 작성자와 요청한 유저가 같은지 확인
-    if posting.author.id == request.user.id:
+    if posting.user.id == request.user.id:
         posting.delete()
         return redirect('posts')
