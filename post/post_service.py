@@ -26,8 +26,8 @@ def post_detail(request, pk):
         # 선택한 글의 id를 받아서 해당 id에 맞는 글 가져오기
         clicked_post = Post.objects.get(id=pk)
 
-        # 해당 글의 댓글 모두 가져오기
-        comments = Comment.objects.filter(post_id=clicked_post.id)
+        # 해당 글의 댓글 중 삭제 처리되지 않은 댓글 모두 가져오기
+        comments = Comment.objects.filter(post_id=clicked_post.id, deleted=False)
 
         post_detail_context = {
             'clicked_post': clicked_post,
@@ -145,5 +145,6 @@ def delete_post(request, pk):
     if posting.user.id == request.user.id:
         # 글을 실제로 삭제하지 않고 삭제된 것처럼 처리
         posting.deleted = True
+        posting.save()
         # posting.delete()
         return redirect('posts')
