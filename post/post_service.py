@@ -1,6 +1,10 @@
+import json
+
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
+from help.models import Review
 from mountain.models import Mountain
 from post.post_models import Post
 from user.user_models import MooyahoUser
@@ -146,5 +150,36 @@ def delete_post(request, pk):
         # 글을 실제로 삭제하지 않고 삭제된 것처럼 처리
         posting.deleted = True
         posting.save()
-        # posting.delete()
         return redirect('posts')
+
+
+# 글 좋아요 기능
+@login_required(login_url='login')
+def like_post(request):
+    post_id = request.POST['pk']
+    posting = Post.objects.get(id=post_id)
+    user = request.user
+
+    if posting.likes.filter(id=user.id).exists():
+        posting.likes.remove(user)
+    else:
+        posting.likes.add(user)
+
+    context = {'likes_count': posting.count_likes()}
+    return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+# 글 신고 기능
+@login_required(login_url='login')
+def report_post(request):
+# def report_post(request, pk):
+    # posting = Post.objects.get(id=pk)
+
+    # 글 신고
+    new_report = Review.objects.create(
+        author=MooyahoUser.objects.get(id=request.user.id),
+        content=request.POST['content'],
+        report=True,
+    )
+    new_report.save()
+    return redirect('posts')
