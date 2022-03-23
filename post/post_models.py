@@ -48,6 +48,10 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     likes = models.ManyToManyField(MooyahoUser, related_name='post_likes')
 
+    # 글의 좋아요 개수 세기
+    def count_likes(self):
+        return self.likes.count()
+
     # 각 글 객체가 제목으로 표시되도록 설정
     def __str__(self):
         return self.title
