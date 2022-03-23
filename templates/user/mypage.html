@@ -15,7 +15,18 @@
 <div id="content-wrapper">
     <div id="user-info-area">
         <div id="user-photo-wrapper">
-            <img src="{% static myinfo.photo %}" alt="">
+            <div id="img-wrapper">
+            {% if myinfo.profile_img %}
+                <img id="user-photo" src="{{ myinfo.profile_img.url }}" alt="">
+            {% else %}
+                <img id="user-photo" src="{% static 'images/no-img.png' %}" alt="">
+            {% endif %}
+                <div id="icon-wrapper">
+                    <span class="material-icons">loop</span>
+                </div>
+            </div>
+            {% csrf_token %}
+            <input id="user-photo-changer" type="file" accept="image/*" name="profile_img" hidden />
         </div>
         <div id="user-info-wrapper">
             <span>{{ user.nickname }}</span>
@@ -33,7 +44,7 @@
             <div class="a-row">
             {% endif %}
                 <div class="post-image-wrapper" data-id="{{ mypost.id }}">
-                    <img src="{% static mypost.hiking_img %}" alt="">
+                    <img data-src="{% static mypost.hiking_img %}" alt="">
                 </div>
             {% if step == 'three' or forloop.last %}
             </div>
@@ -47,7 +58,7 @@
             <div class="a-row">
             {% endif %}
                 <div class="post-image-wrapper" data-id="{{ post.id }}">
-                    <img src="{% static post.hiking_img %}" alt="">
+                    <img data-src="{% static post.hiking_img %}" alt="">
                 </div>
             {% if step == 'three' %}
             </div>

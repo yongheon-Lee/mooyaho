@@ -3,37 +3,31 @@ const goMountainPage = (e) => {
     location.href = `/mountains_detail/${id}`;
 };
 
+const afterMeetObserver = (entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            let imgElement = entry.target;
+            imgElement.setAttribute('src', imgElement.dataset.src);
+            observer.unobserve(imgElement);
+        }
+    })
+}
+
 // 실행부
 document.querySelectorAll('.image-wrapper').forEach(mountainImg => {
     mountainImg.addEventListener('click', goMountainPage);
 })
 
+let observer;
 document.addEventListener("DOMContentLoaded", function () {
-    var lazyloadImages = document.querySelectorAll("img.lazy");
-    var lazyloadThrottleTimeout;
-
-    function lazyload() {
-        if (lazyloadThrottleTimeout) {
-            clearTimeout(lazyloadThrottleTimeout);
-        }
-
-        lazyloadThrottleTimeout = setTimeout(function () {
-            var scrollTop = window.pageYOffset;
-            lazyloadImages.forEach(function (img) {
-                if (img.offsetTop < window.innerHeight + scrollTop) {
-                    img.src = img.dataset.src;
-                    img.classList.remove("lazy");
-                }
-            });
-            if (lazyloadImages.length == 0) {
-                document.removeEventListener("scroll", lazyload);
-                window.removeEventListener("resize", lazyload);
-                window.removeEventListener("orientationChange", lazyload);
-            }
-        }, 20);
+    const intersectionObserverOptions = {
+        root: null,
+        rootMargin: '500px',
+        threshold: 0
     }
-
-    document.addEventListener("scroll", lazyload);
-    window.addEventListener("resize", lazyload);
-    window.addEventListener("orientationChange", lazyload);
+    observer = new IntersectionObserver(afterMeetObserver, intersectionObserverOptions);
+    let imgs = document.querySelectorAll('.image-wrapper > img');
+    imgs.forEach(img => {
+        observer.observe(img);
+    })
 });

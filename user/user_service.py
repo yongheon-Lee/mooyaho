@@ -1,5 +1,6 @@
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
 from .user_models import MooyahoUser
@@ -133,7 +134,20 @@ def logout(request):
 # 마이 페이지
 @login_required(login_url='login')
 def my_page(request):
-    return render(request, 'user/mypage.html')
+    user_id = request.user.id
+    current_user = MooyahoUser.objects.get(id=user_id)
+    
+    if request.method == 'POST':
+        try:
+            current_user.profile_img = request.FILES.get('profile_img')
+            current_user.save()
+            return JsonResponse({'result': 'success'})
+        except Exception as e:
+            print(e)
+            return JsonResponse({'result': 'fail', 'msg': '프로필 사진 변경에 실패하였습니다'})
+    
+    if request.method == 'GET':
+        return render(request, 'user/mypage.html', {'myinfo': current_user})
 
 
 # 프로필 수정
