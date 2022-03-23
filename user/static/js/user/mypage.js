@@ -13,6 +13,42 @@ const clickedPostImg = (e) => {
     location.href = `/posts/${postId}`;
 }
 
+const clickedMyPhoto = () => {
+    document.querySelector('#user-photo-changer').click();
+}
+
+const changeMyPhoto = (e) => {
+    const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+    const myPhotoElement = document.querySelector('#user-photo');
+    const myPhoto = e.target.files[0];
+    const formData = new FormData();
+    formData.append('profile_img', myPhoto);
+    
+    $.ajax({
+        type: 'POST',
+        url: '/mypage/',
+        processData: false,
+        contentType: false,
+        data: formData,
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrfToken);
+        },
+        success: function(response){
+            if (response['result'] == 'success'){
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    myPhotoElement.setAttribute('src', e.target.result);
+                }
+                reader.readAsDataURL(myPhoto);
+            }
+            else {
+                alert(response['msg'])
+            }
+        }
+    })
+
+}
+
 document.querySelectorAll('#tab-area > div').forEach(element => {
     element.addEventListener('click', clickedTab);
 })
@@ -20,3 +56,7 @@ document.querySelectorAll('#tab-area > div').forEach(element => {
 document.querySelectorAll('.post-image-wrapper').forEach(element => {
     element.addEventListener('click', clickedPostImg);
 })
+
+document.querySelector('#img-wrapper > img').addEventListener('click', clickedMyPhoto);
+document.querySelector('#icon-wrapper').addEventListener('click', clickedMyPhoto);
+document.querySelector('#user-photo-changer').addEventListener('change', changeMyPhoto);

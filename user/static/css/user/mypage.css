@@ -9,15 +9,35 @@
 #user-photo-wrapper {
     width: 100%;
     padding: 1.5rem 1rem 1.5rem 1.5rem;
+    
 }
-#user-info-wrapper {
-    width: 100%;
-    padding: 1.5rem 1.5rem 1.5rem 1rem;
+
+#user-photo-wrapper #img-wrapper {
+    position: relative;
 }
-#user-photo-wrapper > img {
+
+#user-photo-wrapper #img-wrapper > img {
     width: 100%;
     height: 7rem;
     border-radius: 12px;
+    cursor: pointer;
+}
+
+#user-photo-wrapper #icon-wrapper {
+    position: absolute;
+    top: 79%;
+    left: 85%;
+    cursor: pointer;
+}
+
+#icon-wrapper > span {
+    font-size: 16px;
+    color: rgb(190, 206, 126);
+}
+
+#user-info-wrapper {
+    width: 100%;
+    padding: 1.5rem 1.5rem 1.5rem 1rem;
 }
 
 /* nav탭 */ 
