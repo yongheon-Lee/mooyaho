@@ -44,7 +44,7 @@
             <div class="a-row">
             {% endif %}
                 <div class="post-image-wrapper" data-id="{{ mypost.id }}">
-                    <img src="{% static mypost.hiking_img %}" alt="">
+                    <img data-src="{% static mypost.hiking_img %}" alt="">
                 </div>
             {% if step == 'three' or forloop.last %}
             </div>
@@ -58,7 +58,7 @@
             <div class="a-row">
             {% endif %}
                 <div class="post-image-wrapper" data-id="{{ post.id }}">
-                    <img src="{% static post.hiking_img %}" alt="">
+                    <img data-src="{% static post.hiking_img %}" alt="">
                 </div>
             {% if step == 'three' %}
             </div>

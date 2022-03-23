@@ -46,9 +46,19 @@ const changeMyPhoto = (e) => {
             }
         }
     })
-
 }
 
+const afterMeetObserver = (entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            let imgElement = entry.target;
+            imgElement.setAttribute('src', imgElement.dataset.src);
+            observer.unobserve(imgElement);
+        }
+    })
+}
+
+// 실행부
 document.querySelectorAll('#tab-area > div').forEach(element => {
     element.addEventListener('click', clickedTab);
 })
@@ -60,3 +70,17 @@ document.querySelectorAll('.post-image-wrapper').forEach(element => {
 document.querySelector('#img-wrapper > img').addEventListener('click', clickedMyPhoto);
 document.querySelector('#icon-wrapper').addEventListener('click', clickedMyPhoto);
 document.querySelector('#user-photo-changer').addEventListener('change', changeMyPhoto);
+
+let observer;
+document.addEventListener("DOMContentLoaded", function () {
+    const intersectionObserverOptions = {
+        root: null,
+        rootMargin: '500px',
+        threshold: 0
+    }
+    observer = new IntersectionObserver(afterMeetObserver, intersectionObserverOptions);
+    let imgs = document.querySelectorAll('.post-image-wrapper > img');
+    imgs.forEach(img => {
+        observer.observe(img);
+    })
+});
