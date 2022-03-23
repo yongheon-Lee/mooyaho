@@ -8,16 +8,11 @@ from django.db import models
 
 
 # 프로필사진 업로드 설정 함수
-# def profile_img_upload_path(instance, filename):
-#     # 날짜로 세분화
-#     prefix = timezone.now().strftime('%Y/%m/%d')
-#     # 길이 32인 uuid값
-#     file_name = uuid4().hex
-#     # 확장자 추출
-#     extension = os.path.splitext(filename)[-1].lower()
-#     # 파일명 설정
-#     custom_file_name = '/'.join([prefix, file_name, extension])
-#     return custom_file_name
+def profile_img_upload_path(instance, filename):
+    # 확장자 추출
+    extension = os.path.splitext(filename)[-1].lower()
+    custom_file_name = f"images/user_profile_img/{instance.id}/profile{extension}"
+    return custom_file_name
 
 
 # 모델 객체 정의
@@ -69,7 +64,7 @@ class MooyahoUser(AbstractUser):
     age_gr = models.CharField(max_length=10, choices=age_gr_conf, verbose_name='연령대')
     disabled = models.BooleanField(default=False, verbose_name='탈퇴 여부')
     superuser = models.BooleanField(default=False, verbose_name='관리자 여부')
-    profile_img = models.ImageField(blank=True, verbose_name='프로필 사진')
+    profile_img = models.ImageField(blank=True, upload_to=profile_img_upload_path, verbose_name='프로필 사진')
     # profile_img = models.ImageField(blank=True, upload_to=f'user/user_upload_images/',
     #                                 verbose_name='프로필 사진')
     exp = models.CharField(max_length=10, choices=exp_conf, verbose_name='등산 경력')
