@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 import requests
-from .models import Mountain, main_mountin_test
+from .models import Mountain
 from django.contrib.auth.decorators import login_required
+import urllib.request
+import json
+from config.my_settings import MY_NAVER_SEARCH
 
 @login_required(login_url='/login/')
 def home(request):
@@ -45,8 +48,21 @@ def mountains(request):
 @login_required(login_url='/login/')
 def mountains_detail(request, id):
     my_mountain = Mountain.objects.get(id=id)
-    return render(request, 'mountain/mountains_detail.html', {'mountain_info': my_mountain})
-
-
-
-
+    # 맛집 정보 요청
+    client_id = MY_NAVER_SEARCH['CLIENT_ID']
+    client_secret = MY_NAVER_SEARCH['CLIENT_SECRET']
+    enc_text = urllib.parse.quote(f"{my_mountain.location.split(' ')[0]} {my_mountain.mountain_name} 맛집") # 검색어ex) 화촌면 가리산 맛집 
+    url = f"https://openapi.naver.com/v1/search/local.json?query={enc_text}&display=5"
+    
+    restaurant_req = urllib.request.Request(url)
+    restaurant_req.add_header("X-Naver-Client-Id", client_id)
+    restaurant_req.add_header("X-Naver-Client-Secret", client_secret)
+    
+    response = urllib.request.urlopen(restaurant_req)
+    rescode = response.getcode()
+    if (rescode == 200):
+        response_body = response.read()
+        restaurant_info = json.loads(response_body.decode('utf-8'))
+    else:
+        print("Error Code:" + rescode)
+    return render(request, 'mountain/mountains_detail.html', {'mountain_info': my_mountain, 'restaurant_info': json.dumps(restaurant_info)})
