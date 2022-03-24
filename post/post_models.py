@@ -18,7 +18,7 @@ def hiking_img_upload_path(instance, filename):
     # 확장자 추출
     extension = os.path.splitext(filename)[-1].lower()
     # 파일명 설정
-    custom_file_name = '/'.join([prefix, uuid_name, extension])
+    custom_file_name = f"{prefix}/{uuid_name}/posting{extension}"
     return custom_file_name
 
 
