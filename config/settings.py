@@ -41,7 +41,7 @@ DJANGO_APPS = [
 
 # 프로젝트 상 서비스 app 추가
 PROJECT_APPS = [
-    'user',  # 커스텀된 유저 모델 인식 문제로 인해 위치 이동
+    'user',
     'post',
     'comment',
     'mountain',
