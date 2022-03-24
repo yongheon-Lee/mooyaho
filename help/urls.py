@@ -7,4 +7,5 @@ urlpatterns = [
     path('notice/', views.notice, name='notice'),
     # path('noice/delete/<int:id>', views.delete_notice, name="delete_notice"),
     path('review/', views.review, name='review'),
+    path('review/new', views.post_review, name='post_review'),
 ]
