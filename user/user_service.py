@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 
+from post.post_models import Post
 from .user_models import MooyahoUser
 
 
@@ -134,9 +135,32 @@ def logout(request):
 # 마이 페이지
 @login_required(login_url='login')
 def my_page(request):
+
+    # 현재 유저 id
     user_id = request.user.id
+
+    # 현재 유저 id에 맞는 유저 모델 호출
     current_user = MooyahoUser.objects.get(id=user_id)
-    
+
+    # 현재 유저가 작성한 게시글 모두 가져오기
+    my_post = Post.objects.filter(user=current_user)
+
+    # 현재 유저가 좋아요한 게시글 모두 가져오기
+    # 참고 자료
+    # https://velog.io/@swhan9404/ManyToMany-Relationship%EC%A2%8B%EC%95%84%EC%9A%94-%ED%94%84%EB%A1%9C%ED%95%84-Follow-QuerySet%EC%9D%80-lazy%ED%95%98%EB%8B%A4-Pagination
+    my_favorite = current_user.post_likes.all()
+
+    # 프론트로 보낼 데이터 담기
+    context = {
+        'myinfo': current_user,
+        'myposts': my_post,
+        'myfavorite': my_favorite,
+    }
+
+    if request.method == 'GET':
+        return render(request, 'user/mypage.html', context)
+
+    # 프로필 수정
     if request.method == 'POST':
         try:
             current_user.profile_img = request.FILES.get('profile_img')
@@ -145,18 +169,3 @@ def my_page(request):
         except Exception as e:
             print(e)
             return JsonResponse({'result': 'fail', 'msg': '프로필 사진 변경에 실패하였습니다'})
-    
-    if request.method == 'GET':
-        return render(request, 'user/mypage.html', {'myinfo': current_user})
-
-
-# 프로필 수정
-@login_required(login_url='login')
-def edit_profile(request):
-    return render('mypage')
-
-
-# 내 좋아요
-@login_required(login_url='login')
-def my_likes(request):
-    return render('mypage')
