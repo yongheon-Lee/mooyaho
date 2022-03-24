@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = MY_SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -41,7 +41,7 @@ DJANGO_APPS = [
 
 # 프로젝트 상 서비스 app 추가
 PROJECT_APPS = [
-    'user',  # 커스텀된 유저 모델 인식 문제로 인해 위치 이동
+    'user',
     'post',
     'comment',
     'mountain',
@@ -154,13 +154,13 @@ POST_MEDIA_URL = '/post_upload_images/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # AWS S3설정 - 개발 단계  주석처리
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# AWS_S3_SECURE_URLS = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_SECURE_URLS = True
 
-# AWS_S3_REGION_NAME = 'ap-northeast-2'
-# AWS_S3_SIGNATURE_VERSION = 's3v4'
-# AWS_ACCESS_KEY_ID = MY_AWS['ACCESS_KEY_ID']
-# AWS_SECRET_ACCESS_KEY = MY_AWS['SECRET_ACCESS_KEY']
-# AWS_STORAGE_BUCKET_NAME = MY_AWS['STORAGE_BUCKET_NAME']
-# AWS_DEFAULT_ACL = 'public-read'
+AWS_S3_REGION_NAME = 'ap-northeast-2'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_ACCESS_KEY_ID = MY_AWS['ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = MY_AWS['SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = MY_AWS['STORAGE_BUCKET_NAME']
+AWS_DEFAULT_ACL = 'public-read'
