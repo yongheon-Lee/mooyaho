@@ -142,13 +142,13 @@ def my_page(request):
     # 현재 유저 id에 맞는 유저 모델 호출
     current_user = MooyahoUser.objects.get(id=user_id)
 
-    # 현재 유저가 작성한 게시글 모두 가져오기
-    my_post = Post.objects.filter(user=current_user)
+    # 현재 유저가 작성한 게시글 중 삭제 처리 되지 않은 글 모두 가져오기
+    my_post = Post.objects.filter(user=current_user, deleted=False)
 
-    # 현재 유저가 좋아요한 게시글 모두 가져오기
+    # 현재 유저가 좋아요한 게시글 중 삭제 처리 되지 않은 글 모두 가져오기
     # 참고 자료
     # https://velog.io/@swhan9404/ManyToMany-Relationship%EC%A2%8B%EC%95%84%EC%9A%94-%ED%94%84%EB%A1%9C%ED%95%84-Follow-QuerySet%EC%9D%80-lazy%ED%95%98%EB%8B%A4-Pagination
-    my_favorite = current_user.post_likes.all()
+    my_favorite = current_user.post_likes.filter(deleted=False)
 
     # 프론트로 보낼 데이터 담기
     context = {
