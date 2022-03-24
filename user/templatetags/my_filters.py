@@ -28,3 +28,11 @@ def get_reason_text(number):
 @register.filter(name='intToStr')
 def intToStr(id):
     return str(id)
+
+@register.filter(name='get_category_title')
+def get_category_title(category_key):
+    category_store = {
+        'local_mountain': '내 주변 산 추천',
+        'random_mountain': '어떤 산을 가볼까?'
+    }
+    return category_store[category_key]
