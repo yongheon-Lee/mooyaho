@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 import requests
 from .models import Mountain
@@ -67,3 +68,23 @@ def mountains_detail(request, id):
     else:
         print("Error Code:" + rescode)
     return render(request, 'mountain/mountains_detail.html', {'mountain_info': my_mountain, 'restaurant_info': json.dumps(restaurant_info)})
+
+
+@login_required(login_url='/login/')
+def mountain_list(request):
+    result = True
+    mountains_name = []
+    try:
+        mountains = Mountain.objects.filter(id__lt=101)
+        for mountain in mountains:
+            mountains_name.append(mountain.mountain_name)
+    except Exception as e:
+        print(e)
+        result = False
+    
+    response_value = {
+        'result': 'success' if result else 'fail',
+        'mountains': mountains
+    }
+    
+    return JsonResponse(response_value)
