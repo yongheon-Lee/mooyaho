@@ -26,7 +26,7 @@
                     {% endif %}
                             <div class="image-wrapper" data-id="{{id}}">
                                 {% with img_path='images/mountains/mountain_'|add:id|add:'.jpeg' %}
-                                    <img class="mountain-images" src="{% static img_path %}" alt="">
+                                    <img class="mountain-images" data-src="{% static img_path %}" alt="">
                                 {% endwith %}
                                 <p>{{mountain.mountain_name}}</p>
                             </div>  
