@@ -63,13 +63,13 @@ notification_important
 
     <div id="detail-enter-comment">
         <div class="comment-area">
-            <p style="display: inline">홍길동 | 안녕하세요.</p>
-            <button>삭제</button>
             {% for comment in all_comment %}
-            <div style="display: flex; align-items: center; justify-content: space-around">
+            <div style="display: flex; align-items: center; justify-content: space-around" id="comment-{{ comment.id }}">
                 <p>{{ comment.author }}</p>
                 <p>{{ comment.comment }}</p>
-                <button>삭제</button>
+                {% if request.user == comment.author %}
+                <input type="button" id="repleDeleteBtn" name="{{ clicked_post.id }}" onclick="repleDelete({{ comment.id }})" value="삭제">
+                {% endif %}
             </div>
             {% endfor %}
         </div>
@@ -93,14 +93,21 @@ notification_important
 
     <div class="modal">
         <div class="modal_body">Modal</div>
-        <form action="" method="post">
-            <textarea></textarea>
-            <input type="submit" value="신고하기">
+{#        <form action="" method="post">#}
+{#            <textarea></textarea>#}
+{#            <input type="submit" value="신고하기">#}
+{#            {% csrf_token %}#}
+{##}
+{#        </form>#}
+        <div class="report-input-area">
+            <p id="report-user"><b>{{ request.user.nickname }}</b></p>
+            <label>
+                <textarea id="contents" name="contents"></textarea>
+            </label>
+            <input type="button" id="reportBtn" name="{{ clicked_post.id }}" value="신고하기">
             {% csrf_token %}
-
-        </form>
-
-        <button id="modalClose" onclick="modalClose()">닫기</button>
+            <button id="modalClose" onclick="modalClose()">닫기</button>
+        </div>
     </div>
 
 {% endblock %}

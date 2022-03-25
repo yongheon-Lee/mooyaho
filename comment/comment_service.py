@@ -24,3 +24,19 @@ def new_comment(request, pk):
         'comment': comment.comment,
     }
     return JsonResponse(context)
+
+
+@login_required(login_url='login')
+def delete_comment(request, pk):
+    json_object = json.loads(request.body)
+
+    comment = Comment.objects.get(id=json_object.get('comment_id'))
+
+    if request.user == comment.author:
+        comment.deleted = True
+        comment.save()
+        context = {'result': 'ok'}
+        return JsonResponse(context)
+    else:
+        context = {'result': 'no'}
+        return JsonResponse(context)
