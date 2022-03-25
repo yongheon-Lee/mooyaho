@@ -66,17 +66,29 @@ notification_important
             <p style="display: inline">홍길동 | 안녕하세요.</p>
             <button>삭제</button>
             {% for comment in all_comment %}
-                {{ comment.comment }}
+            <div style="display: flex; align-items: center; justify-content: space-around">
+                <p>{{ comment.author }}</p>
+                <p>{{ comment.comment }}</p>
+                <button>삭제</button>
+            </div>
             {% endfor %}
         </div>
-        <form action="/posts/{{ clicked_post.id }}/comments/" method="post">
-            <label>
-                <textarea class="form-control" id="comments" name="comments"></textarea>
-            </label>
-            <input type="submit" class="btn btn-light" value="게시">
-            {% csrf_token %}
-
-        </form>
+{#        <form action="/posts/{{ clicked_post.id }}/comments/" method="post">#}
+{#            <label>#}
+{#                <textarea class="form-control" id="comments" name="comments"></textarea>#}
+{#            </label>#}
+{#            <input type="submit" class="btn btn-light" value="게시">#}
+{#            {% csrf_token %}#}
+{##}
+{#        </form>#}
+            <div class="comment-input-area" style="display: flex; align-items: center; justify-content: space-around">
+                <p id="author"><b>{{ request.user.nickname }}</b></p>
+                <label>
+                    <textarea class="comment-input" id="comments" name="comments"></textarea>
+                </label>
+                <input type="button" class="btn btn-light" id="repleBtn" name="{{ clicked_post.id }}" value="게시">
+                {% csrf_token %}
+            </div>
     </div>
 
     <div class="modal">
