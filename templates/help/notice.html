@@ -12,7 +12,7 @@
 
 {% block content %}
     <div>
-        {% for i in data %}
+        {% for i in notice %}
             <button onclick="location.href='help/notice/{{ i.id }}'" class="btn-light2">{{ i.title }}</button>
             <br>
         {% endfor %}
@@ -20,4 +20,21 @@
         <br>
 
     </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(function () {
+            changeSearchToAdd();
+        })
+
+        function changeSearchToAdd() {
+            console.log("loaded");
+            // img = document.getElementsByClassName("meterial-icons");
+            const img1 = document.getElementById("search-wrapper");
+            img1.removeEventListener('click', clickedSearchButton);
+            img1.innerHTML = `
+    <button type="button" onclick="location.href='/help/notice/post_notice'">글쓰기</button>`;
+        }
+    </script>
 {% endblock %}
