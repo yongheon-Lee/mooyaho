@@ -155,17 +155,26 @@ def delete_post(request, pk):
 
 # 글 좋아요 기능
 @login_required(login_url='login')
-def like_post(request):
-    post_id = request.POST['pk']
-    posting = Post.objects.get(id=post_id)
+def like_post(request, pk):
+    # post_id = request.POST['pk']
+    # posting = Post.objects.get(id=post_id)
+    posting = Post.objects.get(id=pk)
     user = request.user
 
     if posting.likes.filter(id=user.id).exists():
         posting.likes.remove(user)
+        posting.save()
+        message = '좋아요 취소'
     else:
         posting.likes.add(user)
+        posting.save()
+        message = '좋아요'
 
-    context = {'likes_count': posting.count_likes()}
+    # 좋아요 개수, 메시지
+    context = {
+        'likes_count': posting.count_likes(),
+        'message': message,
+    }
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 
@@ -175,6 +184,8 @@ def report_post(request):
 # def report_post(request, pk):
     # posting = Post.objects.get(id=pk)
 
+    post_id = request.POST['pk']
+
     # 글 신고
     new_report = Review.objects.create(
         author=MooyahoUser.objects.get(id=request.user.id),
@@ -182,4 +193,4 @@ def report_post(request):
         report=True,
     )
     new_report.save()
-    return redirect('posts')
+    return redirect(f'/posts/{str(post_id)}/')
