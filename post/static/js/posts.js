@@ -21,7 +21,7 @@ function modalClose() {
 }
 
 // 좋아요 구현
-// 참고 자룟: https://wonjongah.tistory.com/41
+// 참고 자료: https://wonjongah.tistory.com/41
 const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
 $('.post_like').click(function (){
     const pk = $(this).attr('name')
