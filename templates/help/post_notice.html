@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    공지 새글쓰기
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/help.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="review-inputbox">
+            <form action="/help/notice/post_notice" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label>
+                    <input type="text" name="title">
+                </label>
+                <label>
+                    <textarea name="textarea-name" placeholder="여기에 내용 입력"></textarea>
+                </label>
+                <input type="submit" value="등록">
+            </form>
+        </div>
+    </div>
+{% endblock %}
