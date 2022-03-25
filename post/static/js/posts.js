@@ -20,6 +20,34 @@ function modalClose() {
     modal.style.display = 'none';
 }
 
+// 좋아요 구현
+// 참고 자료: https://wonjongah.tistory.com/41
+const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+$('.post_like').click(function (){
+    const pk = $(this).attr('name')
+    $.ajax({
+        url: '/posts/'+ pk +'/likes/',
+        type: 'post',
+        data: {'pk': pk},
+        dataType: 'json',
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrfToken);
+        },
+        success: function (response){
+            alert(response.message)
+            $('#like_count-'+ pk).html('좋아요&nbsp;' + response.likes_count + '개');
+            if (response.message === '좋아요'){
+                $('#like_heart' + pk).attr('class', 'fas fa-heart')
+            } else if (response.message === '좋아요 취소'){
+                $('#like_heart' + pk).attr('class', 'far fa-heart')
+            }
+        },
+        error: function (request, status, error){
+            alert('오류가 발생했습니다!')
+        }
+    })
+})
+
 // 댓글 구현
 let repleBtn = document.querySelector('.repleBtn');
 repleBtn.addEventListener('click', e => {

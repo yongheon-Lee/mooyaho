@@ -166,7 +166,7 @@ cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/django
 
-# 접근 정보
+# access information
 config/my_settings.py
 
 migrations
