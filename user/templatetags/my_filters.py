@@ -33,7 +33,7 @@ def intToStr(id):
 def get_category_title(category_key):
     category_store = {
         'local_mountain': '내 주변 산 추천',
-        'random_mountain': '어떤 산을 가볼까?'
+        'recommand_mountain': '어떤 산을 가볼까?'
     }
     return category_store[category_key]
 
