@@ -20,11 +20,14 @@ function modalClose() {
     modal.style.display = 'none';
 }
 
-// 좋아요 구현
-// 참고 자료: https://wonjongah.tistory.com/41
+// 좋아요 구현(참고 자료: https://wonjongah.tistory.com/41)
+// csrf 토큰 가져오기
 const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
 $('.post_like').click(function (){
+    // 해당 글 id 가져오기
     const pk = $(this).attr('name')
+
+    // 비동기 통신 시작
     $.ajax({
         url: '/posts/'+ pk +'/likes/',
         type: 'post',
@@ -49,28 +52,38 @@ $('.post_like').click(function (){
 })
 
 // 댓글 구현
-let repleBtn = document.querySelector('.repleBtn');
-repleBtn.addEventListener('click', e => {
+$('#repleBtn').click(function () {
+    // 해당 글 아이디 가져오기
+    const pk = $(this).attr('name')
+    // 댓글 작성자 가져오기
+    let author = document.querySelector('#author').innerText;
+    // 댓글 내용 가져오기
     let comment = document.querySelector('#comments').value;
+    // 백엔드로 넘길 데이터 작성
     let params = {
-        'author': '{{ request.user.nickname }}',
-        'post': '{{ post.id }}',
+        'author': author,
         'comment': comment
     }
-    console.log(params)
 
+    // 비동기 통신 시작
     $.ajax({
-        url: "/comments/",
+        url: '/posts/' + pk + '/comments/',
         type: 'POST',
-        headers: {
-            'csrfmiddlewaretoken': '{{ csrf_token }}'
-        },
         data: JSON.stringify(params),
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", csrfToken);
+        },
         success: function (data){
             console.log(data)
+            $('.comment-area').append(`
+            <div style="display: flex; align-items: center; justify-content: space-around">
+                <p>${data.author}</p>
+                <p>${data.comment}</p>
+                <button>삭제</button>
+            </div>`)
         },
         error: function (){
-            alert('Nope!!!!!!!!!!!')
+            alert('오류가 발생했습니다!')
         }
     })
 })

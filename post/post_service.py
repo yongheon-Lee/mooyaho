@@ -156,8 +156,6 @@ def delete_post(request, pk):
 # 글 좋아요 기능
 @login_required(login_url='login')
 def like_post(request, pk):
-    # post_id = request.POST['pk']
-    # posting = Post.objects.get(id=post_id)
     posting = Post.objects.get(id=pk)
     user = request.user
 
