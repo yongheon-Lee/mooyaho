@@ -17,13 +17,10 @@
 }
 
 .one-row .image-wrapper {
-    width: 100%;
+    width: 50%;
     position: relative;
     cursor: pointer;
-}
-
-.one-row .image-wrapper:nth-child(1) {
-    margin-right: 1rem;
+    padding: 0 0.2rem;
 }
 
 .one-row .image-wrapper > img {

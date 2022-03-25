@@ -32,8 +32,8 @@ def intToStr(id):
 @register.filter(name='get_category_title')
 def get_category_title(category_key):
     category_store = {
-        'local_mountain': '내 주변 산 추천',
-        'recommand_mountain': '어떤 산을 가볼까?'
+        'local_mountain': '주변 산 추천',
+        'recommand_mountain': '좋아할 만한 산 추천'
     }
     return category_store[category_key]
 
