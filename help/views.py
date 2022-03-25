@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Notice, Review
 from django.contrib.auth.decorators import login_required
 
-
+from user.user_models import MooyahoUser
 # Create your views here.
 
 @login_required(login_url='/login')
@@ -22,13 +22,22 @@ def post_notice(request):
     if request.method == "GET":
         return render(request, 'help/post_notice.html')
     elif request.method == 'POST':
-        user = request.user
-        my_notice = Notice
-        my_notice.title = request.POST.get('textarea-name')
-        my_notice.content = request.POST.get('textarea-name')
-        my_notice.user_id = user.id
-        my_notice.save()
-        return redirect('/notice')
+        # 여기서부터
+        new_notice = Notice.objects.create(
+            user_id=MooyahoUser.objects.get(id=request.user.id),
+            title=request.POST.get('title'),
+            content=request.POST.get('textarea-name')
+        )
+        new_notice.save()
+        #여기까지 이호진이 작성.
+
+        # user = request.user
+        # my_notice = Notice
+        # my_notice.title = request.POST.get('textarea-name')
+        # my_notice.content = request.POST.get('textarea-name')
+        # my_notice.user_id = user.id
+        # my_notice.save()
+        return redirect('/help/notice')
 
 #
 # @login_required()
