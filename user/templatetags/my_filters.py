@@ -36,3 +36,12 @@ def get_category_title(category_key):
         'random_mountain': '어떤 산을 가볼까?'
     }
     return category_store[category_key]
+
+@register.filter(name='get_color_by_gender')
+def get_color_by_gender(gender):
+    return 'bg-primary' if gender == '남' else 'bg-danger'
+
+@register.filter(name='get_my_reason_list')
+def get_my_reason_list(reason):
+    reason = reason[1:-1].replace('\'', '')
+    return reason.split(',')

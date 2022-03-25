@@ -30,6 +30,14 @@
         </div>
         <div id="user-info-wrapper">
             <span>{{ user.nickname }}</span>
+            <br/>
+            <span class="badge rounded-pill {{ user.gender|get_color_by_gender }}">{{ user.gender }}</span>
+            <span class="badge rounded-pill bg-success">{{ user.age_gr }}</span>
+            <span class="badge rounded-pill bg-warning">{{ user.exp }}</span>
+            <br/>
+            {% for reason in user.reason|get_my_reason_list %}
+            <span class="badge rounded-pill bg-dark">{{ reason }}</span>
+            {% endfor %}
         </div>
     </div>
     <div id="post-area">
