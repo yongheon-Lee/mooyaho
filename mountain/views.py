@@ -84,7 +84,7 @@ def mountain_list(request):
     
     response_value = {
         'result': 'success' if result else 'fail',
-        'mountains': mountains
+        'mountains': mountains_name
     }
     
     return JsonResponse(response_value)

@@ -1,6 +1,11 @@
 
 const clickedNavigateButton = (e) => {
-    location.href = e.target.dataset.url;
+    const url = e.target.dataset.url;
+    if (url === '/logout/') {
+        localStorage.removeItem('mountainNameList');
+    }
+    
+    location.href = url;
 }
 
 const setMountainListToLocalStorage = () => {
@@ -53,8 +58,18 @@ const clickedSearchButton = (e) => {
         for (let i=0; i<headerElement.children.length-1; i++){
             headerElement.children[i].classList.toggle('hide');
         }
+        searchInput.children[0].focus();
     } else {
         goSearchedMountainPage(searchInput);
+    }
+}
+
+const enterSearch = (e) => {
+    if (e.keyCode == 13) { // enter
+        const searchInput = document.querySelector('#search-input');
+        if (document.activeElement == searchInput.children[0]) { // 검색창이 focus인 경우에만 검색 요청 시도
+            goSearchedMountainPage(searchInput);
+        }
     }
 }
 
@@ -63,6 +78,7 @@ const clickedSearchBackButton = (e) => {
     for (let i=0; i<headerElement.children.length-1; i++){
         headerElement.children[i].classList.toggle('hide');
     }
+    document.querySelector('#mountainSearchBar').value = '';
 }
 
 // 실행부
@@ -79,3 +95,4 @@ for(let i=0; i<footerButtons.length; i++) {
 
 document.querySelector('#search-wrapper').addEventListener('click', clickedSearchButton);
 document.querySelector('#search-back-wrapper').addEventListener('click', clickedSearchBackButton);
+window.addEventListener('keydown', enterSearch);
