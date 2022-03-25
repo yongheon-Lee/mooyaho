@@ -13,7 +13,6 @@ class Notice(models.Model):
         db_table = 'notice'
 
 class Review(models.Model):
-    id = models.BigIntegerField(primary_key=True, null=False, unique=True, blank=False)
     author = models.ForeignKey(MooyahoUser, on_delete=models.CASCADE, db_column='author')
     content = models.TextField(null=False, blank=False)
     secret = models.BooleanField(default=False)
