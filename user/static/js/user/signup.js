@@ -183,11 +183,15 @@ const checkWriteInputValidation = (targetElement) => {
 
 // 입력 필드 포커스아웃 되었을 때
 const focusOutInputElement = (e) => {
-    console.log('haha');
     const focusoutElement = e.target;
     checkWriteInputValidation(focusoutElement);
 }
 
+const clickedLogo = (e) => {
+    location.href = '/login/';
+}
+
+document.querySelector('#logo').addEventListener('click', clickedLogo);
 document.querySelector('#button-area > button:nth-child(1)').addEventListener('click', clickedSubmitBtn);
 document.querySelector('#button-area > button:nth-child(2)').addEventListener('click', clickedCancelBtn);
 document.querySelectorAll('.form-control').forEach(inputEle => {

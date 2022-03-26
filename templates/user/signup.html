@@ -13,7 +13,7 @@
 
 {% block content %}
 <div id="logo-wrapper">
-    <img src="{% static 'images/mooyaho_logo.png'%}" alt="">
+    <img src="{% static 'images/mooyaho_logo.png'%}" id="logo" alt="">
 </div>
 <div id="input-section">
     <div id="input-wrapper">
@@ -23,35 +23,27 @@
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="email" name="email" placeholder="이메일">
                     <label for="userId">이메일</label>
-                    <div class="valid-feedback">
-                        좋습니다 :)
-                    </div>
+                    <div class="valid-feedback"></div>
                     <div class="invalid-feedback"></div>
                 </div>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="userPw" name="password" placeholder="비밀번호">
+                <input type="password" class="form-control" id="userPw" name="password" placeholder="비밀번호" autocomplete="off">
                 <label for="userPw">비밀번호</label>
-                <div class="valid-feedback">
-                    좋습니다 :)
-                </div>
+                <div class="valid-feedback"></div>
                 <div class="invalid-feedback"></div>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="userPwConfirm" name="password_confirm" placeholder="비밀번호 확인"> 
+                <input type="password" class="form-control" id="userPwConfirm" name="password_confirm" placeholder="비밀번호 확인" autocomplete="off"> 
                 <label for="userPwConfirm">비밀번호 확인</label>
-                <div class="valid-feedback">
-                    좋습니다 :)
-                </div>
+                <div class="valid-feedback"></div>
                 <div class="invalid-feedback"></div>
             </div>
             <div class="double-check-area">
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control" id="userNickname" name="nickname" placeholder="닉네임">
                     <label for="userNickname">닉네임</label>
-                    <div class="valid-feedback">
-                        좋습니다 :)
-                    </div>
+                    <div class="valid-feedback"></div>
                     <div class="invalid-feedback"></div>
                 </div>
             </div>
