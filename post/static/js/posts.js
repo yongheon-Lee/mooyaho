@@ -23,28 +23,28 @@ function modalClose() {
 // 좋아요 구현(참고 자료: https://wonjongah.tistory.com/41)
 // csrf 토큰 가져오기
 const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
-$('.post_like').click(function (){
+$('.post_like').click(function () {
     // 해당 글 id 가져오기
     const pk = $(this).attr('name');
 
     // 비동기 통신 시작
     $.ajax({
-        url: '/posts/'+ pk +'/likes/',
+        url: '/posts/' + pk + '/likes/',
         type: 'POST',
         data: {'pk': pk},
         dataType: 'json',
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             xhr.setRequestHeader("X-CSRFToken", csrfToken);
         },
-        success: function (response){
-            $('#like_count-'+ pk).html('좋아요&nbsp;' + response.likes_count + '개');
-            if (response.message === '좋아요'){
+        success: function (response) {
+            $('#like_count-' + pk).html('좋아요&nbsp;' + response.likes_count + '개');
+            if (response.message === '좋아요') {
                 $('#like_heart' + pk).attr('class', 'fas fa-heart')
-            } else if (response.message === '좋아요 취소'){
+            } else if (response.message === '좋아요 취소') {
                 $('#like_heart' + pk).attr('class', 'far fa-heart')
             }
         },
-        error: function (request, status, error){
+        error: function (request, status, error) {
             alert('오류가 발생했습니다!')
         }
     })
@@ -61,7 +61,8 @@ $('#repleBtn').click(function () {
     // 백엔드로 넘길 데이터 작성
     let params = {
         'author': author,
-        'comment': comment
+        'comment': comment,
+        'post_id': pk
     }
 
     // 비동기 통신 시작
@@ -69,52 +70,59 @@ $('#repleBtn').click(function () {
         url: '/posts/' + pk + '/comments/',
         type: 'POST',
         data: JSON.stringify(params),
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             xhr.setRequestHeader("X-CSRFToken", csrfToken);
         },
-        success: function (data){
-            console.log(data)
+        success: function (data) {
+            // 댓글 추가
             $('.comment-area').append(`
             <div style="display: flex; align-items: center; justify-content: space-around">
                 <p>${data.author}</p>
                 <p>${data.comment}</p>
-                <button>삭제</button>
+                <input type="button" id="repleDeleteBtn" name="${data.post_id}"
+                       onclick="repleDelete(${data.comment_id})" value="삭제">
             </div>`)
+            // 댓글 입력창 내용 초기화
+            $('#comments').val('');
         },
-        error: function (){
+        error: function () {
             alert('오류가 발생했습니다!')
         }
     })
 })
 
 // 댓글 삭제 구현
-function repleDelete(id){
-    // 해당 글 id 가져오기
-    const pk = $('#repleDeleteBtn').attr('name');
-    console.log(pk)
-    // 백엔드로 보낼 데이터 작성
-    let params = {'comment_id': id}
+function repleDelete(id) {
+    // 삭제 승인 요청 메시지
+    let delete_confirm = confirm('댓글을 삭제할까요?');
+    // 삭제 승인 시
+    if (delete_confirm === true) {
+        // 해당 글 id 가져오기
+        const pk = $('#repleDeleteBtn').attr('name');
+        // 백엔드로 보낼 데이터 작성
+        let params = {'comment_id': id}
 
-    // 비동기 통신 시작
-    $.ajax({
-        url: '/posts/' + pk + '/comments/deletion/',
-        type: 'POST',
-        data: JSON.stringify(params),
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("X-CSRFToken", csrfToken);
-        },
-        success: function (data){
-            console.log(data)
-            let comment_id = data.comment_id
-            if (data.result === 'ok'){
-                $('#comment-' + comment_id).remove(); // 안되는 것 같습니다.....
-                alert('삭제했습니다.')
+        // 비동기 통신 시작
+        $.ajax({
+            url: '/posts/' + pk + '/comments/deletion/',
+            type: 'DELETE',
+            data: JSON.stringify(params),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrfToken);
+            },
+            success: function (data) {
+                if (data.result === 'ok') {
+                    // 해당 댓글 찾기
+                    let comment_tag = document.querySelector('.comment-' + id);
+                    // 댓글 삭제 처리
+                    comment_tag.remove();
+                }
+            },
+            error: function () {
+                alert('오류가 발생했습니다!')
             }
-        },
-        error: function (){
-            alert('오류가 발생했습니다!')
-        }
-    })
+        })
+    }
 }
 
 // 신고하기 구현
@@ -128,7 +136,7 @@ $('#reportBtn').click(function () {
     // 백엔드로 넘길 데이터 작성
     let params = {
         'author': report_user,
-        'content': content
+        'content': content,
     }
 
     // 비동기 통신 시작
@@ -136,15 +144,19 @@ $('#reportBtn').click(function () {
         url: '/posts/' + pk + '/reports/',
         type: 'POST',
         data: JSON.stringify(params),
-        beforeSend: function(xhr) {
+        beforeSend: function (xhr) {
             xhr.setRequestHeader("X-CSRFToken", csrfToken);
         },
-        success: function (data){
-            alert('신고를 접수했습니다.')
-            console.log(data);
-            $('#content').val('');
+        success: function (data) {
+            alert(data.author + '님의 신고를 접수했습니다.')
+            // 신고 내용 입력창 내용 초기화
+            $('#contents').val('');
+            // 모달 정의
+            const modal = document.querySelector(".modal");
+            // 모달 닫기
+            modal.style.display = 'none';
         },
-        error: function (){
+        error: function () {
             alert('오류가 발생했습니다!');
         }
     })
