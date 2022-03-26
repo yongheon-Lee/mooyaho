@@ -178,17 +178,21 @@ def like_post(request, pk):
 
 # 글 신고 기능
 @login_required(login_url='login')
-def report_post(request):
-# def report_post(request, pk):
-    # posting = Post.objects.get(id=pk)
+def report_post(request, pk):
+    json_object = json.loads(request.body)
 
-    post_id = request.POST['pk']
+    author = MooyahoUser.objects.get(id=request.user.id)
 
     # 글 신고
     new_report = Review.objects.create(
-        author=MooyahoUser.objects.get(id=request.user.id),
-        content=request.POST['content'],
+        author=author,
+        content=json_object.get('content'),
         report=True,
     )
     new_report.save()
-    return redirect(f'/posts/{str(post_id)}/')
+
+    context = {
+        'author': request.user.nickname,
+        'content': json_object.get('content')
+    }
+    return HttpResponse(json.dumps(context), content_type='application/json')
