@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 
 from post.post_models import Post
 from .user_models import MooyahoUser
+import json
 
 
 # 로그인
@@ -169,3 +170,23 @@ def my_page(request):
         except Exception as e:
             print(e)
             return JsonResponse({'result': 'fail', 'msg': '프로필 사진 변경에 실패하였습니다'})
+        
+        
+def duplication_check(request):
+    duplication_check_data = json.loads(request.body)
+    data_type = duplication_check_data['type']
+    check_data = duplication_check_data['data']
+
+    if data_type == 'email':
+        try:
+            is_duplicate = MooyahoUser.objects.get(username=check_data)
+        except:
+            is_duplicate = None
+    else:
+        try:
+            is_duplicate = MooyahoUser.objects.get(nickname=check_data)
+        except:
+            is_duplicate = None
+    
+    result = 0 if is_duplicate else 1
+    return JsonResponse({'result': result})
