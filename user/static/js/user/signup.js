@@ -14,14 +14,17 @@ const validateSurvey = (e, groupInfo) => {
 
 // 가입 버튼 눌렀을 때
 const clickedSubmitBtn = (e) => {
-    document.querySelectorAll('.form-control').forEach(writeInput => {
+    const writeInputElements = document.querySelectorAll('.form-control');
+    for (let i=1; i<writeInputElements.length; i++) {
+        let writeInput = writeInputElements[i];
         if (!writeInput.classList.contains('is-valid')) {
+            if (!writeInput.classList.contains('is-invalid')) checkWriteInputValidation(writeInput);
+            writeInput.focus();
             e.preventDefault();
             e.stopPropagation();
-            writeInput.focus();
             return;
         }
-    })
+    }
 
     // 성별 체크 확인
     let groupInfo = {'name':'gender', 'msg':'성별을', 'id':'gender-area'}
@@ -85,28 +88,30 @@ const checkDuplication = (inputElement) => {
         'data': inputElement.value
     }
     
-    $.ajax({
-        type: 'POST',
-        url: '/signup/doublecheck/',
-        dataType: 'json',
-        data: JSON.stringify(requestData),
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader("X-CSRFToken", csrfToken);
-        },
-        success: function(response){
-            if (response['result']){
-                showValidationResult(true, inputElement, msg);
-            }
-            else {
-                msg = '중복 입니다.';
+    return new Promise(function(resolve, reject) {
+        $.ajax({
+            type: 'POST',
+            url: '/signup/doublecheck/',
+            dataType: 'json',
+            data: JSON.stringify(requestData),
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrfToken);
+            },
+            success: function(response){
+                if (response['result']){
+                    showValidationResult(true, inputElement, msg);
+                }
+                else {
+                    msg = '중복 입니다.';
+                    showValidationResult(false, inputElement, msg);
+                }
+            },
+            error: function(request, status, error) {
+                msg = '죄송합니다. 중복 체크를 할 수 없습니다.';
                 showValidationResult(false, inputElement, msg);
             }
-        },
-        error: function(request, status, error) {
-            msg = '죄송합니다. 중복 체크를 할 수 없습니다.';
-            showValidationResult(false, inputElement, msg);
-        }
-    });
+        });
+    })
 }
 
 // 공백 검증
@@ -178,6 +183,7 @@ const checkWriteInputValidation = (targetElement) => {
 
 // 입력 필드 포커스아웃 되었을 때
 const focusOutInputElement = (e) => {
+    console.log('haha');
     const focusoutElement = e.target;
     checkWriteInputValidation(focusoutElement);
 }
