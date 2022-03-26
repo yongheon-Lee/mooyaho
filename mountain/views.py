@@ -23,12 +23,24 @@ def home(request):
     payload={'userid': request.user.id}
 
     res=requests.post(URL,data=payload)  #post형식으로 data를 url에 넣어 요청후 응답받음
+    # print(res)
     res=res.json() #응답 json으로 바꾸기
-    keyword = res['keyword'] #키워드 값만 분리
-    request_recommand_mountain = res['mountain'] #산 아이디만 분리
+
 
     recommand_mountain = mountain_id_plus(request_recommand_mountain) # 받은 산 id에서 1씩 더하기
     recommand_mountain = Mountain.objects.filter(id__in=recommand_mountain) # 리스트 요소들에 해당하는 id와 같은 객체 가져오기
+
+    if res['data']==0:  #활동로그없을경우
+        recommand_mountain=[]
+        keyword=[]
+    else:  #활동로그있을경우
+        keyword = res['keyword'] #키워드 값만 분리
+        request_recommand_mountain = res['mountain'] #산 아이디만 분리
+
+        recommand_mountain = mountain_id_plus(request_recommand_mountain) # 받은 산 id에서 1씩 더하기
+        recommand_mountain = Mountain.objects.filter(id__in=recommand_mountain) # 리스트 요소들에 해당하는 id와 같은 객체 가져오기
+        print(recommand_mountain)
+
 
     user = request.user
     # 유저가 로그인했을때

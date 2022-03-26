@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block content %}
-    <form id="new-post-form" action="/posts/new" method="post" enctype="multipart/form-data">
+    <form id="new-post-form" action="/posts/new/" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div id="image-area">
             <img id="imgPreview" src="#" alt="여기에 사진 업로드">
@@ -49,7 +49,7 @@
         {#        </form>#}
         <div class="new-box">
             <input type="submit" class="btn btn-light" value="등록">
-            <button type="button" class="btn btn-light"><a href="/posts">취소</a></button>
+            <button type="button" class="btn btn-light"><a href="/posts/">취소</a></button>
         </div>
     </form>
     {% csrf_token %}
