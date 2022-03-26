@@ -8,9 +8,10 @@ import urllib.request
 import json
 from config.my_settings import MY_NAVER_SEARCH
 
-cc = []
+
 # 받아온 산 아이디 +1시켜주는 함수
 def mountain_id_plus(x) :
+    cc = []
     for i in x :
         cc.append(i+1)
     return cc
@@ -25,6 +26,10 @@ def home(request):
     # print(res)
     res=res.json() #응답 json으로 바꾸기
 
+
+    recommand_mountain = mountain_id_plus(request_recommand_mountain) # 받은 산 id에서 1씩 더하기
+    recommand_mountain = Mountain.objects.filter(id__in=recommand_mountain) # 리스트 요소들에 해당하는 id와 같은 객체 가져오기
+
     if res['data']==0:  #활동로그없을경우
         recommand_mountain=[]
         keyword=[]
@@ -35,6 +40,7 @@ def home(request):
         recommand_mountain = mountain_id_plus(request_recommand_mountain) # 받은 산 id에서 1씩 더하기
         recommand_mountain = Mountain.objects.filter(id__in=recommand_mountain) # 리스트 요소들에 해당하는 id와 같은 객체 가져오기
         print(recommand_mountain)
+
 
     user = request.user
     # 유저가 로그인했을때
