@@ -26,10 +26,6 @@ def home(request):
     # print(res)
     res=res.json() #응답 json으로 바꾸기
 
-
-    recommand_mountain = mountain_id_plus(request_recommand_mountain) # 받은 산 id에서 1씩 더하기
-    recommand_mountain = Mountain.objects.filter(id__in=recommand_mountain) # 리스트 요소들에 해당하는 id와 같은 객체 가져오기
-
     if res['data']==0:  #활동로그없을경우
         recommand_mountain=[]
         keyword=[]
