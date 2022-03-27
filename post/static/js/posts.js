@@ -25,7 +25,7 @@ function modalClose() {
 const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
 $('.post_like').click(function () {
     // 해당 글 id 가져오기
-    const pk = $(this).attr('name');
+    const pk = $(this).attr('id');
 
     // 비동기 통신 시작
     $.ajax({
@@ -39,11 +39,9 @@ $('.post_like').click(function () {
         success: function (response) {
             $('#like_count-' + pk).html('좋아요&nbsp;' + response.likes_count + '개');
             if (response.message === '좋아요') {
-                $('#like_heart' + pk).attr('class', 'fas fa-heart');
-                console.log('pk:', pk)
+                $('#like_heart' + pk).attr({'class': 'fas fa-heart', 'style': '#bd1f00'});
             } else if (response.message === '좋아요 취소') {
-                $('#like_heart' + pk).attr('class', 'far fa-heart');
-                console.log('pk:', pk)
+                $('#like_heart' + pk).attr({'class': 'far fa-heart', 'style': '#3d3d3d'});
             }
         },
         error: function (request, status, error) {
