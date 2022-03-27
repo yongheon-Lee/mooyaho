@@ -182,6 +182,7 @@ def report_post(request, pk):
     json_object = json.loads(request.body)
 
     author = MooyahoUser.objects.get(id=request.user.id)
+    reported_post = Post.objects.get(id=pk)
 
     # 글 신고
     new_report = Review.objects.create(
@@ -190,6 +191,10 @@ def report_post(request, pk):
         report=True,
     )
     new_report.save()
+
+    # 해당 글 신고된 횟수 증가
+    reported_post.reported += 1
+    reported_post.save()
 
     context = {
         'author': request.user.nickname,
