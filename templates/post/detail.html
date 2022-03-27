@@ -74,7 +74,7 @@
                 </div>
             {% endfor %}
         </div>
-        {% if clicked_post.user != comment.author %}
+        {% if clicked_post.user != user %}
         <div class="comment-input-area" style="display: flex; align-items: center; justify-content: space-around">
             <p id="author"><b>{{ request.user.nickname }}</b></p>
             <label>
