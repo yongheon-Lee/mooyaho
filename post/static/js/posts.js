@@ -39,9 +39,11 @@ $('.post_like').click(function () {
         success: function (response) {
             $('#like_count-' + pk).html('좋아요&nbsp;' + response.likes_count + '개');
             if (response.message === '좋아요') {
-                $('#like_heart' + pk).attr('class', 'fas fa-heart')
+                $('#like_heart' + pk).attr('class', 'fas fa-heart');
+                console.log('pk:', pk)
             } else if (response.message === '좋아요 취소') {
-                $('#like_heart' + pk).attr('class', 'far fa-heart')
+                $('#like_heart' + pk).attr('class', 'far fa-heart');
+                console.log('pk:', pk)
             }
         },
         error: function (request, status, error) {
@@ -76,7 +78,7 @@ $('#repleBtn').click(function () {
         success: function (data) {
             // 댓글 추가
             $('.comment-area').append(`
-            <div style="display: flex; align-items: center; justify-content: space-around">
+            <div style="display: flex; align-items: center; justify-content: space-around" class="comment-${data.comment_id}">
                 <p>${data.author}</p>
                 <p>${data.comment}</p>
                 <input type="button" id="repleDeleteBtn" name="${data.post_id}"
@@ -111,11 +113,9 @@ function repleDelete(id) {
                 xhr.setRequestHeader("X-CSRFToken", csrfToken);
             },
             success: function (data) {
+                console.log(data)
                 if (data.result === 'ok') {
-                    // 해당 댓글 찾기
-                    // let comment_tag = document.querySelector('.comment-' + id);
-                    // // 댓글 삭제 처리
-                    // comment_tag.remove();
+                    // 댓글 삭제 처리
                     $('.comment-'+id).remove();
                 }
             },
