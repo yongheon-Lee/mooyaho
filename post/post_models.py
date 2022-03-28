@@ -44,6 +44,7 @@ class Post(models.Model):
     rating = models.CharField(max_length=10, null=False)
     hiking_img = models.ImageField(null=False, blank=False, upload_to=hiking_img_upload_path)
     deleted = models.BooleanField(default=False)
+    reported = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     likes = models.ManyToManyField(MooyahoUser, related_name='post_likes')

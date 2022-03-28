@@ -10,6 +10,7 @@
 
 {% block content %}
 
+
     {% for i in all_review %}
         {% if user.is_superuser %}
             {% if i.report %}
@@ -60,6 +61,7 @@
             </div>
         </div>
         <br>
+
     {% endfor %}
 {% endblock %}
 

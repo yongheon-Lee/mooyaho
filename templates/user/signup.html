@@ -13,36 +13,39 @@
 
 {% block content %}
 <div id="logo-wrapper">
-    <img src="{% static 'images/mooyaho_logo.png'%}" alt="">
+    <img src="{% static 'images/mooyaho_logo.png'%}" id="logo" alt="">
 </div>
 <div id="input-section">
     <div id="input-wrapper">
         <form action="/signup/" method="post">
             {% csrf_token %}
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="email" name="email" placeholder="이메일" required
-                oninvalid="this.setCustomValidity('이메일을 입력해주세요')"
-                oninput="this.setCustomValidity('')">
-                <label for="userId">이메일</label>
+            <div class="double-check-area">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="이메일">
+                    <label for="userId">이메일</label>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback"></div>
+                </div>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="userPw" name="password" placeholder="비밀번호" required
-                oninvalid="this.setCustomValidity('비밀번호를 입력해주세요')"
-                oninput="this.setCustomValidity('')">
+                <input type="password" class="form-control" id="userPw" name="password" placeholder="비밀번호" autocomplete="off">
                 <label for="userPw">비밀번호</label>
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback"></div>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="userPwConfirm" name="password_confirm" placeholder="비밀번호 확인" required
-                oninvalid="this.setCustomValidity('비밀번호 확인을 입력해주세요')"
-                oninput="this.setCustomValidity('')"> 
+                <input type="password" class="form-control" id="userPwConfirm" name="password_confirm" placeholder="비밀번호 확인" autocomplete="off">
                 <label for="userPwConfirm">비밀번호 확인</label>
-                <span id="confirmMsg"></span>
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback"></div>
             </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="userNickname" name="nickname" placeholder="닉네임" required
-                oninvalid="this.setCustomValidity('닉네임을 입력해주세요')"
-                oninput="this.setCustomValidity('')">
-                <label for="userNickname">닉네임</label>
+            <div class="double-check-area">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="userNickname" name="nickname" placeholder="닉네임">
+                    <label for="userNickname">닉네임</label>
+                    <div class="valid-feedback"></div>
+                    <div class="invalid-feedback"></div>
+                </div>
             </div>
             <div id="survey-area">
                 <div id="gender-area">
