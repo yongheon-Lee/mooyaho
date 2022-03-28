@@ -33,9 +33,15 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             {% if user.is_superuser %}
-                                <button type="button" class="btn btn-danger" formmethod="post"
-                                        onclick="location.href='/noice/delete_notice/{{ i.id }}'">삭제
-                                </button>
+                                {% if user.id == i.user_id.id %}
+                                    <button type="button" class="btn btn-danger" formmethod="post"
+                                            onclick="location.href='/noice/delete_notice/{{ i.id }}'">삭제
+                                    </button>
+                                    {% else %}
+                                    <button type="button" class="btn btn-secondary" formmethod="post"
+                                            onclick="location.href='/noice/delete_notice/{{ i.id }}'">{{ i.user_id }}의 글
+                                    </button>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>
