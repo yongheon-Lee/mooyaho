@@ -38,14 +38,23 @@
     </div>
     <div id="detail-icons" style="display: flex; align-items: center;">
         {% csrf_token %}
-        <a class="btn btn-sm post_like" name="{{ clicked_post.id }}" type="button">
+        <!-- 해당 글 작성자와 현재 유저가 다르면 좋아요 버튼 활성화 -->
+        {% if clicked_post.user != user %}
+        <a class="btn btn-sm post_like" id="{{ clicked_post.id }}" type="button">
             {% if user in clicked_post.likes.all %}
-                <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+            <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
             {% else %}
-                <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+            <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
             {% endif %}
-
         </a>
+        {% else %}
+        <!-- 해당 글 작성자와 현재 유저가 같으면 좋아요 버튼 비활성화 -->
+        {% if user in clicked_post.likes.all %}
+            <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+            {% else %}
+            <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+            {% endif %}
+        {% endif %}
         <p id="like_count-{{ clicked_post.id }}" style="margin: 0">
             좋아요&nbsp;{{ clicked_post.likes.all.count }}개
         </p>
@@ -74,7 +83,7 @@
                 </div>
             {% endfor %}
         </div>
-        {% if clicked_post.user != comment.author %}
+        {% if clicked_post.user != user %}
         <div class="comment-input-area" style="display: flex; align-items: center; justify-content: space-around">
             <p id="author"><b>{{ request.user.nickname }}</b></p>
             <label>
