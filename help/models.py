@@ -1,5 +1,6 @@
 from django.db import models
 from user.user_models import MooyahoUser
+from post.post_models import Post
 
 # Create your models here.
 class Notice(models.Model):
@@ -20,6 +21,7 @@ class Review(models.Model):
     answer = models.TextField(null=True, blank=True)
     deleted = models.BooleanField(default=False)
     create_at = models.DateField(auto_now_add=True)
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE, db_column='post_id', null=True)
 
     class Meta :
         db_table = 'review'
