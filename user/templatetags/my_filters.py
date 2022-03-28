@@ -1,5 +1,4 @@
 from django import template
-import datetime
 
 register = template.Library()
 
@@ -32,14 +31,9 @@ def intToStr(id):
 
 @register.filter(name='get_category_title')
 def get_category_title(category_key):
-    this_month = datetime.datetime.now().month
-    if this_month == 12: this_month = 0
-    season = ['겨울', '봄', '여름', '가을']
-    
     category_store = {
-        'local_mountain': '주변 산 추천',
-        'recommand_mountain': '좋아할 만한 산 추천',
-        'season_mountain': f'{season[this_month//3]} 산 추천'
+        'local_mountain': '내 주변 산 추천',
+        'recommand_mountain': '어떤 산을 가볼까?'
     }
     return category_store[category_key]
 
