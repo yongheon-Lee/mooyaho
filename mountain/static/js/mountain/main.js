@@ -32,4 +32,3 @@ const mountainImages = document.querySelectorAll('.image-wrapper');
 mountainImages.forEach(mountainImage => {
     mountainImage.addEventListener('click', clickedMountainImage);
 })
-

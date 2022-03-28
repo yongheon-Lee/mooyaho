@@ -35,7 +35,7 @@ def get_category_title(category_key):
     this_month = datetime.datetime.now().month
     if this_month == 12: this_month = 0
     season = ['겨울', '봄', '여름', '가을']
-    
+
     category_store = {
         'local_mountain': '주변 산 추천',
         'recommand_mountain': '좋아할 만한 산 추천',

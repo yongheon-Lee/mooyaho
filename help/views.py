@@ -43,7 +43,6 @@ def post_notice(request):
         else :
             return redirect('/help/notice')
 
-
 @login_required(login_url='/login')
 def delete_notice(request, id):
     my_notice = Notice.objects.get(id=id)
@@ -93,4 +92,4 @@ def delete_review(request, id):
         review.save()
         return redirect('/help/review')
     else :
-        return redirect('/help/review')
+        return redirect('/help/review') 
