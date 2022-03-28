@@ -13,7 +13,7 @@ def index(request):
 def notice(request):
     user = request.user.is_authenticated
     if user:
-        all_notice = Notice.objects.all().order_by('-create_at')
+        all_notice = Notice.objects.filter(deleted=False).order_by('-create_at')
         return render(request, 'help/notice.html', {'notice': all_notice})
     else:
         return redirect('/login')
@@ -47,12 +47,20 @@ def post_notice(request):
 @login_required(login_url='/login')
 def delete_notice(request, id):
     my_notice = Notice.objects.get(id=id)
-    if request.user.id == my_notice.user_id :
+
+    now_user_id = MooyahoUser.objects.get(nickname=my_notice.user_id)
+    print(request.user.id)
+    print(my_notice.user_id)
+    print(now_user_id)
+    if request.user.id == now_user_id.id :
+
+        print("사용자가 맞음.")
         my_notice.deleted = True
         my_notice.save()
-        return redirect('/help/notice')
+        return redirect('notice')
     else :
-        return redirect('/help/notice')
+        print("사용자 틀림.")
+        return redirect('notice')
 
 @login_required(login_url='/login')
 def review(request):

@@ -34,7 +34,7 @@ def login(request):
                 return redirect('main')
 
             else:
-                return render(request, 'user/login.html', {'error': '입력하신 사용자가 없습니다.'})
+                return render(request, 'user/login.html', {'error': '이메일 혹은 비밀번호를 다시 확인해주세요.'})
 
 
 # 회원가입
