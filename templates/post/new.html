@@ -25,7 +25,7 @@
             </label>
             <label>
                 <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
-                       id="location" value="{{ form.initial.mountain_name }}">
+                    id="location" value="{{ form.initial.mountain_name }}">
                 <datalist id="datalist">
                     {% for mountain in mountains %}
                         <option value="{{ mountain.mountain_name }}">

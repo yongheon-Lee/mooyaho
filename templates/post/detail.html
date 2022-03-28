@@ -1,28 +1,21 @@
 {% extends 'base.html' %}
-
 {% block title %}
     글 자세히 보기
 {% endblock %}
-
 {% load static %}
-
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/posts.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 {% endblock %}
-
 {% block content %}
-
     <div id="detail-contents">
         <p>글쓴이: {{ clicked_post.user }}</p>
         {% if clicked_post.user == user %}
-            <button type="button" onclick="postEdit({{ clicked_post.id }})">수정</button>
-            <button type="button" onclick="postDelete({{ clicked_post.id }})">삭제</button>
+            <button type="button" id="post-to-edit-btn" name="{{ clicked_post.id }}">수정</button>
+            <button type="button" id="post-delete-btn" name="{{ clicked_post.id }}">삭제</button>
         {% endif %}
-
         <div class="image-box">
             <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
-
             <div class="content-box">
                 <h1>{{ clicked_post.title }}</h1>
                 <div>
@@ -34,7 +27,6 @@
                 <p>{{ clicked_post.content }}</p>
             </div>
         </div>
-
     </div>
     <div id="detail-icons" style="display: flex; align-items: center;">
         {% csrf_token %}
@@ -67,9 +59,7 @@
     </div>
     <hr>
     <div id="detail-comments">
-
     </div>
-
     <div id="detail-enter-comment">
         <div class="comment-area">
             {% for comment in all_comment %}
@@ -105,7 +95,6 @@
         </div>
     </div>
 {% endblock %}
-
 {% block js %}
     <script src="{% static 'js/posts.js' %}"></script>
 {% endblock %}

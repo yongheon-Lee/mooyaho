@@ -214,7 +214,6 @@ def report_post(request, pk):
         post_id=reported_post,
     )
     new_report.save()
-
     # 해당 글 신고된 횟수 증가
     reported_post.reported += 1
     reported_post.save()

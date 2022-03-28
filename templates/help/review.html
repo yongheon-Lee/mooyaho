@@ -10,10 +10,30 @@
 
 {% block content %}
 
+
     {% for i in all_review %}
-        <button class="btn-light2" data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop{{ i.id }}">리뷰{{ i.id }}</button>
-        <!-- Scrollable modal -->
+        {% if user.is_superuser %}
+            {% if i.report %}
+                <button class="btn-light2" style="background-color: orange" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}신고
+                </button>
+            {% else %}
+                <button class="btn-light2" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}리뷰
+                </button>
+            {% endif %}
+        {% else %} {# 관리자가 아니라면. #}
+            {% if i.author == user.id %}
+                <button class="btn-light2" style="background-color: orange" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}신고
+                </button>
+            {% elif not i.report %}
+                <button class="btn-light2" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}리뷰
+                </button>
+            {% endif %}
+
+        {% endif %}
         <!-- Modal -->
 
         <div class="modal fade" id="staticBackdrop{{ i.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -27,6 +47,12 @@
                     </div>
                     <div class="modal-body">
                         {{ i.content }}
+                        <hr style="border: #1b1b1b solid 1px">
+                        {% if i.answer == None %}
+                            답글이 아직 없습니다.
+                        {% else %}
+                            {{ i.answer }}
+                        {% endif %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -35,6 +61,7 @@
             </div>
         </div>
         <br>
+
     {% endfor %}
 {% endblock %}
 

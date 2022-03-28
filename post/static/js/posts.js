@@ -20,49 +20,16 @@ function modalClose() {
     modal.style.display = 'none';
 }
 
-// 글 수정 페이지 요청 구현
-function postEdit(id){
-    // 수정 페이지로 이동
-    window.location = '/posts/' + id + '/changes/';
-
-    // // 수정 승인 요청 메시지
-    // let post_edit_confirm = confirm('글을 수정하시겠습니까?');
-    // // 삭제 승인 시
-    // if (post_edit_confirm === true){
-    //     // 해당 글 id 가져오기
-    //     let pk = id;
-    //     // 백엔드로 보낼 데이터 작성
-    //     let params = {'post_id': pk};
-    //
-    //     // 비동기 통신 시작
-    //     $.ajax({
-    //         url: '/posts/' + pk + '/edition/',
-    //         type: 'GET',
-    //         data: JSON.stringify(params),
-    //         beforeSend: function (xhr){
-    //             xhr.setRequestHeader('X-CSRFToken', csrfToken);
-    //         },
-    //         success: function (data) {
-    //             console.log(data);
-    //             if (data.result === 'ok') {
-    //                 window.location = '/posts/' + pk + '/edition/';
-    //             }
-    //         },
-    //         error: function (request, status, error) {
-    //             alert('오류가 발생했습니다!');
-    //         }
-    //     })
-    // }
-}
-
 // 글 삭제 구현
-function postDelete(id){
+$('#post-delete-btn').click(function () {
     // 삭제 승인 요청 메시지
     let post_delete_confirm = confirm('글을 삭제할까요?');
+
     // 삭제 승인 시
     if (post_delete_confirm === true) {
         // 해당 글 id 가져오기
-        let pk = id;
+        const pk = $(this).attr('name');
+
         // 백엔드로 보낼 데이터 작성
         let params = {'post_id': pk};
 
@@ -87,7 +54,7 @@ function postDelete(id){
             }
         })
     }
-}
+})
 
 // 좋아요 구현(참고 자료: https://wonjongah.tistory.com/41)
 // csrf 토큰 가져오기
@@ -114,7 +81,7 @@ $('.post_like').click(function () {
             }
         },
         error: function (request, status, error) {
-            alert('오류가 발생했습니다!')
+            alert('오류가 발생했습니다!');
         }
     })
 })
@@ -123,10 +90,13 @@ $('.post_like').click(function () {
 $('#repleBtn').click(function () {
     // 해당 글 id 가져오기
     const pk = $(this).attr('name');
+
     // 댓글 작성자 가져오기
     let author = document.querySelector('#author').innerText;
+
     // 댓글 내용 가져오기
     let comment = document.querySelector('#comments').value;
+
     // 백엔드로 넘길 데이터 작성
     let params = {
         'author': author,
@@ -150,12 +120,13 @@ $('#repleBtn').click(function () {
                 <p>${data.comment}</p>
                 <input type="button" id="repleDeleteBtn" name="${data.post_id}"
                        onclick="repleDelete(${data.comment_id})" value="삭제">
-            </div>`)
+            </div>`);
+
             // 댓글 입력창 내용 초기화
             $('#comments').val('');
         },
         error: function () {
-            alert('오류가 발생했습니다!')
+            alert('오류가 발생했습니다!');
         }
     })
 })
@@ -164,10 +135,12 @@ $('#repleBtn').click(function () {
 function repleDelete(id) {
     // 삭제 승인 요청 메시지
     let comment_delete_confirm = confirm('댓글을 삭제할까요?');
+
     // 삭제 승인 시
     if (comment_delete_confirm === true) {
         // 해당 글 id 가져오기
         const pk = $('#repleDeleteBtn').attr('name');
+
         // 백엔드로 보낼 데이터 작성
         let params = {'comment_id': id}
 
@@ -183,7 +156,7 @@ function repleDelete(id) {
                 console.log(data)
                 if (data.result === 'ok') {
                     // 댓글 삭제 처리
-                    $('.comment-'+id).remove();
+                    $('.comment-' + id).remove();
                 }
             },
             error: function () {
@@ -196,15 +169,19 @@ function repleDelete(id) {
 // 신고하기 구현
 $('#reportBtn').click(function () {
     // 신고 요청 확인
-    let report_confirm = confirm('이 글을 신고하시겠습니까?')
+    let report_confirm = confirm('이 글을 신고하시겠습니까?');
+
     // 신고 처리
     if (report_confirm === true) {
         // 해당 글 id 가져오기
         const pk = $(this).attr('name');
+
         // 신고자 가져오기
         let report_user = document.querySelector('#report-user').innerText;
+
         // 신고 내용 가져오기
         let content = document.querySelector('#contents').value;
+
         // 백엔드로 넘길 데이터 작성
         let params = {
             'author': report_user,

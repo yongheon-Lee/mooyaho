@@ -87,7 +87,7 @@ const checkDuplication = (inputElement) => {
         'type': inputElement.name,
         'data': inputElement.value
     }
-    
+
     return new Promise(function(resolve, reject) {
         $.ajax({
             type: 'POST',
@@ -196,4 +196,4 @@ document.querySelector('#button-area > button:nth-child(1)').addEventListener('c
 document.querySelector('#button-area > button:nth-child(2)').addEventListener('click', clickedCancelBtn);
 document.querySelectorAll('.form-control').forEach(inputEle => {
     inputEle.addEventListener('focusout', focusOutInputElement);
-})
+}) 

@@ -170,8 +170,7 @@ def my_page(request):
         except Exception as e:
             print(e)
             return JsonResponse({'result': 'fail', 'msg': '프로필 사진 변경에 실패하였습니다'})
-        
-        
+
 def duplication_check(request):
     duplication_check_data = json.loads(request.body)
     data_type = duplication_check_data['type']
@@ -187,6 +186,6 @@ def duplication_check(request):
             is_duplicate = MooyahoUser.objects.get(nickname=check_data)
         except:
             is_duplicate = None
-    
+
     result = 0 if is_duplicate else 1
     return JsonResponse({'result': result})

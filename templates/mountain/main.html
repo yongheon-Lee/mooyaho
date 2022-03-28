@@ -42,33 +42,42 @@
     </div>
     {% endif %}
 {% endfor %}
+    
     <hr>
     <div class="recommend-post">
-        <h2>{{user.nickname}}님, 이 게시글 어때요?</h2>
-        {% for post in recommend_post %}
-        <div class="post-box" onclick="location.href='/posts/{{ post.id }}/'">
-            <div class="writer-box">
-                <div class="writer-img-wrapper">
-                    <img src="{{ post.user.profile_img }}" alt="">
+        {% if recommend_post %}
+            <h2>{{user.nickname}}님, 이 게시글 어때요?</h2>
+            {% for post in recommend_post %}
+            <div class="post-box" onclick="location.href='/posts/{{ post.id }}/'">
+                <div class="writer-box">
+                    <div class="writer-img-wrapper">
+                        <img src="{{ post.user.profile_img }}" alt="">
+                    </div>
+                    <div class="writer-info">
+                        <span>{{ post.user.nickname }}</span>
+                        <span>{{ post.mountain_name }}</span>
+                    </div>
                 </div>
-                <div class="writer-info">
-                    <span>{{ post.user.nickname }}</span>
-                    <span>{{ post.mountain_name }}</span>
+                <div class="image-box">
+                    <img src="{{ post.hiking_img.url }}" alt="사진"/>
+                </div>
+                <div class="content-box">
+                    <div class="title">
+                        <h2>{{ post.title }}</h2>
+                    </div>
+                    <div class="post-text">
+                        <p>{{ post.content|slice:20 }}</p>
+                    </div>
                 </div>
             </div>
-            <div class="image-box">
-                <img src="{{ post.hiking_img.url }}" alt="사진"/>
+            {% endfor %}
+        {% else %}
+            <div class="recommend-writing-msg">
+                <h4>{{user.nickname}}님, 다녀오신 산에 대해<br> 글 작성 해보는 건 어떨까요?</h4>
+                <h4>취향이 비슷한 다른 유저의 글을<br> 만나 볼 수 있어요!</h4>
+                <a href="/posts/new">지금 글 작성하러 가기✍️</a>
             </div>
-            <div class="content-box">
-                <div class="title">
-                    <h2>{{ post.title }}</h2>
-                </div>
-                <div class="post-text">
-                    <p>{{ post.content|slice:20 }}</p>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
