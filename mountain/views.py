@@ -1,3 +1,5 @@
+import datetime
+
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 import requests
@@ -7,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 import urllib.request
 import json
 from config.my_settings import MY_NAVER_SEARCH
-
+import datetime
 
 # 받아온 산 아이디 +1시켜주는 함수
 def mountain_id_plus(x) :
@@ -37,6 +39,21 @@ def home(request):
         recommand_mountain = Mountain.objects.filter(id__in=recommand_mountain) # 리스트 요소들에 해당하는 id와 같은 객체 가져오기
         print(recommand_mountain)
 
+    # 현재 계절별 산 추천
+    season = datetime.datetime.now()
+    spring_mountain = [20, 1, 33, 85, 36, 22]
+    summer_mountain = [38, 29, 92, 57, 32, 79]
+    autumn_mountain = [82, 24, 90, 35, 50, 74]
+    winter_mountain = [64, 37, 27, 7, 51, 96]
+
+    if season.month >= 3 and season.month <= 5:  # 봄일 경우
+        season_mountain = Mountain.objects.filter(id__in=spring_mountain)
+    elif season.month >= 6 and season.month <= 8:  # 여름일 경우
+        season_mountain = Mountain.objects.filter(id__in=summer_mountain)
+    elif season.month >= 9 and season.month <= 11:  # 가을일 경우
+        season_mountain = Mountain.objects.filter(id__in=autumn_mountain)
+    else:  # 겨울일 경우
+        season_mountain = Mountain.objects.filter(id__in=winter_mountain)
 
     user = request.user
     # 유저가 로그인했을때
@@ -58,6 +75,7 @@ def home(request):
                                                      maxy__lt = user_max_y,
                                                      maxy__gt = user_min_y)
         return render(request, 'mountain/main.html', {'total': {'local_mountain': local_mountain,
+                                                                'season_mountain' : season_mountain,
                                                                 'recommand_mountain': recommand_mountain},
                                                       'keyword': keyword})
     else :
