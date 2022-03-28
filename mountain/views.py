@@ -30,6 +30,7 @@ def home(request):
     res2=res2.json()
     print(res2)
 
+
     if res1['data']==0:  #활동로그없을경우
         recommand_mountain=[]
         keyword=[]
