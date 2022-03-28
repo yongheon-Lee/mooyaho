@@ -204,6 +204,7 @@ def report_post(request, pk):
         author=author,
         content=json_object.get('content'),
         report=True,
+        post_id=reported_post,
     )
     new_report.save()
 
