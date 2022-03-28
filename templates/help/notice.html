@@ -32,34 +32,37 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger" formmethod="post"
-                                    onclick="location.href='/noice/delete_notice/{{ i.id }}'">삭제
-                            </button>
+                            {% if user.is_superuser %}
+                                <button type="button" class="btn btn-danger" formmethod="post"
+                                        onclick="location.href='/noice/delete_notice/{{ i.id }}'">삭제
+                                </button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
             <br>
         {% endfor %}
-        <button onclick="location.href='help/notice/1'" class="btn-light2">1번 공지사항</button>
-        <br>
-
     </div>
 {% endblock %}
 
 {% block js %}
-    <script>
-        $(function () {
-            changeSearchToAdd();
-        })
+    {% if user.is_superuser %}
+        <script>
+            $(function () {
+                changeSearchToAdd();
+            })
 
-        function changeSearchToAdd() {
-            console.log("loaded");
-            // img = document.getElementsByClassName("meterial-icons");
-            const img1 = document.getElementById("search-wrapper");
-            img1.removeEventListener('click', clickedSearchButton);
-            img1.innerHTML = `
+            function changeSearchToAdd() {
+                console.log("loaded");
+                // img = document.getElementsByClassName("meterial-icons");
+                const img1 = document.getElementById("search-wrapper");
+                img1.removeEventListener('click', clickedSearchButton);
+                img1.innerHTML = `
     <button type="button" onclick="location.href='/help/notice/post_notice'">글쓰기</button>`;
-        }
-    </script>
+            }
+        </script>
+    {% endif %}
+
+
 {% endblock %}
