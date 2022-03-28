@@ -20,6 +20,75 @@ function modalClose() {
     modal.style.display = 'none';
 }
 
+// 글 수정 페이지 요청 구현
+function postEdit(id){
+    // 수정 페이지로 이동
+    window.location = '/posts/' + id + '/changes/';
+
+    // // 수정 승인 요청 메시지
+    // let post_edit_confirm = confirm('글을 수정하시겠습니까?');
+    // // 삭제 승인 시
+    // if (post_edit_confirm === true){
+    //     // 해당 글 id 가져오기
+    //     let pk = id;
+    //     // 백엔드로 보낼 데이터 작성
+    //     let params = {'post_id': pk};
+    //
+    //     // 비동기 통신 시작
+    //     $.ajax({
+    //         url: '/posts/' + pk + '/edition/',
+    //         type: 'GET',
+    //         data: JSON.stringify(params),
+    //         beforeSend: function (xhr){
+    //             xhr.setRequestHeader('X-CSRFToken', csrfToken);
+    //         },
+    //         success: function (data) {
+    //             console.log(data);
+    //             if (data.result === 'ok') {
+    //                 window.location = '/posts/' + pk + '/edition/';
+    //             }
+    //         },
+    //         error: function (request, status, error) {
+    //             alert('오류가 발생했습니다!');
+    //         }
+    //     })
+    // }
+}
+
+// 글 삭제 구현
+function postDelete(id){
+    // 삭제 승인 요청 메시지
+    let post_delete_confirm = confirm('글을 삭제할까요?');
+    // 삭제 승인 시
+    if (post_delete_confirm === true) {
+        // 해당 글 id 가져오기
+        let pk = id;
+        // 백엔드로 보낼 데이터 작성
+        let params = {'post_id': pk};
+
+        // 비동기 통신 시작
+        $.ajax({
+            // url: '/posts/' + pk + '/deletion/',
+            url: '/posts/' + pk + '/changes/',
+            type: 'DELETE',
+            data: JSON.stringify(params),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("X-CSRFToken", csrfToken);
+            },
+            success: function (data) {
+                console.log(data)
+                if (data.result === 'ok') {
+                    alert('글을 삭제했습니다.');
+                    window.location = '/posts/';
+                }
+            },
+            error: function (request, status, error) {
+                alert('오류가 발생했습니다!');
+            }
+        })
+    }
+}
+
 // 좋아요 구현(참고 자료: https://wonjongah.tistory.com/41)
 // csrf 토큰 가져오기
 const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
@@ -94,9 +163,9 @@ $('#repleBtn').click(function () {
 // 댓글 삭제 구현
 function repleDelete(id) {
     // 삭제 승인 요청 메시지
-    let delete_confirm = confirm('댓글을 삭제할까요?');
+    let comment_delete_confirm = confirm('댓글을 삭제할까요?');
     // 삭제 승인 시
-    if (delete_confirm === true) {
+    if (comment_delete_confirm === true) {
         // 해당 글 id 가져오기
         const pk = $('#repleDeleteBtn').attr('name');
         // 백엔드로 보낼 데이터 작성

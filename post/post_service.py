@@ -1,7 +1,7 @@
 import json
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from help.models import Review
@@ -92,25 +92,29 @@ def post(request):
 
 # 글 수정 기능
 @login_required(login_url='login')
-def edit_post(request, pk):
+def change_post(request, pk):
     posting = Post.objects.get(id=pk)
 
-    # 글 작성자와 요청한 유저가 같은지 확인
+    # 글 수정 접근 요청
     if request.method == 'GET':
-        # 기존 글 내용 가져오기
-        form = PostForm(instance=posting)
+        # 글 작성자와 요청한 유저가 같은지 확인
+        if posting.user.id == request.user.id:
 
-        # 산 이름 검색창을 위해 전체 산 데이터 가져오기
-        mt = Mountain.objects.all()
+            # 기존 글 내용 가져오기
+            form = PostForm(instance=posting)
 
-        # 프론트로 넘길 데이터 담기
-        context = {
-            'form': form,
-            'mountains': mt
-        }
-        return render(request, 'post/new.html', context)
+            # 산 이름 검색창을 위해 전체 산 데이터 가져오기
+            mt = Mountain.objects.all()
 
-    elif request.method == 'POST':
+            # 프론트로 넘길 데이터 담기
+            context = {
+                'form': form,
+                'mountains': mt,
+            }
+            return render(request, 'post/new.html', context)
+
+    # 글 수정 요청
+    elif request.method == 'PUT':
 
         # 산 이름 입력 받기
         input_mt = request.POST['inputMt']
@@ -154,18 +158,21 @@ def edit_post(request, pk):
         posting.save()
         return redirect(f'/posts/{str(posting.id)}/')
 
+    # 글 삭제 요청
+    elif request.method == 'DELETE':
 
-# 글 삭제 기능
-@login_required(login_url='login')
-def delete_post(request, pk):
-    posting = Post.objects.get(id=pk)
+        # 글 작성자와 요청한 유저가 같은지 확인
+        if posting.user.id == request.user.id:
+            # 글을 실제로 삭제하지 않고 삭제된 것처럼 처리
+            posting.deleted = True
+            posting.save()
 
-    # 글 작성자와 요청한 유저가 같은지 확인
-    if posting.user.id == request.user.id:
-        # 글을 실제로 삭제하지 않고 삭제된 것처럼 처리
-        posting.deleted = True
-        posting.save()
-        return redirect('posts')
+            # 프론트로 넘길 데이터 담기
+            context = {'result': 'ok'}
+            return JsonResponse(context)
+        else:
+            context = {'result': 'no'}
+            return JsonResponse(context)
 
 
 # 글 좋아요 기능
