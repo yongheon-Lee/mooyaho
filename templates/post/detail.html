@@ -83,7 +83,6 @@
                 </div>
             {% endfor %}
         </div>
-        {% if clicked_post.user != user %}
         <div class="comment-input-area" style="display: flex; align-items: center; justify-content: space-around">
             <p id="author"><b>{{ request.user.nickname }}</b></p>
             <label>
@@ -92,7 +91,6 @@
             <input type="button" class="btn btn-light" id="repleBtn" name="{{ clicked_post.id }}" value="게시">
             {% csrf_token %}
         </div>
-        {% endif %}
     </div>
     <div class="modal">
         <div class="modal_body">Modal</div>
