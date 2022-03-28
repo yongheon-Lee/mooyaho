@@ -46,6 +46,10 @@
     margin: 2.5rem 0 2rem 1rem;
 }
 
+.recommend-post .recommend-writing-msg {
+    margin: 2.5rem 1rem 2rem 1rem;
+}
+
 /* 추천 포스트 박스 */
 .recommend-post .post-box {
     display: flex;
