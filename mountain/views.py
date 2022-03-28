@@ -17,24 +17,37 @@ def mountain_id_plus(x) :
 
 @login_required(login_url='/login/')
 def home(request):
-    #AI서버와 통신
-    URL="http://127.0.0.1:5000/userviewlog"
-    payload={'userid': request.user.id}
+    payload = {'userid': request.user.id}
+    #AI서버와 통신(userviewlog)
+    URL1="http://127.0.0.1:5000/userviewlog"
+    res1=requests.post(URL1,data=payload)  #post형식으로 data를 url에 넣어 요청후 응답받음
+    res1=res1.json() #응답 json으로 바꾸기
+    print(res1)
 
-    res=requests.post(URL,data=payload)  #post형식으로 data를 url에 넣어 요청후 응답받음
-    # print(res)
-    res=res.json() #응답 json으로 바꾸기
+    # AI서버와 통신(userpost)
+    URL2 = "http://127.0.0.1:5000/userpost"
+    res2 = requests.post(URL2, data=payload)
+    res2=res2.json()
+    print(res2)
 
-    if res['data']==0:  #활동로그없을경우
+    if res1['data']==0:  #활동로그없을경우
         recommand_mountain=[]
         keyword=[]
     else:  #활동로그있을경우
-        keyword = res['keyword'] #키워드 값만 분리
-        request_recommand_mountain = res['mountain'] #산 아이디만 분리
+        keyword = res1['keyword'] #키워드 값만 분리
+        request_recommand_mountain = res1['mountain'] #산 아이디만 분리
 
         recommand_mountain = mountain_id_plus(request_recommand_mountain) # 받은 산 id에서 1씩 더하기
         recommand_mountain = Mountain.objects.filter(id__in=recommand_mountain) # 리스트 요소들에 해당하는 id와 같은 객체 가져오기
         print(recommand_mountain)
+
+    if res2['data']==0:  #게시물이 없을경우
+        # _____님! 게시물을 업로드해보세요~
+        user=[]
+    else:
+        # 세유저의 최근 게시물 하나씩 보여주기
+        user = res2['user']
+        print(user)
 
     user = request.user
     # 유저가 로그인했을때
