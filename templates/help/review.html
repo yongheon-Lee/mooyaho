@@ -10,13 +10,32 @@
 
 {% block content %}
 
-    {% for i in content %}
-        <button onclick="location.href='/help/review/{{ content.id }}'" class="btn-light2">{{ i.i }}</button>
-        <br>
-    {% endfor %}
+{% for i in all_review %}
+    <button class="btn-light2" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop{{ i.id }}">리뷰{{ i.id }}</button>
+    <!-- Scrollable modal -->
+    <!-- Modal -->
 
-    <button onclick="location.href='/help/review/1'" class="btn-light2">리뷰1</button>
+    <div class="modal fade" id="staticBackdrop{{ i.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content" style="height: 500px; word-break: break-all">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">{{ i.title }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ i.content }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <br>
+    {% endfor %}
 {% endblock %}
 
 {% block js %}
@@ -32,7 +51,7 @@
             const img1 = document.getElementById("search-wrapper");
             img1.removeEventListener('click', clickedSearchButton);
             img1.innerHTML = `
-    <button type="button" onclick="location.href='/review/new'">글쓰기</button>`;
+    <button type="button" onclick="location.href='/help/review/new'">글쓰기</button>`;
         }
     </script>
 {% endblock %}
