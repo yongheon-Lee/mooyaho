@@ -21,7 +21,8 @@ def mountain_id_plus(x) :
 @login_required(login_url='/login/')
 def home(request):
     #AI서버와 통신
-    URL="http://127.0.0.1:5000/userviewlog"
+    # URL="http://127.0.0.1:5000/userviewlog"
+    URL="http://mooyaho-ai-dev.ap-northeast-2.elasticbeanstalk.com/userviewlog"
     payload={'userid': request.user.id}
 
     res=requests.post(URL,data=payload)  #post형식으로 data를 url에 넣어 요청후 응답받음
