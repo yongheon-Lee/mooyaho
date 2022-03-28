@@ -13,7 +13,7 @@ def index(request):
 def notice(request):
     user = request.user.is_authenticated
     if user:
-        all_notice = Notice.objects.filter(deleted=False).order_by('-create_at')
+        all_notice = Notice.objects.all().order_by('-create_at')
         return render(request, 'help/notice.html', {'notice': all_notice})
     else:
         return redirect('/login')
@@ -22,15 +22,13 @@ def post_notice(request):
     if request.method == "GET":
         return render(request, 'help/post_notice.html')
     elif request.method == 'POST':
-        # user가 슈퍼인지 아닌지
-        if request.user.is_superuser is True :
         # 여기서부터
-            new_notice = Notice.objects.create(
-                user_id=MooyahoUser.objects.get(id=request.user.id),
-                title=request.POST.get('title'),
-                content=request.POST.get('textarea-name')
-            )
-            new_notice.save()
+        new_notice = Notice.objects.create(
+            user_id=MooyahoUser.objects.get(id=request.user.id),
+            title=request.POST.get('title'),
+            content=request.POST.get('textarea-name')
+        )
+        new_notice.save()
         #여기까지 이호진이 작성.
 
         # user = request.user
@@ -39,28 +37,14 @@ def post_notice(request):
         # my_notice.content = request.POST.get('textarea-name')
         # my_notice.user_id = user.id
         # my_notice.save()
-            return redirect('/help/notice')
-        else :
-            return redirect('/help/notice')
+        return redirect('/help/notice')
 
-
-@login_required(login_url='/login')
-def delete_notice(request, id):
-    my_notice = Notice.objects.get(id=id)
-
-    now_user_id = MooyahoUser.objects.get(nickname=my_notice.user_id)
-    print(request.user.id)
-    print(my_notice.user_id)
-    print(now_user_id)
-    if request.user.id == now_user_id.id :
-
-        print("사용자가 맞음.")
-        my_notice.deleted = True
-        my_notice.save()
-        return redirect('notice')
-    else :
-        print("사용자 틀림.")
-        return redirect('notice')
+#
+# @login_required()
+# def delete_notice(request, id):
+#     my_notice = Notice.objects.get(id=id)
+#     my_notice.delete()
+#     return redirect('/tweet')
 
 @login_required(login_url='/login')
 def review(request):
@@ -72,25 +56,7 @@ def post_review(request):
     if request.method == 'GET':
         return render(request, 'help/post_review.html')
     elif request.method == 'POST':
-        author = MooyahoUser.objects.get(id=request.user.id)
-
-        new_review = Review.objects.create(
-            author=author.nickname,
-            content=request.POST.get('textarea-name')
-        )
-        new_review.save()
-
-
-        return redirect('/help/review')
-
-
-@login_required(login_url='/login')
-def delete_review(request, id):
-    review = Review.objects.get(id=id)
-    # 글 작성자와 요청한 유저가 같은지 확인
-    if review.author.id == request.user.id:
-        review.deleted = True
-        review.save()
-        return redirect('/help/review')
-    else :
-        return redirect('/help/review')
+        user = request.user
+        Notice.content = user.nickname
+        Notice.content = request.POST.get('textarea-name')
+        return redirect('/review')

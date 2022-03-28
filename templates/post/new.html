@@ -11,21 +11,20 @@
 {% endblock %}
 
 {% block content %}
-    <form id="new-post-form" action="/posts/new/" method="post" enctype="multipart/form-data">
+    <form id="new-post-form" action="/posts/new" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div id="image-area">
-            <img id="imgPreview" src="{{ form.initial.hiking_img.url }}" alt="여기에 사진 업로드">
+            <img id="imgPreview" src="#" alt="여기에 사진 업로드">
         </div>
         <label for="imgInput">upload image</label>
         <input type="file" id="imgInput" name="hiking_img" accept="image/*">
         <div class="new-box">
             <label>
-                <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"
-                       value="{{ form.initial.title }}">
+                <input type="text" class="form-control" placeholder="글 제목" name="title" id="title">
             </label>
             <label>
                 <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
-                       id="location" value="{{ form.initial.mountain_name }}">
+                       id="location">
                 <datalist id="datalist">
                     {% for mountain in mountains %}
                         <option value="{{ mountain.mountain_name }}">
@@ -33,8 +32,7 @@
                 </datalist>
             </label>
             <label>
-                <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content"
-                       value="{{ form.initial.content }}">
+                <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content">
             </label>
         </div>
 
@@ -51,7 +49,7 @@
         {#        </form>#}
         <div class="new-box">
             <input type="submit" class="btn btn-light" value="등록">
-            <button type="button" class="btn btn-light"><a href="/posts/">취소</a></button>
+            <button type="button" class="btn btn-light"><a href="/posts">취소</a></button>
         </div>
     </form>
     {% csrf_token %}
