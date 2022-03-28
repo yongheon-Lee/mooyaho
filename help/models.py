@@ -21,7 +21,7 @@ class Review(models.Model):
     answer = models.TextField(null=True, blank=True)
     deleted = models.BooleanField(default=False)
     create_at = models.DateField(auto_now_add=True)
-    post_id = models.ForeignKey(Post, on_delete=models.CASCADE, db_column='post_id')
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE, db_column='post_id', null=True)
 
     class Meta :
         db_table = 'review'
