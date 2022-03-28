@@ -3,14 +3,11 @@ from .models import Notice, Review
 from django.contrib.auth.decorators import login_required
 
 from user.user_models import MooyahoUser
-
-
 # Create your views here.
 
 @login_required(login_url='/login')
 def index(request):
     return render(request, 'help/help.html')
-
 
 @login_required(login_url='/login')
 def notice(request):
@@ -21,32 +18,30 @@ def notice(request):
     else:
         return redirect('/login')
 
-
 def post_notice(request):
     if request.method == "GET":
         return render(request, 'help/post_notice.html')
     elif request.method == 'POST':
         # user가 슈퍼인지 아닌지
-        if request.user.is_superuser is True:
-            # 여기서부터
+        if request.user.is_superuser is True :
+        # 여기서부터
             new_notice = Notice.objects.create(
                 user_id=MooyahoUser.objects.get(id=request.user.id),
                 title=request.POST.get('title'),
                 content=request.POST.get('textarea-name')
             )
             new_notice.save()
-            # 여기까지 이호진이 작성.
+        #여기까지 이호진이 작성.
 
-            # user = request.user
-            # my_notice = Notice
-            # my_notice.title = request.POST.get('textarea-name')
-            # my_notice.content = request.POST.get('textarea-name')
-            # my_notice.user_id = user.id
-            # my_notice.save()
+        # user = request.user
+        # my_notice = Notice
+        # my_notice.title = request.POST.get('textarea-name')
+        # my_notice.content = request.POST.get('textarea-name')
+        # my_notice.user_id = user.id
+        # my_notice.save()
             return redirect('/help/notice')
-        else:
+        else :
             return redirect('/help/notice')
-
 
 @login_required(login_url='/login')
 def delete_notice(request, id):
@@ -56,22 +51,20 @@ def delete_notice(request, id):
     print(request.user.id)
     print(my_notice.user_id)
     print(now_user_id)
-    if request.user.id == now_user_id.id:
+    if request.user.id == now_user_id.id :
 
         print("사용자가 맞음.")
         my_notice.deleted = True
         my_notice.save()
         return redirect('notice')
-    else:
+    else :
         print("사용자 틀림.")
         return redirect('notice')
-
 
 @login_required(login_url='/login')
 def review(request):
     all_review = Review.objects.all()
-    return render(request, 'help/review.html', {'all_review': all_review})
-
+    return render(request, 'help/review.html', {'all_review':all_review})
 
 @login_required(login_url='/login')
 def post_review(request):
@@ -86,6 +79,7 @@ def post_review(request):
         )
         new_review.save()
 
+
         return redirect('/help/review')
 
 
@@ -97,5 +91,5 @@ def delete_review(request, id):
         review.deleted = True
         review.save()
         return redirect('/help/review')
-    else:
-        return redirect('/help/review')
+    else :
+        return redirect('/help/review') 

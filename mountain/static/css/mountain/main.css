@@ -17,13 +17,10 @@
 }
 
 .one-row .image-wrapper {
-    width: 100%;
+    width: 50%;
     position: relative;
     cursor: pointer;
-}
-
-.one-row .image-wrapper:nth-child(1) {
-    margin-right: 1rem;
+    padding: 0 0.2rem;
 }
 
 .one-row .image-wrapper > img {
@@ -41,4 +38,81 @@
     
     width: 100%;
     font-size: 20px;
+}
+
+/* 추천 포스트 영역 */
+/* 추천 포스트 전체 타이틀 */
+.recommend-post > h2 {
+    margin: 2.5rem 0 2rem 1rem;
+}
+
+.recommend-post .recommend-writing-msg {
+    margin: 2.5rem 1rem 2rem 1rem;
+}
+
+/* 추천 포스트 박스 */
+.recommend-post .post-box {
+    display: flex;
+    flex-direction: column;
+
+    border: 3px solid #9dcdbf;
+    border-radius: 12px;
+    margin: 1rem;
+    padding: 0.5rem;
+
+    cursor: pointer;
+}
+
+/* 글쓴이 정보 */
+.post-box .writer-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+/* 글쓴이 프로필 이미지 */
+.post-box .writer-box .writer-img-wrapper {
+    border: 1px solid rgb(215, 226, 236);
+    border-radius: 28px;
+    padding: 0.2rem;
+}
+.writer-img-wrapper > img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 24px;
+}
+
+/* 글쓴이 이름과 포스트 산 이름 */
+.post-box .writer-box .writer-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.4rem;
+}
+
+.writer-info > span {
+    font-size: 15px;
+}
+.writer-info > span:nth-child(1) {
+    font-weight: 800;
+    margin-bottom: -0.15rem;
+}
+.writer-info > span:nth-child(2) {
+    margin-top: -0.15rem;
+}
+
+/* 포스트 사진 */
+.post-box .image-box {
+    margin-bottom: 1rem;
+}
+
+.post-box .image-box > img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+/* 추천 산 과 추천 포스트 경계선 */
+#content-wrapper > hr {
+    height: 8px;
+    color: gray;
+    margin-top: 2.5rem;
 }

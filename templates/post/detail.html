@@ -1,28 +1,21 @@
 {% extends 'base.html' %}
-
 {% block title %}
     글 자세히 보기
 {% endblock %}
-
 {% load static %}
-
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/posts.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 {% endblock %}
-
 {% block content %}
-
     <div id="detail-contents">
         <p>글쓴이: {{ clicked_post.user }}</p>
         {% if clicked_post.user == user %}
-            <button>수정</button>
-            <button type="button" onclick="location.href='/posts/{{ clicked_post.id }}/deletion'">삭제</button>
+            <button type="button" id="post-to-edit-btn" name="{{ clicked_post.id }}">수정</button>
+            <button type="button" id="post-delete-btn" name="{{ clicked_post.id }}">삭제</button>
         {% endif %}
-
         <div class="image-box">
             <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
-
             <div class="content-box">
                 <h1>{{ clicked_post.title }}</h1>
                 <div>
@@ -34,77 +27,74 @@
                 <p>{{ clicked_post.content }}</p>
             </div>
         </div>
-
     </div>
     <div id="detail-icons" style="display: flex; align-items: center;">
-        {#<span class="material-icons">#}
-        {#favorite_border#}
-        {#</span>#}
-    {% csrf_token %}
-        <a class="btn btn-sm post_like" name="{{ clicked_post.id }}" type="button">
+        {% csrf_token %}
+        <!-- 해당 글 작성자와 현재 유저가 다르면 좋아요 버튼 활성화 -->
+        {% if clicked_post.user != user %}
+        <a class="btn btn-sm post_like" id="{{ clicked_post.id }}" type="button">
             {% if user in clicked_post.likes.all %}
-                <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+            <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
             {% else %}
-                <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+            <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
             {% endif %}
-
         </a>
+        {% else %}
+        <!-- 해당 글 작성자와 현재 유저가 같으면 좋아요 버튼 비활성화 -->
+        {% if user in clicked_post.likes.all %}
+            <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+            {% else %}
+            <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+            {% endif %}
+        {% endif %}
         <p id="like_count-{{ clicked_post.id }}" style="margin: 0">
             좋아요&nbsp;{{ clicked_post.likes.all.count }}개
         </p>
-        <span class="material-icons" id="modal-report" onclick="modalReport()">
-notification_important
-</span>
+        <!-- 해당 글의 작성자와 글을 누른 유저가 같을 경우 신고 버튼 비활성화 -->
+        {% if clicked_post.user != user %}
+            <span class="material-icons" id="modal-report" onclick="modalReport()">
+                notification_important
+            </span>
+        {% endif %}
     </div>
     <hr>
     <div id="detail-comments">
-
     </div>
-
     <div id="detail-enter-comment">
         <div class="comment-area">
-            <p style="display: inline">홍길동 | 안녕하세요.</p>
-            <button>삭제</button>
             {% for comment in all_comment %}
-            <div style="display: flex; align-items: center; justify-content: space-around">
-                <p>{{ comment.author }}</p>
-                <p>{{ comment.comment }}</p>
-                <button>삭제</button>
-            </div>
+                <div style="display: flex; align-items: center; justify-content: space-around" class="comment-{{ comment.id }}">
+                    <p>{{ comment.author }}</p>
+                    <p>{{ comment.comment }}</p>
+                    {% if request.user == comment.author %}
+                    <input type="button" id="repleDeleteBtn" name="{{ clicked_post.id }}"
+                           onclick="repleDelete({{ comment.id }})" value="삭제">
+                    {% endif %}
+                </div>
             {% endfor %}
         </div>
-{#        <form action="/posts/{{ clicked_post.id }}/comments/" method="post">#}
-{#            <label>#}
-{#                <textarea class="form-control" id="comments" name="comments"></textarea>#}
-{#            </label>#}
-{#            <input type="submit" class="btn btn-light" value="게시">#}
-{#            {% csrf_token %}#}
-{##}
-{#        </form>#}
-            <div class="comment-input-area" style="display: flex; align-items: center; justify-content: space-around">
-                <p id="author"><b>{{ request.user.nickname }}</b></p>
-                <label>
-                    <textarea class="comment-input" id="comments" name="comments"></textarea>
-                </label>
-                <input type="button" class="btn btn-light" id="repleBtn" name="{{ clicked_post.id }}" value="게시">
-                {% csrf_token %}
-            </div>
+        <div class="comment-input-area" style="display: flex; align-items: center; justify-content: space-around">
+            <p id="author"><b>{{ request.user.nickname }}</b></p>
+            <label>
+                <textarea class="comment-input" id="comments" name="comments"></textarea>
+            </label>
+            <input type="button" class="btn btn-light" id="repleBtn" name="{{ clicked_post.id }}" value="게시">
+            {% csrf_token %}
+        </div>
     </div>
-
     <div class="modal">
         <div class="modal_body">Modal</div>
-        <form action="" method="post">
-            <textarea></textarea>
-            <input type="submit" value="신고하기">
+        <div class="report-input-area">
+            <p id="report-user"><b>{{ request.user.nickname }}</b></p>
+            <label>
+                <textarea id="contents" name="contents"></textarea>
+            </label>
+            <input type="button" id="reportBtn" name="{{ clicked_post.id }}" value="신고하기">
             {% csrf_token %}
-
-        </form>
-
-        <button id="modalClose" onclick="modalClose()">닫기</button>
+            <button id="modalClose" onclick="modalClose()">닫기</button>
+        </div>
     </div>
-
 {% endblock %}
-
 {% block js %}
     <script src="{% static 'js/posts.js' %}"></script>
 {% endblock %}

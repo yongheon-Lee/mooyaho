@@ -14,29 +14,71 @@
 {% block content %}
 <div id="content-wrapper">
 {% for category, mountains in total.items %}
+    {% if mountains|length != 0 %}
     <div class="recommend-area">
-        <hr>
-        <h2>{{category|get_category_title}}</h2>
-        <hr>
-        {% for mountain in mountains %}
-        {% with id=mountain.id|intToStr %}
-        {% cycle 'even' 'odd' as step silent %}
-        {% if step == 'even' %}
-            <div class="one-row">
-        {% endif %}
-                <div class="image-wrapper" data-id="{{id}}">
-                    {% with img_path='images/mountains/mountain_'|add:id|add:'.jpeg' %}
-                        <img class="mountain-images" src="{% static img_path %}" alt="">
-                    {% endwith %}
-                    <p>{{mountain.mountain_name}}</p>
-                </div>  
-        {% if step == 'odd' %}
+            <hr>
+            {% if forloop.counter0 == 2 %}
+                <h2>{{user.nickname}}님, {{category|get_category_title}}</h2>
+            {% else %}
+                <h2>{{category|get_category_title}}</h2>
+            {% endif %}
+            <hr>
+            {% for mountain in mountains %}
+                {% with id=mountain.id|intToStr %}
+                    {% if forloop.counter0|divisibleby:2 %}
+                        <div class="one-row">
+                    {% endif %}
+                            <div class="image-wrapper" data-id="{{id}}">
+                                {% with img_path='images/mountains/mountain_'|add:id|add:'.jpeg' %}
+                                    <img class="mountain-images" data-src="{% static img_path %}" alt="">
+                                {% endwith %}
+                                <p>{{mountain.mountain_name}}</p>
+                            </div>  
+                    {% if not forloop.counter0|divisibleby:2 or forloop.last %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+    </div>
+    {% endif %}
+{% endfor %}
+    
+    <hr>
+    <div class="recommend-post">
+        {% if recommend_post %}
+            <h2>{{user.nickname}}님, 이 게시글 어때요?</h2>
+            {% for post in recommend_post %}
+            <div class="post-box" onclick="location.href='/posts/{{ post.id }}/'">
+                <div class="writer-box">
+                    <div class="writer-img-wrapper">
+                        <img src="{{ post.user.profile_img }}" alt="">
+                    </div>
+                    <div class="writer-info">
+                        <span>{{ post.user.nickname }}</span>
+                        <span>{{ post.mountain_name }}</span>
+                    </div>
+                </div>
+                <div class="image-box">
+                    <img src="{{ post.hiking_img.url }}" alt="사진"/>
+                </div>
+                <div class="content-box">
+                    <div class="title">
+                        <h2>{{ post.title }}</h2>
+                    </div>
+                    <div class="post-text">
+                        <p>{{ post.content|slice:20 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="recommend-writing-msg">
+                <h4>{{user.nickname}}님, 다녀오신 산에 대해<br> 글 작성 해보는 건 어떨까요?</h4>
+                <h4>취향이 비슷한 다른 유저의 글을<br> 만나 볼 수 있어요!</h4>
+                <a href="/posts/new">지금 글 작성하러 가기✍️</a>
             </div>
         {% endif %}
-        {% endwith %}
-        {% endfor %}
     </div>
-{% endfor %}
 </div>
 {% endblock %}
 
