@@ -14,10 +14,14 @@
 {% block content %}
 <div id="content-wrapper">
 {% for category, mountains in total.items %}
+    {% if mountains|length != 0 %}
     <div class="recommend-area">
-        {% if mountains|length != 0 %}
             <hr>
-            <h2>{{user.nickname}}님, {{category|get_category_title}}</h2>
+            {% if forloop.counter0 == 2 %}
+                <h2>{{user.nickname}}님, {{category|get_category_title}}</h2>
+            {% else %}
+                <h2>{{category|get_category_title}}</h2>
+            {% endif %}
             <hr>
             {% for mountain in mountains %}
                 {% with id=mountain.id|intToStr %}
@@ -35,8 +39,8 @@
                     {% endif %}
                 {% endwith %}
             {% endfor %}
-        {% endif %}
     </div>
+    {% endif %}
 {% endfor %}
 </div>
 {% endblock %}
