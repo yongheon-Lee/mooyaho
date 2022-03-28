@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 
 from help.models import Review
 from mountain.models import Mountain
+from post.post_form import PostForm
 from post.post_models import Post
 from user.user_models import MooyahoUser
 from comment.comment_models import Comment
@@ -95,49 +96,63 @@ def edit_post(request, pk):
     posting = Post.objects.get(id=pk)
 
     # 글 작성자와 요청한 유저가 같은지 확인
-    if posting.user.id == request.user.id:
-        if request.method == 'GET':
-            # 산 이름 검색창을 위해 전체 산 데이터 가져오기
-            mt = Mountain.objects.all()
-            return render(request, 'post/new.html', {'mountains': mt})
+    if request.method == 'GET':
+        # 기존 글 내용 가져오기
+        form = PostForm(instance=posting)
 
-        elif request.method == 'PUT':
+        # 산 이름 검색창을 위해 전체 산 데이터 가져오기
+        mt = Mountain.objects.all()
 
-            # 산 이름 입력 받기
-            input_mt = request.POST['inputMt']
+        # 프론트로 넘길 데이터 담기
+        context = {
+            'form': form,
+            'mountains': mt
+        }
+        return render(request, 'post/new.html', context)
 
-            # Mountain 참조
-            get_mt = Mountain.objects.filter(mountain_name=input_mt)
+    elif request.method == 'POST':
 
-            # 해당 이름의 산 있으면,
-            if get_mt:
-                # 산 이름 가져오기
-                post_mountain_name = Mountain.objects.get(mountain_name=input_mt).mountain_name
-                # 산 id 가져오기
-                mountain_id = Mountain.objects.get(mountain_name=post_mountain_name).id
+        # 산 이름 입력 받기
+        input_mt = request.POST['inputMt']
 
-            # 없으면,
-            else:
-                # 산 DB에 없는 산 이름 새로 추가
-                mt = Mountain()
-                mt.id = Mountain.objects.all().last().id + 1
-                mt.mountain_name = input_mt
-                mt.save()
+        # Mountain 참조
+        get_mt = Mountain.objects.filter(mountain_name=input_mt)
 
-                # 입력값을 산 이름에 적용
-                post_mountain_name = input_mt
-                # 추가된 산 id 적용
-                mountain_id = mt.id
+        # 해당 이름의 산 있으면,
+        if get_mt:
+            # 산 이름 가져오기
+            post_mountain_name = Mountain.objects.get(mountain_name=input_mt).mountain_name
+            # 산 id 가져오기
+            mountain_id = Mountain.objects.get(mountain_name=post_mountain_name).id
 
-            # 수정 내용 반영
-            posting.hiking_img = request.FILES.get('hiking_img')
-            posting.title = request.POST['title']
-            posting.mountain_name = post_mountain_name
-            posting.mountain = mountain_id
-            posting.content = request.POST['inputReview']
-            posting.rating = request.POST['rating']
-            posting.save()
-            return redirect(f'/posts/{str(posting.id)}/')
+        # 없으면,
+        else:
+            # 산 DB에 없는 산 이름 새로 추가
+            mt = Mountain()
+            mt.id = Mountain.objects.all().last().id + 1
+            mt.mountain_name = input_mt
+            mt.save()
+
+            # 입력값을 산 이름에 적용
+            post_mountain_name = input_mt
+            # 추가된 산 id 적용
+            mountain_id = mt.id
+
+        new_or_old_hiking_img = request.FIELS.get('hiking_img')
+        if new_or_old_hiking_img == '':
+            hiking_img = posting.hiking_img
+        else:
+            hiking_img = new_or_old_hiking_img
+
+        # 수정 내용 반영
+        posting.hiking_img = hiking_img
+        posting.title = request.POST['title']
+        posting.mountain_name = post_mountain_name
+        posting.mountain = mountain_id
+        posting.content = request.POST['inputReview']
+        posting.rating = request.POST['rating']
+        posting.save()
+        return redirect(f'/posts/{str(posting.id)}/')
 
 
 # 글 삭제 기능
@@ -178,17 +193,26 @@ def like_post(request, pk):
 
 # 글 신고 기능
 @login_required(login_url='login')
-def report_post(request):
-# def report_post(request, pk):
-    # posting = Post.objects.get(id=pk)
+def report_post(request, pk):
+    json_object = json.loads(request.body)
 
-    post_id = request.POST['pk']
+    author = MooyahoUser.objects.get(id=request.user.id)
+    reported_post = Post.objects.get(id=pk)
 
     # 글 신고
     new_report = Review.objects.create(
-        author=MooyahoUser.objects.get(id=request.user.id),
-        content=request.POST['content'],
+        author=author,
+        content=json_object.get('content'),
         report=True,
+        post_id=reported_post,
     )
     new_report.save()
-    return redirect(f'/posts/{str(post_id)}/')
+    # 해당 글 신고된 횟수 증가
+    reported_post.reported += 1
+    reported_post.save()
+
+    context = {
+        'author': request.user.nickname,
+        'content': json_object.get('content')
+    }
+    return HttpResponse(json.dumps(context), content_type='application/json')
