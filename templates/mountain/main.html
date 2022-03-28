@@ -14,7 +14,6 @@
 {% block content %}
 <div id="content-wrapper">
 {% for category, mountains in total.items %}
-    {% if mountains|length != 0 %}
     <div class="recommend-area">
             <hr>
             {% if forloop.counter0 == 2 %}
@@ -79,6 +78,7 @@
             </div>
         {% endif %}
     </div>
+{% endfor %}
 </div>
 {% endblock %}
 

@@ -9,20 +9,18 @@ const clickedNavigateButton = (e) => {
 }
 
 const setMountainListToLocalStorage = () => {
-    return new Promise(function(resolve, reject){
-        $.ajax({
-            type: 'GET',
-            url: '/get-mountain-list/',
-            success: function(response){
-                if (response['result'] == 'success'){
-                    resolve(localStorage.setItem('mountainNameList', response['mountains']));
-                }
-                else {
-                    alert('산 리스트를 가져오지 못했습니다');
-                }
+    $.ajax({
+        type: 'GET',
+        url: '/get-mountain-list/',
+        success: function(response){
+            if (response['result'] == 'success'){
+                localStorage.setItem('mountainNameList', response['mountains']);
             }
-        });
-    })
+            else {
+                alert('산 리스트를 가져오지 못했습니다');
+            }
+        }
+    });
 }
 
 const addMountainListFromLocalStorage = () => {
@@ -47,13 +45,13 @@ const goSearchedMountainPage = (searchInput) => {
     }
 }
 
-const clickedSearchButton = async (e) => {
+const clickedSearchButton = (e) => {
     const headerElement = e.target.parentElement.parentElement;
     const searchInput = headerElement.children[3];
 
     if (searchInput.classList.length == 1) { // 검색창이 안 보인다면
         if (localStorage.getItem('mountainNameList') === null) {
-            await setMountainListToLocalStorage();
+            setMountainListToLocalStorage();
         } 
         addMountainListFromLocalStorage();
         

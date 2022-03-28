@@ -38,14 +38,6 @@
     margin-bottom: 2rem;
 }
 
-/* 에러 메시지 */
-#error-msg-area {
-    margin-top: -1rem;
-    margin-bottom: 1rem;
-}
-#error-msg-area > span {
-    color: rgb(236, 72, 89);
-}
 
 /* 로그인, 회원가입 버튼 */
 #input-wrapper #button-area {
