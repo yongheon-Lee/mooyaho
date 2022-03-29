@@ -22,13 +22,13 @@
 
             <div class="new-box">
                 <label class="input-group-text" for="inputGroupSelect">
-                    <select class="form-select" id="inputGroupSelect">
-                        <option selected name="rating" value="0">--별점 고르기--</option>
-                        <option name="rating" value="1">⭐</option>
-                        <option name="rating" value="2">⭐⭐</option>
-                        <option name="rating" value="3">⭐⭐⭐</option>
-                        <option name="rating" value="4">⭐⭐⭐⭐</option>
-                        <option name="rating" value="5">⭐⭐⭐⭐⭐</option>
+                    <select class="form-select" name="rating" id="inputGroupSelect">
+                        <option selected value="0">--별점 고르기--</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
                     </select>
                 </label>
                 <label>
@@ -74,6 +74,16 @@
             <label for="imgInput">upload image</label>
             <input type="file" id="imgInput" name="hiking_img" accept="image/*">
             <div class="new-box">
+                <label class="input-group-text" for="inputGroupSelect">
+                    <select class="form-select" name="rating" id="inputGroupSelect">
+                        <option selected value="0">--별점 고르기--</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+                </label>
                 <label>
                     <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"
                            value="{{ form.initial.title }}">
@@ -92,16 +102,6 @@
                            value="{{ form.initial.content }}">
                 </label>
             </div>
-
-            <fieldset id="myform">
-                <legend>평점</legend>
-                <label for="rate1">⭐</label><input type="radio" name="rating" value="1" id="rate1">
-                <label for="rate2">⭐</label><input type="radio" name="rating" value="2" id="rate2">
-                <label for="rate3">⭐</label><input type="radio" name="rating" value="3" id="rate3">
-                <label for="rate4">⭐</label><input type="radio" name="rating" value="4" id="rate4">
-                <label for="rate5">⭐</label><input type="radio" name="rating" value="5" id="rate5">
-            </fieldset>
-
             <div class="new-box">
                 <input type="submit" class="btn btn-light" id="post-edit-btn" name="{{ post_id }}" value="수정"/>
                 <input type="button" class="btn btn-light" id="edit-cancel-btn" onclick="history.go(-1)" value="취소"/>
