@@ -18,6 +18,7 @@
             <p>글쓴이: {{ clicked_post.user }}</p>
             <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
             <div class="content-box">
+            <b>작성일: {{ clicked_post.created_at }}</b>
                 <h1>{{ clicked_post.title }}</h1>
                 <div style="display: flex">
                     <span class="material-icons">location_on</span>
