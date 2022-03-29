@@ -66,6 +66,7 @@ def review(request):
     all_review = Review.objects.all()
     return render(request, 'help/review.html', {'all_review':all_review})
 
+
 @login_required(login_url='/login')
 def post_review(request):
     if request.method == 'GET':
@@ -109,11 +110,11 @@ def update_review(request, id) :
             ut_review.save() # 저장
             return redirect('review') # 리뷰로 돌아가기
 
-#
-# @login_required(login_url='/login')
-# def answer_review(request, id) :
-#     as_review = Review.objects.get(id=id)
-#     if request.method == 'POST':
-#         as_review.answer = request.POST.get('modal_form')
-#         as_review.save()
-#         return redirect('review')
+
+@login_required(login_url='/login')
+def answer_review(request, id) :
+    as_review = Review.objects.get(id=id)
+    if request.method == 'POST':
+        as_review.answer = request.POST.get('modal_form')
+        as_review.save()
+        return redirect('review')
