@@ -9,18 +9,24 @@
 {% endblock %}
 {% block content %}
     <div id="detail-contents">
-        <p>글쓴이: {{ clicked_post.user }}</p>
+
         {% if clicked_post.user == user %}
             <button type="button" id="post-to-edit-btn" name="{{ clicked_post.id }}">수정</button>
             <button type="button" id="post-delete-btn" name="{{ clicked_post.id }}">삭제</button>
         {% endif %}
         <div class="image-box">
+        <p>글쓴이: {{ clicked_post.user }}</p>
             <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
             <div class="content-box">
                 <h1>{{ clicked_post.title }}</h1>
-                <div>
+                <div style="display: flex">
                     <span class="material-icons">location_on</span>
                     <p>{{ clicked_post.mountain_name }}</p>
+                    <p>&nbsp;&nbsp;/&nbsp;&nbsp;나의 별점:
+                        {% for i in rating %}
+                            {{ i }}
+                        {% endfor %}
+                    </p>
                 </div>
             </div>
             <div class="post-text">
@@ -32,19 +38,19 @@
         {% csrf_token %}
         <!-- 해당 글 작성자와 현재 유저가 다르면 좋아요 버튼 활성화 -->
         {% if clicked_post.user != user %}
-        <a class="btn btn-sm post_like" id="{{ clicked_post.id }}" type="button">
-            {% if user in clicked_post.likes.all %}
-            <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
-            {% else %}
-            <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
-            {% endif %}
-        </a>
+            <a class="btn btn-sm post_like" id="{{ clicked_post.id }}" type="button">
+                {% if user in clicked_post.likes.all %}
+                    <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+                {% else %}
+                    <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+                {% endif %}
+            </a>
         {% else %}
-        <!-- 해당 글 작성자와 현재 유저가 같으면 좋아요 버튼 비활성화 -->
-        {% if user in clicked_post.likes.all %}
-            <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+            <!-- 해당 글 작성자와 현재 유저가 같으면 좋아요 버튼 비활성화 -->
+            {% if user in clicked_post.likes.all %}
+                <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
             {% else %}
-            <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+                <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
             {% endif %}
         {% endif %}
         <p id="like_count-{{ clicked_post.id }}" style="margin: 0">
@@ -63,12 +69,13 @@
     <div id="detail-enter-comment">
         <div class="comment-area">
             {% for comment in all_comment %}
-                <div style="display: flex; align-items: center; justify-content: space-around" class="comment-{{ comment.id }}">
+                <div style="display: flex; align-items: center; justify-content: space-around"
+                     class="comment-{{ comment.id }}">
                     <p>{{ comment.author }}</p>
                     <p>{{ comment.comment }}</p>
                     {% if request.user == comment.author %}
-                    <input type="button" id="repleDeleteBtn" name="{{ clicked_post.id }}"
-                           onclick="repleDelete({{ comment.id }})" value="삭제">
+                        <input type="button" id="repleDeleteBtn" name="{{ clicked_post.id }}"
+                               onclick="repleDelete({{ comment.id }})" value="삭제">
                     {% endif %}
                 </div>
             {% endfor %}
@@ -83,7 +90,7 @@
         </div>
     </div>
     <div class="modal">
-        <div class="modal_body">Modal</div>
+        <div class="modal_body">신고하기</div>
         <div class="report-input-area">
             <p id="report-user"><b>{{ request.user.nickname }}</b></p>
             <label>

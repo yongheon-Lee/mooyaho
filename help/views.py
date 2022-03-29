@@ -107,7 +107,7 @@ def post_review(request):
 def delete_review(request, id):
     review = Review.objects.get(id=id)
     # 글 작성자와 요청한 유저가 같은지 확인
-    if review.author.id == request.user.id:
+    if review.author.id == request.user.id or request.user.is_superuser:
         review.deleted = True
         review.save()
         return redirect('/help/review')
