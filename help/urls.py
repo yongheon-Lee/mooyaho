@@ -11,5 +11,5 @@ urlpatterns = [
     path('help/review/new', views.post_review, name='post_review'),
     path('help/review/delete/<int:id>', views.delete_review, name='del_review'),
     path('help/review/update/<int:id>', views.update_review, name='update-review'),
-
+    path('help/review/answer/<int:id>', views.answer_review, name='answer')
 ]

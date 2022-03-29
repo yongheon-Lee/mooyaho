@@ -61,21 +61,24 @@
                         {% if i.answer == None %}
                             답글이 아직 없습니다.
                             {% if user.is_superuser %}
-                                <form>
+                                <form action="/help/review/answer/{{ i.id }}" method="post"
+                                      enctype="multipart/form-data">
+                                    {% csrf_token %}
                                     <div class="mb-3">
                                         <label for="message-text" class="col-form-label">답글 달기:</label>
-                                        <textarea class="form-control" id="message-text"></textarea>
+                                        <textarea class="form-control" id="message-text" name="modal_form"></textarea>
                                     </div>
-                                    <input type="submit">
+                                    <input type="submit" value="등록">
                                 </form>
 
                             {% endif %}
 
                         {% else %}
-                            {{ i.answer }}
-                            <button type="button" class="btn btn-primary" formmethod="post"
-                                    onclick="location.href='/{{ i.id }}'">답글 수정
-                            </button>
+                            <p>&lt;답글&gt;</p>
+                            <p>{{ i.answer }}</p>
+{#                            <button type="button" class="btn btn-primary" formmethod="post"#}
+{#                                    onclick="location.href='/{{ i.id }}'">답글 수정#}
+{#                            </button>#}
                         {% endif %}
                     </div>
                     <div class="modal-footer">
