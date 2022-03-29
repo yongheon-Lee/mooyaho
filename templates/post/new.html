@@ -12,89 +12,101 @@
 
 {% block content %}
     {% if request.resolver_match.url_name == 'posts-new' %}
-    <form id="new-post-form" action="'/posts/new/" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div id="image-area">
-            <img id="imgPreview" src="#" alt="여기에 사진 업로드">
-        </div>
-        <label for="imgInput">upload image</label>
-        <input type="file" id="imgInput" name="hiking_img" accept="image/*">
-        <div class="new-box">
-            <label>
-                <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"/>
-            </label>
-            <label>
-                <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
-                       id="location">
-                <datalist id="datalist">
-                    {% for mountain in mountains %}
-                        <option value="{{ mountain.mountain_name }}">
-                    {% endfor %}
-                </datalist>
-            </label>
-            <label>
-                <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content">
-            </label>
-        </div>
+        <form id="new-post-form" action="/posts/new/" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="image-area">
+                <img id="imgPreview" src="#" alt="여기에 사진 업로드">
+            </div>
+            <label for="imgInput">upload image</label>
+            <input type="file" id="imgInput" name="hiking_img" accept="image/*">
 
-        {#        <form name="myform" id="myform" method="post" action="./save">#}
-        <fieldset id="myform">
-            <legend>평점</legend>
-            <label for="rate1">⭐</label><input type="radio" name="rating" value="1" id="rate1">
-            <label for="rate2">⭐</label><input type="radio" name="rating" value="2" id="rate2">
-            <label for="rate3">⭐</label><input type="radio" name="rating" value="3" id="rate3">
-            <label for="rate4">⭐</label><input type="radio" name="rating" value="4" id="rate4">
-            <label for="rate5">⭐</label><input type="radio" name="rating" value="5" id="rate5">
-        </fieldset>
+            <div class="new-box">
+                <label class="input-group-text" for="inputGroupSelect">
+                    <select class="form-select" name="rating" id="inputGroupSelect">
+                        <option selected value="0">--별점 고르기--</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+                </label>
+                <label>
+                    <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"/>
+                </label>
+                <label>
+                    <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
+                           id="location">
+                    <datalist id="datalist">
+                        {% for mountain in mountains %}
+                            <option value="{{ mountain.mountain_name }}">
+                        {% endfor %}
+                    </datalist>
+                </label>
+                <label>
+                    <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content">
+                </label>
+            </div>
 
-        {#        </form>#}
-        <div class="new-box">
-            <input type="submit" class="btn btn-light" value="등록">
-            <button type="button" class="btn btn-light"><a href="/posts/">취소</a></button>
-        </div>
-    </form>
+            {#        <form name="myform" id="myform" method="post" action="./save">#}
+
+            {#        <fieldset id="myform">#}
+            {#            <legend>평점</legend>#}
+            {#            <label for="rate1">⭐</label><input type="radio" name="rating" value="1" id="rate1">#}
+            {#            <label for="rate2">⭐</label><input type="radio" name="rating" value="2" id="rate2">#}
+            {#            <label for="rate3">⭐</label><input type="radio" name="rating" value="3" id="rate3">#}
+            {#            <label for="rate4">⭐</label><input type="radio" name="rating" value="4" id="rate4">#}
+            {#            <label for="rate5">⭐</label><input type="radio" name="rating" value="5" id="rate5">#}
+            {#        </fieldset>#}
+
+            {#        </form>#}
+            <div class="new-box">
+                <input type="submit" class="btn btn-light" value="등록">
+                <button type="button" class="btn btn-light"><a href="/posts/">취소</a></button>
+            </div>
+        </form>
     {% elif request.resolver_match.url_name == 'posts-changes' %}
-    <form id="new-post-form" action="/posts/{{ post_id }}/changes/" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div id="image-area">
-            <img id="imgPreview" src="{{ form.initial.hiking_img.url }}" alt="여기에 사진 업로드">
-        </div>
-        <label for="imgInput">upload image</label>
-        <input type="file" id="imgInput" name="hiking_img" accept="image/*">
-        <div class="new-box">
-            <label>
-                <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"
-                       value="{{ form.initial.title }}">
-            </label>
-            <label>
-                <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
-                    id="location" value="{{ form.initial.mountain_name }}">
-                <datalist id="datalist">
-                    {% for mountain in mountains %}
-                        <option value="{{ mountain.mountain_name }}">
-                    {% endfor %}
-                </datalist>
-            </label>
-            <label>
-                <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content"
-                       value="{{ form.initial.content }}">
-            </label>
-        </div>
-
-        <fieldset id="myform">
-            <legend>평점</legend>
-            <label for="rate1">⭐</label><input type="radio" name="rating" value="1" id="rate1">
-            <label for="rate2">⭐</label><input type="radio" name="rating" value="2" id="rate2">
-            <label for="rate3">⭐</label><input type="radio" name="rating" value="3" id="rate3">
-            <label for="rate4">⭐</label><input type="radio" name="rating" value="4" id="rate4">
-            <label for="rate5">⭐</label><input type="radio" name="rating" value="5" id="rate5">
-        </fieldset>
-
-        <div class="new-box">
-            <input type="submit" class="btn btn-light" id="post-edit-btn" name="{{ post_id }}" value="수정"/>
-            <input type="button" class="btn btn-light" id="edit-cancel-btn" onclick="history.go(-1)" value="취소"/>
-        </div>
-    </form>
+        <form id="new-post-form" action="/posts/{{ post_id }}/changes/" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="image-area">
+                <img id="imgPreview" src="{{ form.initial.hiking_img.url }}" alt="여기에 사진 업로드">
+            </div>
+            <label for="imgInput">upload image</label>
+            <input type="file" id="imgInput" name="hiking_img" accept="image/*">
+            <div class="new-box">
+                <label class="input-group-text" for="inputGroupSelect">
+                    <select class="form-select" name="rating" id="inputGroupSelect">
+                        <option selected value="0">--별점 고르기--</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+                </label>
+                <label>
+                    <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"
+                           value="{{ form.initial.title }}">
+                </label>
+                <label>
+                    <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
+                           id="location" value="{{ form.initial.mountain_name }}">
+                    <datalist id="datalist">
+                        {% for mountain in mountains %}
+                            <option value="{{ mountain.mountain_name }}">
+                        {% endfor %}
+                    </datalist>
+                </label>
+                <label>
+                    <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content"
+                           value="{{ form.initial.content }}">
+                </label>
+            </div>
+            <div class="new-box">
+                <input type="submit" class="btn btn-light" id="post-edit-btn" name="{{ post_id }}" value="수정"/>
+                <input type="button" class="btn btn-light" id="edit-cancel-btn" onclick="history.go(-1)" value="취소"/>
+            </div>
+        </form>
     {% endif %}
     {% csrf_token %}
     <script type="text/javascript">
