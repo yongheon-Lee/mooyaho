@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os.path
 from pathlib import Path
 from .my_settings import MY_SECRET, MY_DATABASES, MY_AWS
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = MY_SECRET
+# SECRET_KEY = MY_SECRET
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -88,7 +90,21 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = MY_DATABASES
+# DATABASES = MY_DATABASES
+DATABASES = {
+    'default': {
+        'ENGINE': os.environ.get('DB_ENGINE'),
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
+        # DB를 좀 더 엄격하게 관리하도록 설정하는 속성
+        'OPTIONS': {
+            'init_command': os.environ.get('option_init_command'),
+        }
+    }
+}
 
 # 유저 모델 커스텀
 AUTH_USER_MODEL = 'user.MooyahoUser'
@@ -160,7 +176,7 @@ AWS_S3_SECURE_URLS = True
 
 AWS_S3_REGION_NAME = 'ap-northeast-2'
 AWS_S3_SIGNATURE_VERSION = 's3v4'
-AWS_ACCESS_KEY_ID = MY_AWS['ACCESS_KEY_ID']
-AWS_SECRET_ACCESS_KEY = MY_AWS['SECRET_ACCESS_KEY']
-AWS_STORAGE_BUCKET_NAME = MY_AWS['STORAGE_BUCKET_NAME']
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 AWS_DEFAULT_ACL = 'public-read'
