@@ -19,7 +19,10 @@
                 </button>
             {% else %}
                 <button class="btn-light2" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}리뷰
+                        data-bs-target="#staticBackdrop{{ i.id }}">
+                    {% if i.secret %}
+                        <span class="material-icons">lock</span>
+                    {% endif %}{{ i.id }}리뷰
                 </button>
             {% endif %}
         {% else %} {# 관리자가 아니라면. #}
@@ -28,11 +31,17 @@
                         data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}신고
                 </button>
             {% elif not i.report %}
-                <button class="btn-light2" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}리뷰
-                </button>
+                {% if i.secret %}
+                    <button class="btn-light2">
+                        <span class="material-icons">lock</span>
+                        {{ i.id }}리뷰
+                    </button>
+                {% else %}
+                    <button class="btn-light2" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}리뷰
+                    </button>
+                {% endif %}
             {% endif %}
-
         {% endif %}
         <!-- Modal -->
 
@@ -64,6 +73,14 @@
                         {% endif %}
                     </div>
                     <div class="modal-footer">
+                        {% if user.is_superuser %}
+                            <button type="button" class="btn btn-primary" formmethod="post"
+                                    onclick="location.href='/{{ i.id }}'">답글 수정
+                            </button>
+                            <button type="button" class="btn btn-danger" formmethod="post"
+                                    onclick="location.href='/{{ i.id }}'">삭제
+                            </button>
+                        {% endif %}
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
