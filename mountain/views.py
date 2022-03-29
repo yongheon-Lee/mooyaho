@@ -50,7 +50,8 @@ def home(request):
 
     if res2['data']==0:  #게시물이 없을경우
         # _____님! 게시물을 업로드해보세요~
-        user=[]
+        user =[]
+        related_post = []
     else:
         # 세유저의 최근 게시물 하나씩 보여주기
         user = res2['user']
