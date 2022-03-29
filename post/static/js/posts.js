@@ -118,9 +118,9 @@ $('.post_like').click(function () {
         success: function (response) {
             $('#like_count-' + pk).html('좋아요&nbsp;' + response.likes_count + '개');
             if (response.message === '좋아요') {
-                $('#like_heart' + pk).attr({'class': 'fas fa-heart', 'style': '#bd1f00'});
+                $('#like_heart' + pk).attr({'class': 'fas fa-heart', 'style': 'color:#bd1f00'});
             } else if (response.message === '좋아요 취소') {
-                $('#like_heart' + pk).attr({'class': 'far fa-heart', 'style': '#3d3d3d'});
+                $('#like_heart' + pk).attr({'class': 'far fa-heart', 'style': 'color:#3d3d3d'});
             }
         },
         error: function (request, status, error) {
