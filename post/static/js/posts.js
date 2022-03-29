@@ -20,6 +20,49 @@ function modalClose() {
     modal.style.display = 'none';
 }
 
+// 글 수정 페이지 요청 구현
+$(document).on('click', '#post-to-edit-btn', function () {
+    // 해당 글 id 가져오기
+    const pk = $(this).attr('name');
+
+    // 수정 페이지로 이동
+    window.location = '/posts/' + pk + '/changes/';
+})
+
+// 글 수정 구현 - it doesn't working yet.
+$('#post-edit-btn').click(function () {
+    // 수정 승인 요청 메시지
+    let post_edit_confirm = confirm('이대로 수정하시겠습니까?');
+
+    // 삭제 승인 시
+    if (post_edit_confirm === true) {
+        // 해당 글 id 가져오기
+        const pk = $(this).attr('name');
+
+        // 백엔드로 보낼 데이터 작성
+        let params = {'post_id': pk};
+
+        // 비동기 통신 시작
+        $.ajax({
+            url: '/posts/' + pk + '/changes/',
+            type: 'PUT',
+            data: JSON.stringify(params),
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            },
+            success: function (data) {
+                console.log(data);
+                if (data.result === 'ok') {
+                    window.location = '/posts/' + pk + '/';
+                }
+            },
+            error: function (request, status, error) {
+                alert('오류가 발생했습니다!');
+            }
+        })
+    }
+})
+
 // 글 삭제 구현
 $('#post-delete-btn').click(function () {
     // 삭제 승인 요청 메시지
