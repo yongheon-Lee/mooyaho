@@ -5,6 +5,7 @@ import requests
 from .models import Mountain
 from user.user_models import UserViewLog
 from django.contrib.auth.decorators import login_required
+from post.post_models import Post
 import urllib.request
 import json
 import os
@@ -16,21 +17,26 @@ def mountain_id_plus(x) :
         cc.append(i+1)
     return cc
 
+# 받아온 값과 user_id를 맞추고 user의 최신 post를 가져오는 함수
+def post_recommend(x) :
+    mountain_list = []
+    for i in x :
+        mountain_list.append(Post.objects.filter(deleted=0, user=i).last()) #삭제가 되지 않고 받아온 값과 user_id가 일치하는 post
+    return mountain_list
+
+
 @login_required(login_url='/login/')
 def home(request):
     payload = {'userid': request.user.id}
     #AI서버와 통신(userviewlog)
     URL1=f"{os.environ.get('AI_SERVER_URL')}/userviewlog"
-    print(URL1)
     res1=requests.post(URL1,data=payload)  #post형식으로 data를 url에 넣어 요청후 응답받음
     res1=res1.json() #응답 json으로 바꾸기
-    print(res1)
 
     # AI서버와 통신(userpost)
     URL2 = f"{os.environ.get('AI_SERVER_URL')}/userpost"
     res2 = requests.post(URL2, data=payload)
     res2=res2.json()
-    print(res2)
     
     if res1['data']==0:  #활동로그없을경우
         recommand_mountain=[]
@@ -41,7 +47,6 @@ def home(request):
 
         recommand_mountain = mountain_id_plus(request_recommand_mountain) # 받은 산 id에서 1씩 더하기
         recommand_mountain = Mountain.objects.filter(id__in=recommand_mountain) # 리스트 요소들에 해당하는 id와 같은 객체 가져오기
-        print(recommand_mountain)
 
     if res2['data']==0:  #게시물이 없을경우
         # _____님! 게시물을 업로드해보세요~
@@ -49,7 +54,7 @@ def home(request):
     else:
         # 세유저의 최근 게시물 하나씩 보여주기
         user = res2['user']
-        print(user)
+        related_post = post_recommend(user)
 
     # 현재 계절별 산 추천
     season = datetime.datetime.now()
@@ -72,8 +77,6 @@ def home(request):
     if user.is_authenticated :
         # 만약 지역 정보가 0.0일떄,
         if user.longitude == 0.0 and user.latitude == 0.0 :
-            # return render(request, 'mountain/main.html', {'total': {'recommand_mountain': recommand_mountain},
-            #                                               'keyword': keyword})
             local_mountain = []
         else :
             user_x = user.longitude
@@ -89,7 +92,7 @@ def home(request):
         return render(request, 'mountain/main.html', {'total': {'local_mountain': local_mountain,
                                                                 'season_mountain' : season_mountain,
                                                                 'recommand_mountain': recommand_mountain},
-                                                      'keyword': keyword})
+                                                      'keyword': keyword, 'recommend_post' : related_post})
     else :
         return redirect('/login')
 
