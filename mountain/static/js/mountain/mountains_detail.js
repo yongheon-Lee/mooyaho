@@ -60,7 +60,6 @@ const drawHikingMap = (showIndex, isForward) => {
 
     hikingMap.data.addGeoJson(hikingCourseList[showIndex]);
     allFeature = hikingMap.data.getAllFeature()[0]; 
-    console.log(allFeature);
     
     // 등산로 색 변경
     hikingMap.data.setStyle(function(feature){
@@ -75,7 +74,6 @@ const drawHikingMap = (showIndex, isForward) => {
     })
 
     // 등산로 중간점을 센터로
-    console.log(allFeature.geometryCollection[0].coords.length);
     totalCoordinate = allFeature.geometryCollection[0].coords[0];
     const centerX = totalCoordinate[parseInt(totalCoordinate.length/2)]['y'];
     const centerY = totalCoordinate[parseInt(totalCoordinate.length/2)]['x'];
