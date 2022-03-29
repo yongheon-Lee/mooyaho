@@ -71,16 +71,19 @@ def post_review(request):
     if request.method == 'GET':
         return render(request, 'help/post_review.html')
     elif request.method == 'POST':
-        author = MooyahoUser.objects.get(id=request.user.id)
+        if request.POST.get('checkbox') == 'on':
+            checkbox = True
+        else :
+            checkbox = False
 
         new_review = Review.objects.create(
-            author=author.nickname,
-            content=request.POST.get('textarea-name')
+            author= MooyahoUser.objects.get(id=request.user.id),
+            content=request.POST.get('textarea'),
+            secret=checkbox,
+
         )
         new_review.save()
-
-
-        return redirect('/help/review')
+        return redirect('review')
 
 
 @login_required(login_url='/login')
@@ -93,3 +96,15 @@ def delete_review(request, id):
         return redirect('/help/review')
     else :
         return redirect('/help/review') 
+
+# 2022-03-29
+@login_required(login_url='/login')
+def update_review(request, id) :
+    ut_review = Review.objects.get(id=id) #업데이트할 리뷰
+    if ut_review.author.id == request.user.id :
+        if request.method == 'GET':
+            return render(request, 'help/edit_review.html')
+        elif request.method == 'POST' : # 포스트 방식일때
+            ut_review.content = request.POST.get('textarea') # 수정한 내용 바꾸기
+            ut_review.save() # 저장
+            return redirect('review') # 리뷰로 돌아가기
