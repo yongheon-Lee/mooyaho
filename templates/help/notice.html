@@ -33,8 +33,8 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             {% if user.is_superuser %}
                                 {% if user.id == i.user_id.id %}
-                                    <button type="button" class="btn btn-primary" formmethod="post"
-                                            onclick="location.href='/noice/delete_notice/{{ i.id }}'">수정
+                                    <button type="button" class="btn btn-primary" formmethod="get"
+                                            onclick="location.href='/help/notice/edit/{{ i.id }}'">수정
                                     </button>
                                     <button type="button" class="btn btn-danger" formmethod="post"
                                             onclick="location.href='/noice/delete_notice/{{ i.id }}'">삭제

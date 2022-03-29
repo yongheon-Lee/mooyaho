@@ -44,6 +44,21 @@ def post_notice(request):
             return redirect('/help/notice')
 
 @login_required(login_url='/login')
+def edit_notice(request, id):
+    update_notice = Notice.objects.get(id=id)
+    print(request.user.id)
+    print(update_notice.user_id.id)
+    if request.user.id == update_notice.user_id.id:
+        if request.method == 'GET':
+            return render(request, 'help/edit_notice.html', {'notice': update_notice})
+        elif request.method == 'POST':
+            update_notice.title = request.POST.get('title')
+            update_notice.content = request.POST.get('content')
+            update_notice.save()
+            return redirect('notice')
+
+
+@login_required(login_url='/login')
 def delete_notice(request, id):
     my_notice = Notice.objects.get(id=id)
 
@@ -63,7 +78,8 @@ def delete_notice(request, id):
 
 @login_required(login_url='/login')
 def review(request):
-    all_review = Review.objects.all()
+    # all_review = Review.objects.all()
+    all_review = Review.objects.filter(deleted=0)
     return render(request, 'help/review.html', {'all_review':all_review})
 
 
@@ -91,7 +107,7 @@ def post_review(request):
 def delete_review(request, id):
     review = Review.objects.get(id=id)
     # 글 작성자와 요청한 유저가 같은지 확인
-    if review.author.id == request.user.id:
+    if review.author.id == request.user.id or request.user.is_superuser:
         review.deleted = True
         review.save()
         return redirect('/help/review')
@@ -104,9 +120,14 @@ def update_review(request, id) :
     ut_review = Review.objects.get(id=id) #업데이트할 리뷰
     if ut_review.author.id == request.user.id :
         if request.method == 'GET':
-            return render(request, 'help/edit_review.html')
+            return render(request, 'help/edit_review.html', {'ut_review': ut_review})
         elif request.method == 'POST' : # 포스트 방식일때
             ut_review.content = request.POST.get('textarea') # 수정한 내용 바꾸기
+            if request.POST.get('checkbox') == 'on':
+                checkbox = True
+            else:
+                checkbox = False
+            ut_review.secret = checkbox
             ut_review.save() # 저장
             return redirect('review') # 리뷰로 돌아가기
 

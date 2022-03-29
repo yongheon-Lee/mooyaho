@@ -10,84 +10,118 @@
 
 {% block content %}
 
-
-    {% for i in all_review %}
-        {% if user.is_superuser %}
-            {% if i.report %}
-                <button class="btn-light2" style="background-color: orange" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}신고
-                </button>
-            {% else %}
-                <button class="btn-light2" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop{{ i.id }}">
-                    {% if i.secret %}
-                        <span class="material-icons">lock</span>
-                    {% endif %}{{ i.id }}리뷰
-                </button>
-            {% endif %}
-        {% else %} {# 관리자가 아니라면. #}
-            {% if i.author == user.id %}
-                <button class="btn-light2" style="background-color: orange" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}신고
-                </button>
-            {% elif not i.report %}
-                {% if i.secret %}
-                    <button class="btn-light2">
-                        <span class="material-icons">lock</span>
-                        {{ i.id }}리뷰
+    <div style="text-align: center">
+        {% for i in all_review %}
+            {% if user.is_superuser %}
+                {% if i.report %}
+                    <button class="btn-light2" style="background-color: orange" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop{{ i.id }}">
+                        {% if i.author_id == user.id %}
+                            <span class="material-icons">account_circle</span>
+                        {% endif %}
+                        {% if i.answer %}
+                            <span class="material-icons">check_circle</span>
+                        {% endif %}
+                        {{ i.id }}신고
                     </button>
                 {% else %}
                     <button class="btn-light2" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}리뷰
+                            data-bs-target="#staticBackdrop{{ i.id }}">
+                        {% if i.secret %}
+                            <span class="material-icons">lock</span>
+                        {% endif %}
+                        {% if i.author_id == user.id %}
+                            <span class="material-icons">account_circle</span>
+                        {% endif %}
+                        {% if i.answer %}
+                            <span class="material-icons">check_circle</span>
+                        {% endif %}
+                        {{ i.id }}리뷰
                     </button>
                 {% endif %}
+            {% else %} {# 관리자가 아니라면. #}
+                {% if i.author == user.id %}
+                    <button class="btn-light2" style="background-color: orange" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop{{ i.id }}">
+                        {% if i.answer %}
+                            <span class="material-icons">check_circle</span>
+                        {% endif %}
+                        {{ i.id }}신고
+                    </button>
+                {% elif not i.report %}
+                    {% if i.secret %}
+                        <button class="btn-light2">
+                            <span class="material-icons">lock</span>
+                            {{ i.id }}리뷰
+                        </button>
+                    {% else %}
+                        <button class="btn-light2" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop{{ i.id }}">{{ i.id }}리뷰
+                        </button>
+                    {% endif %}
+                {% endif %}
             {% endif %}
-        {% endif %}
-        <!-- Modal -->
+            <!-- Modal -->
 
-        <div class="modal fade" id="staticBackdrop{{ i.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
-             tabindex="-1"
-             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content" style="height: 500px; word-break: break-all">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">{{ i.title }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {{ i.content }}
-                        <hr style="border: #1b1b1b solid 1px">
-                        {% if i.answer == None %}
-                            답글이 아직 없습니다.
-                            {% if user.is_superuser %}
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="message-text" class="col-form-label">Message:</label>
-                                        <textarea class="form-control" id="message-text"></textarea>
-                                    </div>
-                                    <input type="submit">
-                                </form>
+            <div class="modal fade" id="staticBackdrop{{ i.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+                 tabindex="-1"
+                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content" style="height: 500px; word-break: break-all">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">{{ i.title }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>정보: author: {{ i.author }} / author_id: {{ i.author_id }} / user.id: {{ user.id }}</p>
+                            <p><a href="http://www.naver.com">Go NAVER</a></p>
+                            {{ i.content }}
+                            <hr style="border: #1b1b1b solid 1px">
+                            {% if i.answer == None %}
+                                답글이 아직 없습니다.
+                                {% if user.is_superuser %}
+                                    <form action="/help/review/answer/{{ i.id }}" method="post"
+                                          enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label for="message-text" class="col-form-label">답글 달기:</label>
+                                            <textarea class="form-control" id="message-text"
+                                                      name="modal_form"></textarea>
+                                        </div>
+                                        <input type="submit" value="등록">
+                                    </form>
+
+                                {% endif %}
+
+                            {% else %}
+                                <p>&lt;답글&gt;</p>
+                                <p>{{ i.answer }}</p>
                             {% endif %}
-                        {% else %}
-                            {{ i.answer }}
-                        {% endif %}
-                    </div>
-                    <div class="modal-footer">
-                        {% if user.is_superuser %}
-                            <button type="button" class="btn btn-primary" formmethod="post"
-                                    onclick="location.href='/{{ i.id }}'">답글 수정
-                            </button>
-                            <button type="button" class="btn btn-danger" formmethod="post"
-                                    onclick="location.href='/{{ i.id }}'">삭제
-                            </button>
-                        {% endif %}
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                        <div class="modal-footer">
+                            {% if i.author_id == user.id %}
+                                <button type="button" class="btn btn-warning" formmethod="get"
+                                        onclick="location.href='/help/review/update/{{ i.id }}'">리뷰 수정하기
+                                </button>
+
+                            {% endif %}
+                            {% if i.author_id == user.id and not i.report %}
+                                <button type="button" class="btn btn-danger" formmethod="get"
+                                        onclick="location.href='/help/review/delete/{{ i.id }}'">삭제
+                                </button>
+                            {% elif user.is_superuser and not i.report %}
+                                <button type="button" class="btn btn-danger" formmethod="get"
+                                        onclick="location.href='/help/review/delete/{{ i.id }}'">관리자 권한으로 삭제
+                                </button>
+                            {% endif %}
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-    {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock %}
 
 {% block js %}
