@@ -40,17 +40,17 @@
         {% if clicked_post.user != user %}
             <a class="btn btn-sm post_like" id="{{ clicked_post.id }}" type="button">
                 {% if user in clicked_post.likes.all %}
-                    <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+                    <i class="fas fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
                 {% else %}
-                    <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+                    <i class="far fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
                 {% endif %}
             </a>
         {% else %}
             <!-- 해당 글 작성자와 현재 유저가 같으면 좋아요 버튼 비활성화 -->
             {% if user in clicked_post.likes.all %}
-                <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+                <i class="fas fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
             {% else %}
-                <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+                <i class="far fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
             {% endif %}
         {% endif %}
         <p id="like_count-{{ clicked_post.id }}" style="margin: 0">
