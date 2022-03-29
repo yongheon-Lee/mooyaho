@@ -16,29 +16,34 @@
 {% for category, mountains in total.items %}
     {% if mountains|length != 0 %}
     <div class="recommend-area">
-            <hr>
-            {% if forloop.counter0 == 2 %}
-                <h2>{{user.nickname}}님, {{category|get_category_title}}</h2>
-            {% else %}
-                <h2>{{category|get_category_title}}</h2>
-            {% endif %}
-            <hr>
-            {% for mountain in mountains %}
-                {% with id=mountain.id|intToStr %}
-                    {% if forloop.counter0|divisibleby:2 %}
-                        <div class="one-row">
-                    {% endif %}
-                            <div class="image-wrapper" data-id="{{id}}">
-                                {% with img_path='images/mountains/mountain_'|add:id|add:'.jpeg' %}
-                                    <img class="mountain-images" data-src="{% static img_path %}" alt="">
-                                {% endwith %}
-                                <p>{{mountain.mountain_name}}</p>
-                            </div>  
-                    {% if not forloop.counter0|divisibleby:2 or forloop.last %}
-                        </div>
-                    {% endif %}
-                {% endwith %}
+        <hr>
+        {% if forloop.counter0 == 2 %}
+            <h2>{{user.nickname}}님, {{category|get_category_title}}</h2>
+            <div class="keyword-area">
+            {% for word in keyword %}
+                <div class="badge text-wrap">{{ word }}</div>
             {% endfor %}
+            </div>
+        {% else %}
+            <h2>{{category|get_category_title}}</h2>
+        {% endif %}
+        <hr>
+        {% for mountain in mountains %}
+            {% with id=mountain.id|intToStr %}
+                {% if forloop.counter0|divisibleby:2 %}
+                    <div class="one-row">
+                {% endif %}
+                        <div class="image-wrapper" data-id="{{id}}">
+                            {% with img_path='images/mountains/mountain_'|add:id|add:'.jpeg' %}
+                                <img class="mountain-images" data-src="{% static img_path %}" alt="">
+                            {% endwith %}
+                            <p>{{mountain.mountain_name}}</p>
+                        </div>  
+                {% if not forloop.counter0|divisibleby:2 or forloop.last %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+        {% endfor %}
     </div>
     {% endif %}
 {% endfor %}

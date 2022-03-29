@@ -20,13 +20,14 @@ def mountain_id_plus(x) :
 def home(request):
     payload = {'userid': request.user.id}
     #AI서버와 통신(userviewlog)
-    URL1="http://127.0.0.1:5000/userviewlog"
+    URL1=f"{os.environ.get('AI_SERVER_URL')}/userviewlog"
+    print(URL1)
     res1=requests.post(URL1,data=payload)  #post형식으로 data를 url에 넣어 요청후 응답받음
     res1=res1.json() #응답 json으로 바꾸기
     print(res1)
 
     # AI서버와 통신(userpost)
-    URL2 = "http://127.0.0.1:5000/userpost"
+    URL2 = f"{os.environ.get('AI_SERVER_URL')}/userpost"
     res2 = requests.post(URL2, data=payload)
     res2=res2.json()
     print(res2)
