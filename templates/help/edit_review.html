@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    리뷰 새글쓰기
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/help.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="review-inputbox">
+            <form action="/help/review/new" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <textarea name="textarea" placeholder="여기에 내용 입력"></textarea>
+                <label id="review-radio">
+                    <input name="checkbox" type="checkbox"> 비밀글로 하시겠습니까?
+                </label>
+                <input type="submit" value="등록">
+            </form>
+        </div>
+    </div>
+{% endblock %}
