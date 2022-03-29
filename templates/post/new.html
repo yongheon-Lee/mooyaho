@@ -15,10 +15,11 @@
         <form id="new-post-form" action="/posts/new/" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div id="image-area">
-                <img id="imgPreview" src="#" alt="여기에 사진 업로드">
+                <div>사진 미리보기</div>
+                <img class="hide" id="imgPreview" alt="여기에 사진 업로드">
             </div>
-            <label for="imgInput">upload image</label>
-            <input type="file" id="imgInput" name="hiking_img" accept="image/*">
+            <input type="file" id="imgInput" name="hiking_img" accept="image/*" hidden>
+            <button type="button" class="btn btn-light" id="img-upload-button">사진 등록</button>
 
             <div class="new-box">
                 <label class="input-group-text" for="inputGroupSelect">
@@ -44,7 +45,7 @@
                     </datalist>
                 </label>
                 <label>
-                    <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content">
+                    <textarea class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content"></textarea>
                 </label>
             </div>
             <div class="new-box">
@@ -58,12 +59,12 @@
             <div id="image-area">
                 <img id="imgPreview" src="{{ form.initial.hiking_img.url }}" alt="여기에 사진 업로드">
             </div>
-            <label for="imgInput">upload image</label>
-            <input type="file" id="imgInput" name="hiking_img" accept="image/*">
+            <input type="file" id="imgInput" name="hiking_img" accept="image/*" hidden>
+            <button type="button" class="btn btn-light" id="img-upload-button">사진 등록</button>
             <div class="new-box">
                 <label class="input-group-text" for="inputGroupSelect">
-                    <select class="form-select" name="rating" id="inputGroupSelect">
-                        <option selected value="{{ form.initial.rating }}">--별점 고르기--</option>
+                    <select class="form-select" name="rating" id="inputGroupSelect" data-oldrating="{{ form.initial.rating }}">
+                        <option value="0">--별점 고르기--</option>
                         <option value="1">⭐</option>
                         <option value="2">⭐⭐</option>
                         <option value="3">⭐⭐⭐</option>
@@ -77,7 +78,7 @@
                 </label>
                 <label>
                     <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
-                           id="location" value="{{ form.initial.mountain_name }}">
+                           id="location" value="{{ form.initial.mountain_name }}"></textarea>
                     <datalist id="datalist">
                         {% for mountain in mountains %}
                             <option value="{{ mountain.mountain_name }}">
@@ -85,8 +86,7 @@
                     </datalist>
                 </label>
                 <label>
-                    <input type="text" class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content"
-                           value="{{ form.initial.content }}">
+                    <textarea class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content">{{ form.initial.content }}</textarea>
                 </label>
             </div>
             <div class="new-box">
@@ -109,7 +109,57 @@
 
         $("#imgInput").change(function () {
             readURL(this);
+            document.querySelector('#imgPreview').classList.remove('hide');
+            document.querySelector('#image-area > div').classList.add('hide');
         });
+
+        const clickedImgUploadBtn = (e) => {
+            document.querySelector('#imgInput').click();
+        }
+
+        const checkBlankElement = (form) => {
+            for (let i=1; i<form.length-2; i++) {
+                let writeInputElement = form[i];
+                if (writeInputElement.type === 'button') continue;
+                if (writeInputElement.type === 'file') {
+                    const srcValue = document.querySelector('#imgPreview').getAttribute('src');
+                    if (srcValue === null) {
+                        alert('글 등록 시 이미지를 추가 해야 합니다');
+                        document.querySelector('#img-upload-button').focus();
+                        return false;
+                    }
+                } else if (writeInputElement.type === 'select-one') {
+                    if (writeInputElement.value === '0') {
+                        alert('다녀온 산 평가도 부탁드릴게요!');
+                        writeInputElement.focus();
+                        return false;
+                    }
+                } else {
+                    if (writeInputElement.value === '') {
+                        alert('빈 항목을 채워주세요');
+                        writeInputElement.focus();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        const doSubmit = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const form = document.querySelector('form');
+            if(!checkBlankElement(form)) return;
+            form.submit();
+        }
+
+        document.querySelector('#img-upload-button').addEventListener('click', clickedImgUploadBtn);
+        document.querySelector('input[type=submit]').addEventListener('click', doSubmit);
+        document.addEventListener("DOMContentLoaded", function () {
+            const ratingElement = document.querySelector('#inputGroupSelect');
+            const oldRating = parseInt(ratingElement.dataset.oldrating);
+            ratingElement[oldRating].selected = true;
+        })
     </script>
 
 

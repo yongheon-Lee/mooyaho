@@ -27,8 +27,19 @@
 
 }
 
+/* 글쓰기 미리보기 이미지 관련 */
 #image-area {
     max-width: 100%;
+    height: 300px;
+    border: 1px solid rgb(199, 206, 212);
+}
+
+#image-area > img {
+    object-fit: contain;
+}
+
+.hide {
+    display: none;
 }
 
 .new-box {
@@ -92,6 +103,17 @@ div.post-text p {
 input[type=text] {
     width: 300px;
     margin: 10px;
+}
+
+textarea[name=inputReview] {
+    width: 300px;
+    margin: 10px;
+}
+
+/* 사진 등록 버튼 */
+#img-upload-button {
+    width: 100%;
+    margin-top: 0.5rem;
 }
 
 #image-area img{
