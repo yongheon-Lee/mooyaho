@@ -9,6 +9,17 @@
     color: black;
 }
 
+.recommend-area .keyword-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.keyword-area > div {
+    margin: 0 0.5rem;
+    background-color: rgb(119, 152, 79);
+}
+
 /* 썸네일 한 줄 */
 .one-row {
     width: 100%;
