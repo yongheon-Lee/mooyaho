@@ -59,7 +59,7 @@ class MooyahoUser(AbstractUser):
     ]
 
     # 필드
-    nickname = models.CharField(max_length=10, unique=True, verbose_name='닉네임')
+    nickname = models.CharField(max_length=20, unique=True, verbose_name='닉네임')
     gender = models.CharField(max_length=2, choices=gender_conf, verbose_name='성별')
     age_gr = models.CharField(max_length=10, choices=age_gr_conf, verbose_name='연령대')
     disabled = models.BooleanField(default=False, verbose_name='탈퇴 여부')
