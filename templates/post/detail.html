@@ -9,16 +9,18 @@
 {% endblock %}
 {% block content %}
     <div id="detail-contents">
-
-        {% if clicked_post.user == user %}
-            <button type="button" id="post-to-edit-btn" name="{{ clicked_post.id }}">수정</button>
-            <button type="button" id="post-delete-btn" name="{{ clicked_post.id }}">삭제</button>
-        {% endif %}
+        <div style="text-align: right; margin-top: 10px">
+            {% if clicked_post.user == user %}
+                <button type="button" id="post-to-edit-btn" name="{{ clicked_post.id }}">수정</button>
+                <button type="button" id="post-delete-btn" name="{{ clicked_post.id }}">삭제</button>
+            {% endif %}
+        </div>
         <div class="image-box">
-            <p>글쓴이: {{ clicked_post.user }}</p>
             <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
             <div class="content-box">
-            <b>작성일: {{ clicked_post.created_at }}</b>
+                <b>글쓴이: {{ clicked_post.user }}</b>
+                <br>
+                <b>작성일: {{ clicked_post.created_at }}</b>
                 <h1>{{ clicked_post.title }}</h1>
                 <div style="display: flex">
                     <span class="material-icons">location_on</span>
@@ -104,7 +106,8 @@
                     <div class="report-input-area">
                         <p id="report-user">신고자: <b>{{ request.user.nickname }}</b></p>
                         <label>
-                            <textarea id="contents" name="contents" style="width: 250px;height: 100px; resize: none"></textarea>
+                            <textarea id="contents" name="contents"
+                                      style="width: 250px;height: 100px; resize: none"></textarea>
                         </label>
                     </div>
                 </div>
@@ -118,8 +121,8 @@
                         const btn = document.getElementById("modalClose");
                         btn.addEventListener('click', function handleClick() {
 
-                        const textarea = document.getElementById("contents");
-                        textarea.value = '';
+                            const textarea = document.getElementById("contents");
+                            textarea.value = '';
                         })
                     </script>
 
