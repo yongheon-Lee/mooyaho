@@ -1,7 +1,7 @@
 import json
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from help.models import Review
@@ -92,80 +92,114 @@ def post(request):
 
 # 글 수정 기능
 @login_required(login_url='login')
-def edit_post(request, pk):
+def change_post(request, pk):
     posting = Post.objects.get(id=pk)
 
-    # 글 작성자와 요청한 유저가 같은지 확인
+    # 글 수정 접근 요청
     if request.method == 'GET':
-        # 기존 글 내용 가져오기
-        form = PostForm(instance=posting)
+        # 글 작성자와 요청한 유저가 같은지 확인
+        if posting.user.id == request.user.id:
 
-        # 산 이름 검색창을 위해 전체 산 데이터 가져오기
-        mt = Mountain.objects.all()
+            # 기존 글 내용 가져오기
+            form = PostForm(instance=posting)
 
-        # 프론트로 넘길 데이터 담기
-        context = {
-            'form': form,
-            'mountains': mt
-        }
-        return render(request, 'post/new.html', context)
+            # 산 이름 검색창을 위해 전체 산 데이터 가져오기
+            mt = Mountain.objects.all()
 
+            # 프론트로 넘길 데이터 담기
+            context = {
+                'post_id': posting.id,
+                'form': form,
+                'mountains': mt,
+            }
+            return render(request, 'post/new.html', context)
+
+    # 글 수정 요청
     elif request.method == 'POST':
+        # 글 작성자와 요청한 유저가 같은지 확인
+        if posting.user.id == request.user.id:
 
-        # 산 이름 입력 받기
-        input_mt = request.POST['inputMt']
+            form = PostForm(request.POST, request.FILES, instance=posting)
 
-        # Mountain 참조
-        get_mt = Mountain.objects.filter(mountain_name=input_mt)
+            # 산 이름 입력 받기
+            input_mt = request.POST['inputMt']
 
-        # 해당 이름의 산 있으면,
-        if get_mt:
-            # 산 이름 가져오기
-            post_mountain_name = Mountain.objects.get(mountain_name=input_mt).mountain_name
-            # 산 id 가져오기
-            mountain_id = Mountain.objects.get(mountain_name=post_mountain_name).id
+            # Mountain 참조
+            get_mt = Mountain.objects.filter(mountain_name=input_mt)
 
-        # 없으면,
+            # 해당 이름의 산 있으면,
+            if get_mt:
+                # 산 이름 가져오기
+                post_mountain_name = Mountain.objects.get(mountain_name=input_mt).mountain_name
+                # 산 id 가져오기
+                mountain_id = Mountain.objects.get(mountain_name=post_mountain_name).id
+
+            # 없으면,
+            else:
+                # 산 DB에 없는 산 이름 새로 추가
+                mt = Mountain()
+                mt.id = Mountain.objects.all().last().id + 1
+                mt.mountain_name = input_mt
+                mt.save()
+
+                # 입력값을 산 이름에 적용
+                post_mountain_name = input_mt
+                # 추가된 산 id 적용
+                mountain_id = mt.id
+
+            # 글 수정 페이지 이미지 처리
+            new_or_old_hiking_img = request.FILES.get('hiking_img')
+            if new_or_old_hiking_img is None:
+                hiking_img = posting.hiking_img
+            else:
+                hiking_img = new_or_old_hiking_img
+
+            posting.hiking_img = hiking_img
+            posting.title = form.data['title']
+            posting.mountain_name = post_mountain_name
+            posting.mountain_id = mountain_id
+            posting.content = form.data['inputReview']
+            posting.rating = form.data['rating']
+            posting.save()
+
+            # if form.is_valid():
+            #     # 넘겨진 데이터를 바로 모델에 저장하지 않는다.
+            #     posting = form.save(commit=False)
+            #
+            #     # # 수정 내용 반영
+            #     posting.hiking_img = hiking_img
+            #     posting.title = request.POST['title']
+            #     posting.mountain_name = post_mountain_name
+            #     posting.mountain_id = mountain_id
+            #     posting.content = request.POST['inputReview']
+            #     posting.rating = request.POST['rating']
+            #     posting.save()
+
+            context = {'result': 'ok'}
+            return redirect(f'/posts/{posting.id}/', pk)
+
+            # else:
+            #     # context = {'result': 'no'}
+            #     form = PostForm(instance=posting)
+            #     context = {'form': form}
+            #     return render(request, 'post/new.html', context)
+
+    # 글 삭제 요청
+    elif request.method == 'DELETE':
+
+        # 글 작성자와 요청한 유저가 같은지 확인
+        if posting.user.id == request.user.id:
+            # 글을 실제로 삭제하지 않고 삭제된 것처럼 처리
+            posting.deleted = True
+            posting.save()
+
+            # 프론트로 넘길 데이터 담기
+            context = {'result': 'ok'}
+            return JsonResponse(context)
+
         else:
-            # 산 DB에 없는 산 이름 새로 추가
-            mt = Mountain()
-            mt.id = Mountain.objects.all().last().id + 1
-            mt.mountain_name = input_mt
-            mt.save()
-
-            # 입력값을 산 이름에 적용
-            post_mountain_name = input_mt
-            # 추가된 산 id 적용
-            mountain_id = mt.id
-
-        new_or_old_hiking_img = request.FIELS.get('hiking_img')
-        if new_or_old_hiking_img == '':
-            hiking_img = posting.hiking_img
-        else:
-            hiking_img = new_or_old_hiking_img
-
-        # 수정 내용 반영
-        posting.hiking_img = hiking_img
-        posting.title = request.POST['title']
-        posting.mountain_name = post_mountain_name
-        posting.mountain = mountain_id
-        posting.content = request.POST['inputReview']
-        posting.rating = request.POST['rating']
-        posting.save()
-        return redirect(f'/posts/{str(posting.id)}/')
-
-
-# 글 삭제 기능
-@login_required(login_url='login')
-def delete_post(request, pk):
-    posting = Post.objects.get(id=pk)
-
-    # 글 작성자와 요청한 유저가 같은지 확인
-    if posting.user.id == request.user.id:
-        # 글을 실제로 삭제하지 않고 삭제된 것처럼 처리
-        posting.deleted = True
-        posting.save()
-        return redirect('posts')
+            context = {'result': 'no'}
+            return JsonResponse(context)
 
 
 # 글 좋아요 기능
@@ -178,6 +212,7 @@ def like_post(request, pk):
         posting.likes.remove(user)
         posting.save()
         message = '좋아요 취소'
+
     else:
         posting.likes.add(user)
         posting.save()
@@ -207,7 +242,6 @@ def report_post(request, pk):
         post_id=reported_post,
     )
     new_report.save()
-
     # 해당 글 신고된 횟수 증가
     reported_post.reported += 1
     reported_post.save()
