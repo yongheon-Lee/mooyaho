@@ -18,11 +18,11 @@
             <div class="image-box">
                 <img src="{{ content.hiking_img.url }}" alt="사진"/>
             </div>
-            <div class="post-info">
-                <b>글쓴이: {{ content.author_id }}</b> / <b>작성일: {{ content.created_at }}</b>
-            </div>
             <div class="content-box">
                 <div class="title">
+                    <b>글쓴이: {{ content.user }}</b>
+                    <br>
+                    <b>작성일: {{ content.created_at }}</b>
                     <h3>{{ content.title }}</h3>
                 </div>
                 <hr>
