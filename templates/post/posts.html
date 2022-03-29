@@ -18,6 +18,9 @@
             <div class="image-box">
                 <img src="{{ content.hiking_img.url }}" alt="사진"/>
             </div>
+            <div class="post-info">
+                <b>글쓴이: {{ content.author_id }}</b> / <b>작성일: {{ content.created_at }}</b>
+            </div>
             <div class="content-box">
                 <div class="title">
                     <h3>{{ content.title }}</h3>
@@ -31,9 +34,9 @@
                 <div class="post-text">
                     <p><b>내용</b></p>
                     {% if content.content|length > 20 %}
-                    <p>{{ content.content|slice:20 }}...</p>
+                        <p>{{ content.content|slice:20 }}...</p>
                     {% else %}
-                    <p>{{ content.content|slice:20 }}</p>
+                        <p>{{ content.content|slice:20 }}</p>
                     {% endif %}
                 </div>
             </div>
