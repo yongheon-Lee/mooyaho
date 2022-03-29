@@ -50,6 +50,15 @@
                         <hr style="border: #1b1b1b solid 1px">
                         {% if i.answer == None %}
                             답글이 아직 없습니다.
+                            {% if user.is_superuser %}
+                                <form>
+                                    <div class="mb-3">
+                                        <label for="message-text" class="col-form-label">Message:</label>
+                                        <textarea class="form-control" id="message-text"></textarea>
+                                    </div>
+                                    <input type="submit">
+                                </form>
+                            {% endif %}
                         {% else %}
                             {{ i.answer }}
                         {% endif %}
@@ -60,7 +69,6 @@
                 </div>
             </div>
         </div>
-        <br>
 
     {% endfor %}
 {% endblock %}
