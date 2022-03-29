@@ -40,6 +40,7 @@
     margin: auto;
     width: 350px;
     height: 360px;
+    object-fit: fill;
 }
 
 .content-box {
