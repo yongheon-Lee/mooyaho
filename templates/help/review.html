@@ -55,6 +55,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <p>정보: author: {{ i.author }} / author_id: {{ i.author_id }} / user.id: {{ user.id }}</p>
                         {{ i.content }}
                         <hr style="border: #1b1b1b solid 1px">
                         {% if i.answer == None %}
@@ -62,23 +63,31 @@
                             {% if user.is_superuser %}
                                 <form>
                                     <div class="mb-3">
-                                        <label for="message-text" class="col-form-label">Message:</label>
+                                        <label for="message-text" class="col-form-label">답글 달기:</label>
                                         <textarea class="form-control" id="message-text"></textarea>
                                     </div>
                                     <input type="submit">
                                 </form>
+
                             {% endif %}
+
                         {% else %}
                             {{ i.answer }}
-                        {% endif %}
-                    </div>
-                    <div class="modal-footer">
-                        {% if user.is_superuser %}
                             <button type="button" class="btn btn-primary" formmethod="post"
                                     onclick="location.href='/{{ i.id }}'">답글 수정
                             </button>
-                            <button type="button" class="btn btn-danger" formmethod="post"
-                                    onclick="location.href='/{{ i.id }}'">삭제
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        {% if i.author_id == user.id %}
+                            <button type="button" class="btn btn-warning" formmethod="get"
+                                    onclick="location.href='/help/review/update/{{ i.id }}'">리뷰 수정하기
+                            </button>
+
+                        {% endif %}
+                        {% if user.is_superuser or i.author_id == user.id %}
+                            <button type="button" class="btn btn-danger" formmethod="get"
+                                    onclick="location.href='/help/review/delete/{{ i.id }}'">삭제
                             </button>
                         {% endif %}
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

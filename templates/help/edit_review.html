@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    리뷰 새글쓰기
+    리뷰 수정쓰기
 {% endblock %}
 
 {% load static %}
@@ -13,11 +13,11 @@
 {% block content %}
     <div class="container">
         <div class="review-inputbox">
-            <form action="/help/review/new" method="post" enctype="multipart/form-data">
+            <form action="/help/review/update/{{ ut_review.id }}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <textarea name="textarea" placeholder="여기에 내용 입력"></textarea>
+                <textarea name="textarea" placeholder="여기에 내용 입력">{{ ut_review.content }}</textarea>
                 <label id="review-radio">
-                    <input name="checkbox" type="checkbox"> 비밀글로 하시겠습니까?
+                    <input name="checkbox" type="checkbox" {% if ut_review.secret == 1 %} checked {% endif %}> 비밀글로 하시겠습니까?
                 </label>
                 <input type="submit" value="등록">
             </form>
