@@ -31,6 +31,12 @@ def post_detail(request, pk):
         # 선택한 글의 id를 받아서 해당 id에 맞는 글 가져오기
         clicked_post = Post.objects.get(id=pk)
 
+        if clicked_post.deleted:  # 삭제된 게시물일 경우
+            if request.user.is_superuser:
+                pass
+            else:  # 삭제된 게시물을 일반유저가 보려고 하면
+                return render(request, 'post/404error.html')
+
         # 별점 표시
         rating = ['⭐' for _ in range(int(clicked_post.rating))]
 
@@ -80,10 +86,17 @@ def post(request):
             # 추가된 산 id 적용
             mountain_id = mt.id
 
+        get_hiking_img = request.FILES.get('hiking_img')
+        if get_hiking_img is None:
+            message = '사진을 다시 등록해 주세요!'
+            return render(request, 'post/new.html', {'message': message})
+        else:
+            hiking_img = get_hiking_img
+
         # 포스팅 생성
         new_posting = Post.objects.create(
             user=MooyahoUser.objects.get(id=request.user.id),
-            hiking_img=request.FILES.get('hiking_img'),
+            hiking_img=hiking_img,
             title=request.POST['title'],
             mountain_name=post_mountain_name,
             mountain=Mountain.objects.get(id=mountain_id),
