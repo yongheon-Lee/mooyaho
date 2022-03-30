@@ -102,3 +102,8 @@
 .hide {
     display: none;
 }
+
+/* 마우스 커서 */
+.finger-pointer {
+    cursor: pointer;
+}
