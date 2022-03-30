@@ -1,35 +1,40 @@
-# 등산 추천 커뮤니티 - 무야호
-***powerd by*** ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
+**등산 커뮤니티 - 무야호**(powerd by ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white))
+=============
 
----
+
+![muyaho_logo](https://user-images.githubusercontent.com/96563192/160894923-adefb59a-cbcf-4be1-a261-1f7291855499.png)
+
+<br>
 
 ### 홈페이지
 - https://mooyaho-kor.com/
+<br>
 
+### 소개     
 
-### 소개
-
-- **등산을 좋아하신분, 등산을 즐기고 싶은 분들은 무야호 앱을 통해 산을 추천받고 자신의 등산 일지를 생성하고 다른 사람들이랑 공유할 수 있습니다.**
-
+- 등산을 좋아하신분, 등산을 즐기고 싶은 분들은 무야호 앱을 통해 산을 추천받습니다. 
+- 자신의 등산 일지를 생성하고 다른 사람들이랑 공유할 수 있습니다.
+<br>
 
 ### 개발 기간
 
-- **2022년 3월 8일 ~ 2022년 3월 31일**
+- 2022년 3월 8일 ~ 2022년 3월 31일
+<br>
 
-
+  
 ### Contributors
 
 - **Front-end**
-: [최중재](https://github.com/joong8812)
-: [이호진](https://github.com/hojin9car)
+  - [최중재](https://github.com/joong8812)
+  - [이호진](https://github.com/hojin9car)
 
 - **Back-end**
--- [이용헌](https://github.com/yongheon-Lee)
--- [유민호](https://github.com/YuMinho915)
+  - [이용헌](https://github.com/yongheon-Lee)
+  - [유민호](https://github.com/YuMinho915)
 
 - **A.I**
--- [김미지](https://github.com/KIMMIJIDLQSLEK)
-
+  - [김미지](https://github.com/KIMMIJIDLQSLEK)
+<br>
 
 ###  Tools
 
@@ -48,14 +53,15 @@
 ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
 : **api설계, 아이디어 기획, 일정 공유**
 
+<br>
 
 ### 무야호만의 특징
-- **친숙한 ux/ui : 등산커뮤니티의 장점을 살려 만든 사용하기 편리한 사이트. 데스크탑/모바일 둘다 호환가능!**
+- 친숙한 ux/ui : 등산커뮤니티의 장점을 살려 만든 사용하기 편리한 사이트. 데스크탑/모바일 둘다 호환가능!
 
-- **유저의 궁금증 해소 : 위치, 높이, 산정보뿐만 아니라 주변 맛집, 등산로까지!**
+- 유저의 궁금증 해소 : 위치, 높이, 산정보뿐만 아니라 주변 맛집, 등산로까지!
 
-- **강력한 소통 : 초보자도, 고인물도 자신을 표현하여 다양한 산 정보와 색다른 정보도 함께 공유 가능!**
-
+- 강력한 소통 : 초보자도, 고인물도 자신을 표현하여 다양한 산 정보와 색다른 정보도 함께 공유 가능!
+<br>
 
 ### 기능
 - 로그인, 회원가입 기능
