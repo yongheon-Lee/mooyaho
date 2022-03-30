@@ -1,6 +1,15 @@
+#notice-list {
+    margin-top: 1rem;
+}
+
 .help-list {
     margin: 0 auto;
     width: 370px;
+}
+
+.notice-wrapper {
+    width: 100%;
+    text-align: center;
 }
 
 .btn-light2 {
@@ -21,16 +30,24 @@
 
 .review-inputbox {
     margin: 25px auto;
-    width: 350px;
-    height: 450px;
+    width: 100%;
     background-color: #93beb1;
     text-align: center;
+    padding: 1rem 1rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
 }
 
 .review-inputbox textarea{
-    width: 300px;
+    /* width: 300px; */
+    width: 100%;
     height: 390px;
-    margin-top: 30px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    resize: none;
 }
 
 .container {
