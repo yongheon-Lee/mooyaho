@@ -74,17 +74,22 @@
                             {% endif %}
                             {{ i.id }}리뷰
                         </button>
-                    {% else %}
-                        <button class="btn-light2" data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop{{ i.id }}">
-                            {% if i.secret %}
-                                <span class="material-icons">lock</span>
-                            {% endif %}
-                            {% if i.answer %}
-                                <span class="material-icons">check_circle</span>
-                            {% endif %}
-                            {{ i.id }}리뷰
-                        </button>
+                    {% else %} {# 비밀글이 아닐때 #}
+                        {% if i.report %} {# 다른사람의 신고글 #}
+
+                        {% else %}
+                            <button class="btn-light2" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop{{ i.id }}">
+                                {% if i.secret %}
+                                    <span class="material-icons">lock</span>
+                                {% endif %}
+                                {% if i.answer %}
+                                    <span class="material-icons">check_circle</span>
+                                {% endif %}
+                                {{ i.id }}리뷰
+                            </button>
+                        {% endif %}
+
                     {% endif %}
 
                 {% endif %}
@@ -103,7 +108,7 @@
                         <div class="modal-body">
                             <p>정보: author: {{ i.author }} / author_id: {{ i.author_id }} / user.id: {{ user.id }}</p>
                             {% if i.report %}
-                            <p>신고게시물: <a href="/posts/{{ i.post_id.id }}">{{ i.post_id.id }}번 게시물</a></p>
+                                <p>신고게시물: <a href="/posts/{{ i.post_id.id }}">{{ i.post_id.id }}번 게시물</a></p>
                             {% endif %}
                             {{ i.content }}
                             <hr style="border: #1b1b1b solid 1px">
