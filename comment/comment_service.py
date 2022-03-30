@@ -14,25 +14,36 @@ def comments(request, pk):
 
     # 댓글 작성 요청
     if request.method == 'POST':
-        # 댓글 생성
-        comment = Comment.objects.create(
-            author=MooyahoUser.objects.get(id=request.user.id),
-            post=Post.objects.get(id=pk),
-            comment=json_object.get('comment')
-        )
-        comment.save()
 
-        # 프론트로 넘길 댓글 아이디 추가
-        comment_id = comment.id
+        # 댓글 내용 가져오기
+        comment_input = json_object.get('comment')
 
-        # 프론트로 넘길 데이터 담기
-        context = {
-            'author': request.user.nickname,
-            'comment': comment.comment,
-            'comment_id': comment_id,
-            'post_id': pk,
-        }
-        return JsonResponse(context)
+        # 댓글 내용이 있으면,
+        if comment_input:
+            # 댓글 생성
+            comment = Comment.objects.create(
+                author=MooyahoUser.objects.get(id=request.user.id),
+                post=Post.objects.get(id=pk),
+                comment=comment_input
+            )
+            comment.save()
+
+            # 프론트로 넘길 댓글 아이디 추가
+            comment_id = comment.id
+
+            # 프론트로 넘길 데이터 담기
+            context = {
+                'result': 'ok',
+                'author': request.user.nickname,
+                'comment': comment.comment,
+                'comment_id': comment_id,
+                'post_id': pk,
+            }
+            return JsonResponse(context)
+
+        else:
+            context = {'result': 'no'}
+            return JsonResponse(context)
 
     # 댓글 삭제 요청
     elif request.method == 'DELETE':
