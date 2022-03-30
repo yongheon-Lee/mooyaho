@@ -30,6 +30,13 @@ def post_detail(request, pk):
     if request.method == 'GET':
         # 선택한 글의 id를 받아서 해당 id에 맞는 글 가져오기
         clicked_post = Post.objects.get(id=pk)
+
+        if clicked_post.deleted:  # 삭제된 게시물일 경우
+            if request.user.is_superuser:
+                pass
+            else:  # 삭제된 게시물을 일반유저가 보려고 하면
+                return render(request, 'post/404error.html')
+
         print(clicked_post.rating)
         print(type(clicked_post.rating))
         rating = ['⭐' for _ in range(int(clicked_post.rating))]
