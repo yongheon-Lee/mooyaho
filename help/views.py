@@ -79,7 +79,7 @@ def delete_notice(request, id):
 @login_required(login_url='/login')
 def review(request):
     # all_review = Review.objects.all()
-    all_review = Review.objects.filter(deleted=0).order_by('-create_at')
+    all_review = Review.objects.filter(deleted=0).order_by('-id')
     return render(request, 'help/review.html', {'all_review':all_review})
 
 
