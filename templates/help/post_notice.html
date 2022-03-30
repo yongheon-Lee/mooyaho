@@ -16,12 +16,10 @@
             <form action="/help/notice/post_notice" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <label>
-                    <input type="text" name="title">
+                    <input type="text" class="form-control" placeholder="여기에 제목 입력" name="title">
                 </label>
-                <label>
-                    <textarea name="textarea-name" placeholder="여기에 내용 입력"></textarea>
-                </label>
-                <input type="submit" value="등록">
+                <textarea class="form-control" name="textarea-name" placeholder="여기에 내용 입력"></textarea>
+                <input type="submit" class="btn btn-light" value="등록">
             </form>
         </div>
     </div>

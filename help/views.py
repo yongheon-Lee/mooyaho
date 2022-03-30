@@ -13,7 +13,7 @@ def index(request):
 def notice(request):
     user = request.user.is_authenticated
     if user:
-        all_notice = Notice.objects.filter(deleted=False).order_by('-create_at')
+        all_notice = Notice.objects.filter(deleted=False).order_by('-id')
         return render(request, 'help/notice.html', {'notice': all_notice})
     else:
         return redirect('/login')
