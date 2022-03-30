@@ -180,6 +180,7 @@ hr {
 
 .comment-input-area > textarea {
     width: 200px;
+    margin: 3px 0;
 }
 
 /* 글쓰기 미리보기 이미지 관련 */
