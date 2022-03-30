@@ -137,7 +137,7 @@ a { text-decoration:none;
 }
 
 /* 사진 등록 경고창 메시지 */
-form div #error-message {
+#error-message {
     margin: 0.5rem 0;
     padding: 0.5rem 1rem;
     font-weight: bold;
