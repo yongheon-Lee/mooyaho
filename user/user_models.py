@@ -65,7 +65,7 @@ class MooyahoUser(AbstractUser):
     disabled = models.BooleanField(default=False, verbose_name='탈퇴 여부')
     superuser = models.BooleanField(default=False, verbose_name='관리자 여부')
     profile_img = models.ImageField(blank=True, upload_to=profile_img_upload_path,
-                                    default='default_profile_img.jpg', verbose_name='프로필 사진')
+                                    default='images/no-img.png', verbose_name='프로필 사진')
     exp = models.CharField(max_length=10, choices=exp_conf, verbose_name='등산 경력')
     reason = models.CharField(max_length=100, choices=reason_conf, verbose_name='등산 목적')
     latitude = models.FloatField(default=0, verbose_name='유저 위치 위도')
