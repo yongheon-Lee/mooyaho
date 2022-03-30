@@ -1,70 +1,74 @@
 {% extends 'base.html' %}
 
 {% block title %}
-공지사항
+    공지사항
 {% endblock %}
 
 {% load static %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/help.css' %}">
+    <link rel="stylesheet" href="{% static 'css/help.css' %}">
 {% endblock %}
 
 {% block content %}
-<div>
-    {% for i in notice %}
-    <button class="btn-light2" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ i.id }}">{{ i.title }}</button>
-    <!-- Scrollable modal -->
-    <!-- Modal -->
+    <div>
+        {% for i in notice %}
+            <button class="btn-light2" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop{{ i.id }}">{{ i.title }}</button>
+            <!-- Scrollable modal -->
+            <!-- Modal -->
 
-    <div class="modal fade" id="staticBackdrop{{ i.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content" style="height: 500px; word-break: break-all">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">{{ i.title }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    {{ i.content }}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    {% if user.is_superuser %}
-                    {% if user.id == i.user_id.id %}
-                    <button type="button" class="btn btn-danger" formmethod="post"
-                        onclick="location.href='/noice/delete_notice/{{ i.id }}'">삭제
-                    </button>
-                    {% else %}
-                    <button type="button" class="btn btn-secondary" formmethod="post"
-                        onclick="location.href='/noice/delete_notice/{{ i.id }}'">{{ i.user_id }}의 글
-                    </button>
-                    {% endif %}
-                    {% endif %}
+            <div class="modal fade" id="staticBackdrop{{ i.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+                 tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content" style="height: 500px; word-break: break-all">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">{{ i.title }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{ i.content }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            {% if user.is_superuser %}
+                                {% if user.id == i.user_id.id %}
+                                    <button type="button" class="btn btn-primary" formmethod="get"
+                                            onclick="location.href='/help/notice/edit/{{ i.id }}'">수정
+                                    </button>
+                                    <button type="button" class="btn btn-danger" formmethod="post"
+                                            onclick="location.href='/noice/delete_notice/{{ i.id }}'">삭제
+                                    </button>
+                                {% else %}
+                                    <button type="button" class="btn btn-secondary" formmethod="post"
+                                            onclick="location.href='/noice/delete_notice/{{ i.id }}'">{{ i.user_id }}의 글
+                                    </button>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+            <br>
+        {% endfor %}
     </div>
-    <br>
-    {% endfor %}
-</div>
 {% endblock %}
 
 {% block js %}
-{% if user.is_superuser %}
-    <script>
-        $(function () {
-            changeSearchToAdd();
-        })
+    {% if user.is_superuser %}
+        <script>
+            $(function () {
+                changeSearchToAdd();
+            })
 
-        function changeSearchToAdd() {
-            console.log("loaded");
-            // img = document.getElementsByClassName("meterial-icons");
-            const img1 = document.getElementById("search-wrapper");
-            img1.removeEventListener('click', clickedSearchButton);
-            img1.innerHTML = `
+            function changeSearchToAdd() {
+                console.log("loaded");
+                // img = document.getElementsByClassName("meterial-icons");
+                const img1 = document.getElementById("search-wrapper");
+                img1.removeEventListener('click', clickedSearchButton);
+                img1.innerHTML = `
     <button type="button" onclick="location.href='/help/notice/post_notice'">글쓰기</button>`;
-        }
-    </script>
-{% endif %}
+            }
+        </script>
+    {% endif %}
 {% endblock %}

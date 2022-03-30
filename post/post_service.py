@@ -30,13 +30,17 @@ def post_detail(request, pk):
     if request.method == 'GET':
         # 선택한 글의 id를 받아서 해당 id에 맞는 글 가져오기
         clicked_post = Post.objects.get(id=pk)
-
+        print(clicked_post.rating)
+        print(type(clicked_post.rating))
+        rating = ['⭐' for _ in range(int(clicked_post.rating))]
+        print(rating)
         # 해당 글의 댓글 중 삭제 처리되지 않은 댓글 모두 가져오기
         comments = Comment.objects.filter(post_id=clicked_post.id, deleted=False)
 
         post_detail_context = {
             'clicked_post': clicked_post,
-            'all_comment': comments
+            'all_comment': comments,
+            'rating': rating
         }
         return render(request, 'post/detail.html', post_detail_context)
 

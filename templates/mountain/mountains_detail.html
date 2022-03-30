@@ -21,7 +21,9 @@
         {% endwith %}
         <div class="intro-area">
             <h1>{{mountain_info.mountain_name}}</h1>
-            <span class="fs-5">"{{ mountain_info.subtitle }}"</span>
+            {% if mountain_info.subtitle != ' ' %}
+                <span class="fs-5">"{{ mountain_info.subtitle }}"</span>
+            {% endif %}
         </div>
     </div>
     <div class="mountain-info-area">

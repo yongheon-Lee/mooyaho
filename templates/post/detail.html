@@ -9,18 +9,27 @@
 {% endblock %}
 {% block content %}
     <div id="detail-contents">
-        <p>글쓴이: {{ clicked_post.user }}</p>
-        {% if clicked_post.user == user %}
-            <button type="button" id="post-to-edit-btn" name="{{ clicked_post.id }}">수정</button>
-            <button type="button" id="post-delete-btn" name="{{ clicked_post.id }}">삭제</button>
-        {% endif %}
+        <div style="text-align: right; margin-top: 10px">
+            {% if clicked_post.user == user %}
+                <button type="button" id="post-to-edit-btn" name="{{ clicked_post.id }}">수정</button>
+                <button type="button" id="post-delete-btn" name="{{ clicked_post.id }}">삭제</button>
+            {% endif %}
+        </div>
         <div class="image-box">
             <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
             <div class="content-box">
+                <b>글쓴이: {{ clicked_post.user }}</b>
+                <br>
+                <b>작성일: {{ clicked_post.created_at }}</b>
                 <h1>{{ clicked_post.title }}</h1>
-                <div>
+                <div style="display: flex">
                     <span class="material-icons">location_on</span>
                     <p>{{ clicked_post.mountain_name }}</p>
+                    <p>&nbsp;&nbsp;/&nbsp;&nbsp;나의 별점:
+                        {% for i in rating %}
+                            {{ i }}
+                        {% endfor %}
+                    </p>
                 </div>
             </div>
             <div class="post-text">
@@ -28,23 +37,23 @@
             </div>
         </div>
     </div>
-    <div id="detail-icons" style="display: flex; align-items: center;">
+    <div id="detail-icons" style="display: flex; align-items: center; margin-left: 5%">
         {% csrf_token %}
         <!-- 해당 글 작성자와 현재 유저가 다르면 좋아요 버튼 활성화 -->
         {% if clicked_post.user != user %}
-        <a class="btn btn-sm post_like" id="{{ clicked_post.id }}" type="button">
-            {% if user in clicked_post.likes.all %}
-            <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
-            {% else %}
-            <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
-            {% endif %}
-        </a>
+            <a class="btn btn-sm post_like" id="{{ clicked_post.id }}" type="button">
+                {% if user in clicked_post.likes.all %}
+                    <i class="fas fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+                {% else %}
+                    <i class="far fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+                {% endif %}
+            </a>
         {% else %}
-        <!-- 해당 글 작성자와 현재 유저가 같으면 좋아요 버튼 비활성화 -->
-        {% if user in clicked_post.likes.all %}
-            <i class="fas fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+            <!-- 해당 글 작성자와 현재 유저가 같으면 좋아요 버튼 비활성화 -->
+            {% if user in clicked_post.likes.all %}
+                <i class="fas fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
             {% else %}
-            <i class="far fa-heart" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+                <i class="far fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
             {% endif %}
         {% endif %}
         <p id="like_count-{{ clicked_post.id }}" style="margin: 0">
@@ -55,7 +64,9 @@
             <span class="material-icons" id="modal-report" onclick="modalReport()">
                 notification_important
             </span>
-            <div style="background-color: red; width: 10px; height: 10px"></div>
+            <button class="btn btn-danger" onclick="modalReport()">
+                <span class="material-icons">report_problem</span>
+            </button>
         {% endif %}
     </div>
     <hr>
@@ -64,12 +75,13 @@
     <div id="detail-enter-comment">
         <div class="comment-area">
             {% for comment in all_comment %}
-                <div style="display: flex; align-items: center; justify-content: space-around" class="comment-{{ comment.id }}">
+                <div style="display: flex; align-items: center; justify-content: space-around"
+                     class="comment-{{ comment.id }}">
                     <p>{{ comment.author }}</p>
                     <p>{{ comment.comment }}</p>
                     {% if request.user == comment.author %}
-                    <input type="button" id="repleDeleteBtn" name="{{ clicked_post.id }}"
-                           onclick="repleDelete({{ comment.id }})" value="삭제">
+                        <input type="button" id="repleDeleteBtn" name="{{ clicked_post.id }}"
+                               onclick="repleDelete({{ comment.id }})" value="삭제">
                     {% endif %}
                 </div>
             {% endfor %}
@@ -77,22 +89,45 @@
         <div class="comment-input-area" style="display: flex; align-items: center; justify-content: space-around">
             <p id="author"><b>{{ request.user.nickname }}</b></p>
             <label>
-                <textarea class="comment-input" id="comments" name="comments"></textarea>
+                <textarea style="resize: none" class="comment-input" id="comments" name="comments"></textarea>
             </label>
             <input type="button" class="btn btn-light" id="repleBtn" name="{{ clicked_post.id }}" value="게시">
             {% csrf_token %}
         </div>
     </div>
-    <div class="modal">
-        <div class="modal_body">Modal</div>
-        <div class="report-input-area">
-            <p id="report-user"><b>{{ request.user.nickname }}</b></p>
-            <label>
-                <textarea id="contents" name="contents"></textarea>
-            </label>
-            <input type="button" id="reportBtn" name="{{ clicked_post.id }}" value="신고하기">
-            {% csrf_token %}
-            <button id="modalClose" onclick="modalClose()">닫기</button>
+
+    <div class="modal" style="height: 360px; top: 60%; left: 50%">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <b>신고하기</b>
+                </div>
+                <div class="modal-body">
+                    <div class="report-input-area">
+                        <p id="report-user">신고자: <b>{{ request.user.nickname }}</b></p>
+                        <label>
+                            <textarea id="contents" name="contents"
+                                      style="width: 250px;height: 100px; resize: none"></textarea>
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id="reportBtn"
+                           name="{{ clicked_post.id }}" value="신고하기">
+                    {% csrf_token %}
+                    <button id="modalClose" onclick="modalClose()">닫기</button>
+
+                    <script>
+                        const btn = document.getElementById("modalClose");
+                        btn.addEventListener('click', function handleClick() {
+
+                            const textarea = document.getElementById("contents");
+                            textarea.value = '';
+                        })
+                    </script>
+
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
