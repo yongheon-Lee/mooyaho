@@ -13,10 +13,10 @@
 {% block content %}
     <div id="notice-list">
         {% for i in notice %}
-        <div class="notice-wrapper">
+
             <button class="btn-light2" data-bs-toggle="modal"
                     data-bs-target="#staticBackdrop{{ i.id }}">{{ i.title }}</button>
-        </div>
+
             <!-- Scrollable modal -->
             <!-- Modal -->
             <div class="modal fade" id="staticBackdrop{{ i.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
