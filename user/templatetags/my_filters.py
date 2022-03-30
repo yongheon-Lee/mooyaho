@@ -55,11 +55,7 @@ def get_my_reason_list(reason):
 # 포스트 경과 시간 계산
 @register.filter(name='elapsed_time')
 def elapsed_time(post_time):
-    print()
-    print(post_time)
-    print(datetime.datetime.now())
-    print()
-    elapsed_time = datetime.datetime.now() - post_time.replace(tzinfo=None)
+    elapsed_time = datetime.datetime.utcnow() - post_time.replace(tzinfo=None)
 
     m, s = divmod(elapsed_time.seconds, 60)
     h, m = divmod(m, 60)
