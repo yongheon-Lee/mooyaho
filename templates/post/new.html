@@ -20,7 +20,9 @@
             </div>
             <input type="file" id="imgInput" name="hiking_img" accept="image/*" hidden>
             <button type="button" class="btn btn-light" id="img-upload-button">사진 등록</button>
-
+            <div class="alert alert-danger" id="error-message" role="alert">
+                {{ message }}
+            </div>
             <div class="new-box">
                 <label class="input-group-text" for="inputGroupSelect">
                     <select class="form-select" name="rating" id="inputGroupSelect">
@@ -63,7 +65,8 @@
             <button type="button" class="btn btn-light" id="img-upload-button">사진 등록</button>
             <div class="new-box">
                 <label class="input-group-text" for="inputGroupSelect">
-                    <select class="form-select" name="rating" id="inputGroupSelect" data-oldrating="{{ form.initial.rating }}">
+                    <select class="form-select" name="rating" id="inputGroupSelect"
+                            data-oldrating="{{ form.initial.rating }}">
                         <option value="0">--별점 고르기--</option>
                         <option value="1">⭐</option>
                         <option value="2">⭐⭐</option>
@@ -86,7 +89,8 @@
                     </datalist>
                 </label>
                 <label>
-                    <textarea class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content">{{ form.initial.content }}</textarea>
+                    <textarea class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview"
+                              id="content">{{ form.initial.content }}</textarea>
                 </label>
             </div>
             <div class="new-box">
@@ -118,7 +122,7 @@
         }
 
         const checkBlankElement = (form) => {
-            for (let i=1; i<form.length-2; i++) {
+            for (let i = 1; i < form.length - 2; i++) {
                 let writeInputElement = form[i];
                 if (writeInputElement.type === 'button') continue;
                 if (writeInputElement.type === 'file') {
@@ -149,7 +153,7 @@
             e.preventDefault();
             e.stopPropagation();
             const form = document.querySelector('form');
-            if(!checkBlankElement(form)) return;
+            if (!checkBlankElement(form)) return;
             form.submit();
         }
 

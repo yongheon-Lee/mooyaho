@@ -86,10 +86,17 @@ def post(request):
             # 추가된 산 id 적용
             mountain_id = mt.id
 
+        get_hiking_img = request.FILES.get('hiking_img')
+        if get_hiking_img is None:
+            message = '사진을 다시 등록해 주세요!'
+            return render(request, 'post/new.html', {'message': message})
+        else:
+            hiking_img = get_hiking_img
+
         # 포스팅 생성
         new_posting = Post.objects.create(
             user=MooyahoUser.objects.get(id=request.user.id),
-            hiking_img=request.FILES.get('hiking_img'),
+            hiking_img=hiking_img,
             title=request.POST['title'],
             mountain_name=post_mountain_name,
             mountain=Mountain.objects.get(id=mountain_id),
