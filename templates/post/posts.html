@@ -18,7 +18,7 @@
         <div class="post-box" onclick="location.href='/posts/{{ content.id }}/'">
             <div class="writer-box">
                 <div class="writer-img-wrapper">
-                    <img src="{{ content.user.profile_img }}" alt="">
+                    <img src="{{ content.user.profile_img.url }}" alt="">
                 </div>
                 <div class="writer-info">
                     <span>{{ content.user.nickname }}</span>
