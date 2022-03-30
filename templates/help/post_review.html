@@ -15,7 +15,7 @@
         <div class="review-inputbox">
             <form action="/help/review/new" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <textarea name="textarea" placeholder="여기에 내용 입력"></textarea>
+                <textarea name="textarea" placeholder="여기에 내용 입력" style="height: 370px; resize: none"></textarea>
                 <label id="review-radio">
                     <input name="checkbox" type="checkbox"> 비밀글로 하시겠습니까?
                 </label>
