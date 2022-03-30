@@ -27,7 +27,7 @@ Ai
 -사용한 툴
 figma : 와이어프레임, 데이터베이스 설계
 aws : mysql, s3, elastic beastalk
-GitHub : 버젼관리
+GitHub : 버젼관리, 일정 공유
 Notion : api 설계 및 아이디어 기획, 일정 공유
 
 -기능
