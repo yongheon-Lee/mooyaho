@@ -158,11 +158,15 @@ $('#repleBtn').click(function () {
         success: function (data) {
             // 댓글 추가
             $('.comment-area').append(`
-            <div style="display: flex; align-items: center; justify-content: space-around" class="comment-${data.comment_id}">
-                <p>${data.author}</p>
-                <p>${data.comment}</p>
-                <input type="button" id="repleDeleteBtn" name="${data.post_id}"
-                       onclick="repleDelete(${data.comment_id})" value="삭제">
+            <div class="comment-${data.comment_id}">
+                <span>${data.author}</span>
+                <span>${data.comment}</span>
+                <button type="button" id="repleDeleteBtn" class="btn btn-link" name="${data.post_id}"
+                       onclick="repleDelete(${data.comment_id})">
+                        <span class="material-icons">
+                                delete
+                        </span>
+                </button>
             </div>`);
 
             // 댓글 입력창 내용 초기화
