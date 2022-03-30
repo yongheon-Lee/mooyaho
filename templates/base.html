@@ -22,64 +22,72 @@
     {% block css %}{% endblock %}
 </head>
 <body>
-    <div id="app">
-        <div id="header">
-            <div id="menu-wrapper">
-                <i class="material-icons" id="menu-icon" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">menu</i>
-            </div>
-            <div id="logo-wrapper">
+    <div>
+        <div id="side-app">
+            <div id="left-logo-wrapper">
+                <h1>정상에서 모두 함께 외쳐!</h1>
                 <img src="{% static 'images/mooyaho_logo.png' %}" alt="">
             </div>
-            <div id="search-back-wrapper" class="hide">
-                <i class="material-icons">arrow_back</i>
-            </div>
-            <div id="search-input" class="hide">
-                <input class="form-control" list="datalistOptions" id="mountainSearchBar" placeholder="산 검색">
-                <datalist id="datalistOptions">
-                    <option value="가야산">
-                    <option value="지리산">
-                    <option value="설악산">
-                    <option value="북한산">
-                    <option value="한라산">
-                </datalist>
-            </div>
-            <div id="search-wrapper">
-                <i class="material-icons">search</i>
-            </div>
-            
         </div>
-        <div id="content">
-            {% block content %}{% endblock %}
-        </div>
-        <div id="footer">
-            <div class="footer-button-wrapper">
-                <i class="material-icons" data-url="{% url 'main' %}">home</i>
+        <div id="app">
+            <div id="header">
+                <div id="menu-wrapper">
+                    <i class="material-icons" id="menu-icon" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">menu</i>
+                </div>
+                <div id="logo-wrapper">
+                    <img src="{% static 'images/mooyaho_logo.png' %}" alt="">
+                </div>
+                <div id="search-back-wrapper" class="hide">
+                    <i class="material-icons">arrow_back</i>
+                </div>
+                <div id="search-input" class="hide">
+                    <input class="form-control" list="datalistOptions" id="mountainSearchBar" placeholder="산 검색">
+                    <datalist id="datalistOptions">
+                        <option value="가야산">
+                        <option value="지리산">
+                        <option value="설악산">
+                        <option value="북한산">
+                        <option value="한라산">
+                    </datalist>
+                </div>
+                <div id="search-wrapper">
+                    <i class="material-icons">search</i>
+                </div>
+                
             </div>
-            <div class="footer-button-wrapper">
-                <i class="material-icons" data-url="{% url 'mountains' %}">landscape</i>
+            <div id="content">
+                {% block content %}{% endblock %}
             </div>
-            <div class="footer-button-wrapper">
-                <i class="material-icons" data-url="{% url 'posts' %}">feed</i>
+            <div id="footer">
+                <div class="footer-button-wrapper">
+                    <i class="material-icons" data-url="{% url 'main' %}">home</i>
+                </div>
+                <div class="footer-button-wrapper">
+                    <i class="material-icons" data-url="{% url 'mountains' %}">landscape</i>
+                </div>
+                <div class="footer-button-wrapper">
+                    <i class="material-icons" data-url="{% url 'posts' %}">feed</i>
+                </div>
+                <div class="footer-button-wrapper">
+                    <i class="material-icons" data-url="{% url 'mypage' %}">person</i>
+                </div>
             </div>
-            <div class="footer-button-wrapper">
-                <i class="material-icons" data-url="{% url 'mypage' %}">person</i>
-            </div>
-        </div>
 
-        <!-- 메뉴 캔버스 -->
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">어디로 갈까요?</h5>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <div id="menu-btn-group">
-                    <button type="button" class="btn btn-light" data-url="{% url 'main' %}">홈</button>
-                    <button type="button" class="btn btn-light" data-url="{% url 'posts' %}">전체 글</button>
-                    <button type="button" class="btn btn-light" data-url="{% url 'mountains' %}">전체 산 리스트</button>
-                    <button type="button" class="btn btn-light" data-url="{% url 'mypage' %}">마이페이지</button>
-                    <button type="button" class="btn btn-light" data-url="{% url 'help' %}">고객센터</button>
-                    <button type="button" class="btn btn-link" data-url="{% url 'logout' %}">로그아웃</button>
+            <!-- 메뉴 캔버스 -->
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">어디로 갈까요?</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div id="menu-btn-group">
+                        <button type="button" class="btn btn-light" data-url="{% url 'main' %}">홈</button>
+                        <button type="button" class="btn btn-light" data-url="{% url 'posts' %}">전체 글</button>
+                        <button type="button" class="btn btn-light" data-url="{% url 'mountains' %}">전체 산 리스트</button>
+                        <button type="button" class="btn btn-light" data-url="{% url 'mypage' %}">마이페이지</button>
+                        <button type="button" class="btn btn-light" data-url="{% url 'help' %}">고객센터</button>
+                        <button type="button" class="btn btn-link" data-url="{% url 'logout' %}">로그아웃</button>
+                    </div>
                 </div>
             </div>
         </div>
