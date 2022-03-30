@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% load static %}
+{% load my_filters %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/posts_all.css' %}">
@@ -15,29 +16,31 @@
 {% block content %}
     {% for content in all_post %}
         <div class="post-box" onclick="location.href='/posts/{{ content.id }}/'">
+            <div class="writer-box">
+                <div class="writer-img-wrapper">
+                    <img src="{{ content.user.profile_img }}" alt="">
+                </div>
+                <div class="writer-info">
+                    <span>{{ content.user.nickname }}</span>
+                    <span>{{ content.mountain_name }}</span>
+                </div>
+            </div>
             <div class="image-box">
                 <img src="{{ content.hiking_img.url }}" alt="사진"/>
             </div>
             <div class="content-box">
                 <div class="title">
-                    <b>글쓴이: {{ content.user }}</b>
-                    <br>
-                    <b>작성일: {{ content.created_at }}</b>
                     <h3>{{ content.title }}</h3>
                 </div>
-                <hr>
-                <div class="post-location">
-                    <p><b>무슨 산?</b></p>
-                    <p>{{ content.mountain_name }}</p>
-                </div>
-                <hr>
                 <div class="post-text">
-                    <p><b>내용</b></p>
                     {% if content.content|length > 20 %}
                         <p>{{ content.content|slice:20 }}...</p>
                     {% else %}
                         <p>{{ content.content|slice:20 }}</p>
                     {% endif %}
+                </div>
+                <div class="post-time">
+                    <span>{{ content.created_at|elapsed_time }}</span>
                 </div>
             </div>
         </div>

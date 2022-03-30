@@ -51,3 +51,30 @@ def get_color_by_gender(gender):
 def get_my_reason_list(reason):
     reason = reason[1:-1].replace('\'', '')
     return reason.split(',')
+
+# 포스트 경과 시간 계산
+@register.filter(name='elapsed_time')
+def elapsed_time(post_time):
+    print()
+    print(post_time)
+    print(datetime.datetime.now())
+    print()
+    elapsed_time = datetime.datetime.now() - post_time.replace(tzinfo=None)
+
+    m, s = divmod(elapsed_time.seconds, 60)
+    h, m = divmod(m, 60)
+    d = elapsed_time.days
+    y, d = divmod(d, 365)
+
+    if y > 0:
+        elapsed_time = f'{y}년 전'
+    elif y == 0 and d > 0:
+        elapsed_time = f'{d}일 전'
+    elif d == 0 and h > 0:
+        elapsed_time = f'{h}시간 전'
+    elif h == 0 and m > 0:
+        elapsed_time = f'{m}분 전'
+    elif m == 0 and s > 0:
+        elapsed_time = f'방금 전'
+
+    return elapsed_time
