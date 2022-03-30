@@ -1,4 +1,4 @@
-#등산 추천 커뮤니티 - 무야호
+# 등산 추천 커뮤니티 - 무야호
 ***powerd by*** ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
 
 ---
