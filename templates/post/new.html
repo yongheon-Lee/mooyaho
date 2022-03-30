@@ -20,9 +20,11 @@
             </div>
             <input type="file" id="imgInput" name="hiking_img" accept="image/*" hidden>
             <button type="button" class="btn btn-light" id="img-upload-button">사진 등록</button>
+            {% if message %}
             <div class="alert alert-danger" id="error-message" role="alert">
                 {{ message }}
             </div>
+            {% endif %}
             <div class="new-box">
                 <label class="input-group-text" for="inputGroupSelect">
                     <select class="form-select" name="rating" id="inputGroupSelect">
