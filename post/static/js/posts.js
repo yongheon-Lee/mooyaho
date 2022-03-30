@@ -134,6 +134,15 @@ $('.post_like').click(function () {
     })
 })
 
+// 댓글 입력 내용 있을 때만 게시 버튼 활성화
+$('#comments').on('input paste', function (){
+    if($('#comments').val() === ''){
+        $('#repleBtn').attr('disabled', true);
+    } else {
+        $('#repleBtn').attr('disabled', false);
+    }
+})
+
 // 댓글 작성 구현
 $('#repleBtn').click(function () {
     // 해당 글 id 가져오기
@@ -161,21 +170,23 @@ $('#repleBtn').click(function () {
             xhr.setRequestHeader("X-CSRFToken", csrfToken);
         },
         success: function (data) {
-            // 댓글 추가
-            $('.comment-area').append(`
-            <div class="comment-${data.comment_id}">
-                <span>${data.author}</span>
-                <span>${data.comment}</span>
-                <button type="button" id="repleDeleteBtn" class="btn btn-link" name="${data.post_id}"
-                       onclick="repleDelete(${data.comment_id})">
-                        <span class="material-icons">
-                                delete
-                        </span>
-                </button>
-            </div>`);
+            if (data.result === 'ok') {
+                // 댓글 추가
+                $('.comment-area').append(`
+                <div class="comment-${data.comment_id}">
+                    <span>${data.author}</span>
+                    <span>${data.comment}</span>
+                    <button type="button" id="repleDeleteBtn" class="btn btn-link" name="${data.post_id}"
+                           onclick="repleDelete(${data.comment_id})">
+                            <span class="material-icons">
+                                    delete
+                            </span>
+                    </button>
+                </div>`);
 
-            // 댓글 입력창 내용 초기화
-            $('#comments').val('');
+                // 댓글 입력창 내용 초기화
+                $('#comments').val('');
+            }
         },
         error: function () {
             alert('오류가 발생했습니다!');

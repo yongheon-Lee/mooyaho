@@ -123,7 +123,7 @@
         <div class="comment-input-area">
             <span id="author"><b>{{ request.user.nickname }}</b></span>
             <textarea style="resize: none" class="comment-input" id="comments" name="comments"></textarea>
-            <input type="button" class="btn btn-light" id="repleBtn" name="{{ clicked_post.id }}" value="게시">
+            <input type="button" class="btn btn-light" id="repleBtn" disabled="disabled" name="{{ clicked_post.id }}" value="게시">
             {% csrf_token %}
         </div>
     </div>
