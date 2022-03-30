@@ -37,10 +37,9 @@ def post_detail(request, pk):
             else:  # 삭제된 게시물을 일반유저가 보려고 하면
                 return render(request, 'post/404error.html')
 
-        print(clicked_post.rating)
-        print(type(clicked_post.rating))
+        # 별점 표시
         rating = ['⭐' for _ in range(int(clicked_post.rating))]
-        print(rating)
+
         # 해당 글의 댓글 중 삭제 처리되지 않은 댓글 모두 가져오기
         comments = Comment.objects.filter(post_id=clicked_post.id, deleted=False)
 
