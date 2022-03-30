@@ -36,21 +36,15 @@
                         <option value="5">⭐⭐⭐⭐⭐</option>
                     </select>
                 </label>
-                <label>
-                    <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"/>
-                </label>
-                <label>
-                    <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
-                           id="location">
-                    <datalist id="datalist">
-                        {% for mountain in mountains %}
-                            <option value="{{ mountain.mountain_name }}">
-                        {% endfor %}
-                    </datalist>
-                </label>
-                <label>
-                    <textarea class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview" id="content"></textarea>
-                </label>
+                <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"/>
+                <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
+                        id="location">
+                <datalist id="datalist">
+                    {% for mountain in mountains %}
+                        <option value="{{ mountain.mountain_name }}">
+                    {% endfor %}
+                </datalist>
+                <textarea class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview"></textarea>
             </div>
             <div class="new-box">
                 <input type="submit" class="btn btn-light" value="등록">
@@ -77,23 +71,16 @@
                         <option value="5">⭐⭐⭐⭐⭐</option>
                     </select>
                 </label>
-                <label>
-                    <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"
-                           value="{{ form.initial.title }}">
-                </label>
-                <label>
-                    <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
-                           id="location" value="{{ form.initial.mountain_name }}"></textarea>
-                    <datalist id="datalist">
-                        {% for mountain in mountains %}
-                            <option value="{{ mountain.mountain_name }}">
-                        {% endfor %}
-                    </datalist>
-                </label>
-                <label>
-                    <textarea class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview"
-                              id="content">{{ form.initial.content }}</textarea>
-                </label>
+                <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"
+                        value="{{ form.initial.title }}">
+                <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
+                        id="location" value="{{ form.initial.mountain_name }}"></textarea>
+                <datalist id="datalist">
+                    {% for mountain in mountains %}
+                        <option value="{{ mountain.mountain_name }}">
+                    {% endfor %}
+                </datalist>
+                <textarea class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview">{{ form.initial.content }}</textarea>
             </div>
             <div class="new-box">
                 <input type="submit" class="btn btn-light" id="post-edit-btn" name="{{ post_id }}" value="수정"/>
