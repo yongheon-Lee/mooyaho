@@ -70,7 +70,7 @@ def elapsed_time(post_time):
         elapsed_time = f'{h}시간 전'
     elif h == 0 and m > 0:
         elapsed_time = f'{m}분 전'
-    elif m == 0 and s > 0:
+    else:
         elapsed_time = f'방금 전'
 
     return elapsed_time
