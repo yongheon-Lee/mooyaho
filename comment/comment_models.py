@@ -19,4 +19,4 @@ class Comment(models.Model):
 
     # 각 댓글 객체가 닉네임 + 댓글 세 글자로 표시되도록 설정
     def __str__(self):
-        return self.author.nickname + self.comment[:3]
+        return self.author.nickname + ' / ' + self.comment[:3] + '...'
