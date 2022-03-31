@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block title %}
+    글 자세히 보기
+{% endblock %}
+
+{% load static %}
+{% load my_filters %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/post_detail.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+{% endblock %}
+{% block content %}
+    <div id="detail-contents">
+        <div class="image-box">
+            <img src="{{ clicked_post.hiking_img.url }}" alt="사진"/>
+        </div>
+        <div class="writer-box">
+            <div class="writer-info-section">
+                <div class="writer-img-wrapper">
+                    <img src="{{ clicked_post.user.profile_img.url }}" alt="">
+                </div>
+                <div class="writer-info">
+                    <span>{{ clicked_post.user.nickname }}</span>
+                    <div>
+                        <span class="material-icons">location_on</span>
+                        <span>{{ clicked_post.mountain_name }}</span>
+                        <span>&nbsp;
+                            {% for i in rating %}
+                                {{ i }}
+                            {% endfor %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="writer-action-section">
+                {% if clicked_post.user == user %}
+                <div class="btn-group dropstart">
+                    <div data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="material-icons finger-pointer">
+                            more_vert
+                        </span>
+                    </div>
+                    <ul class="dropdown-menu" style="min-width: 4rem;">
+                    
+                        <li><button type="button" class="dropdown-item" id="post-to-edit-btn" name="{{ clicked_post.id }}">수정</button></li>
+                        <li><button type="button" class="dropdown-item" id="post-delete-btn" name="{{ clicked_post.id }}">삭제</button></li>
+                    
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <hr>
+        <div class="content-box">
+            <div class="content-title">
+                <h1>{{ clicked_post.title }}</h1>
+            </div>
+            <div class="post-time">
+                <span>{{ clicked_post.created_at|elapsed_time }}</span>
+            </div>
+            <div class="post-text">
+                <span>{{ clicked_post.content }}</span>
+            </div>
+        </div>
+    </div>
+    <div id="detail-icons">
+        {% csrf_token %}
+        <div>
+            <!-- 해당 글 작성자와 현재 유저가 다르면 좋아요 버튼 활성화 -->
+            {% if clicked_post.user != user %}
+                <a class="post_like" id="{{ clicked_post.id }}" type="button">
+                    {% if user in clicked_post.likes.all %}
+                        <i class="fas fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+                    {% else %}
+                        <i class="far fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+                    {% endif %}
+                </a>
+            {% else %}
+                <!-- 해당 글 작성자와 현재 유저가 같으면 좋아요 버튼 비활성화 -->
+                <div class="disabled-heart-area">
+                    {% if user in clicked_post.likes.all %}
+                        <i class="fas fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+                    {% else %}
+                        <i class="far fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <span id="like_count-{{ clicked_post.id }}" style="margin: 0">
+                좋아요&nbsp;{{ clicked_post.likes.all.count }}개
+            </span>
+        </div>
+        <!-- 해당 글의 작성자와 글을 누른 유저가 같을 경우 신고 버튼 비활성화 -->
+        {% if clicked_post.user != user %}
+        <div>
+            <span id="modal-report" onclick="modalReport()">
+                🚨
+            </span>&nbsp;
+            <span>신고</span>
+        </div>
+        {% endif %}
+    </div>
+    <hr>
+    <div id="detail-comments">
+    </div>
+    <div id="detail-enter-comment">
+        <div class="comment-area">
+            {% for comment in all_comment %}
+                <div class="comment-{{ comment.id }}">
+                    <span>{{ comment.author }}</span>
+                    <span>{{ comment.comment }}</span>
+                    {% if request.user == comment.author %}
+                        <button type="button" class="btn btn-link" id="repleDeleteBtn" name="{{ clicked_post.id }}"
+                            onclick="repleDelete({{ comment.id }})">
+                            <span class="material-icons">
+                                delete
+                            </span>
+                        </button>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="comment-input-area">
+            <span id="author"><b>{{ request.user.nickname }}</b></span>
+            <textarea style="resize: none" class="comment-input" id="comments" name="comments"></textarea>
+            <input type="button" class="btn btn-light" id="repleBtn" disabled="disabled" name="{{ clicked_post.id }}" value="게시">
+            {% csrf_token %}
+        </div>
+    </div>
+
+    <div class="modal" style="height: 360px; top: 60%; left: 50%">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <b>신고하기</b>
+                </div>
+                <div class="modal-body">
+                    <div class="report-input-area">
+                        <p id="report-user">신고자: <b>{{ request.user.nickname }}</b></p>
+                        <label>
+                            <textarea id="contents" name="contents"
+                                      style="width: 250px;height: 100px; resize: none"></textarea>
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" id="reportBtn"
+                           name="{{ clicked_post.id }}" value="신고하기">
+                    {% csrf_token %}
+                    <button id="modalClose" onclick="modalClose()">닫기</button>
+
+                    <script>
+                        const btn = document.getElementById("modalClose");
+                        btn.addEventListener('click', function handleClick() {
+
+                            const textarea = document.getElementById("contents");
+                            textarea.value = '';
+                        })
+                    </script>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/posts.js' %}"></script>
+{% endblock %}

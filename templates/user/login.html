@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+로그인
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/user/login.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="logo-wrapper">
+    <img src="{% static 'images/mooyaho_logo.png'%}" alt="">
+</div>
+<div id="input-section">
+    <div id="input-wrapper">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="email" placeholder="이메일">
+            <label for="email">이메일</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="userPw" placeholder="비밀번호">
+            <label for="userPw">비밀번호</label>
+        </div>
+        <div id="error-msg-area">
+            <span>{{ error }}</span>
+        </div>
+        <div id="button-area">
+            <button type="button" class="btn btn-warning">로그인</button>
+            <button type="button" class="btn btn-success">회원가입</button>
+        </div>
+    </div>
+</div>
+{% csrf_token %}
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/user/login.js' %}"></script>
+{% endblock %}

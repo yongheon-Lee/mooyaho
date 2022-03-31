@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .user_models import MooyahoUser, UserViewLog
+
+admin.site.register(MooyahoUser)
+admin.site.register(UserViewLog)

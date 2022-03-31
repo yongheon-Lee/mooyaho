@@ -1,0 +1,113 @@
+
+.image-area {
+    width: 100%;
+    margin-top: 0.5rem;
+    position: relative;
+}
+
+.image-area > img {
+    width: 100%;
+    height: 11rem;
+    border-radius: 15px;
+    opacity: 0.7;
+}
+
+.image-area .intro-area {
+    position: absolute;
+    top: 86%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    text-align: center;
+    width: 100%;
+}
+
+.intro-area > h1 {
+    text-shadow: 2px 2px 2px;
+    font-size: 2.5rem;    
+}
+
+.mountain-info-area {
+    margin-top: 4rem;
+    width: 100%;
+    padding: 0 1rem;
+}
+
+.mountain-info-area > hr:nth-child(1) {
+    height: 2px;
+    color: #93beb1;
+    opacity: 1;
+    box-shadow: 3px 3px 3px;
+}
+
+.mountain-info-area > div {
+    margin-top: 1rem;
+    display: flex;
+}
+
+.mountain-info-area .location-area {
+    margin-top: 1.8rem;
+}
+
+.mountain-info-area .mnt-info-area > span:last-child{
+    cursor: pointer;
+}
+
+.mountain-info-area > hr {
+    margin-top: 6px;
+}
+
+/* 등산로 */
+.mountain-info-area #hiking-area {
+    display: flex;
+    flex-direction: column;
+}
+
+#hiking-area > div:nth-child(1) {
+    display: flex;
+    margin-bottom: 0.5rem;
+}
+
+#hiking-area #map {
+    width: 100%;
+    height: 12rem;
+}
+
+/* 등산로 정보 */
+#hiking-info-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+#hiking-info-wrapper .arrow-wrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+#hiking-info-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 맛집 */ 
+.mountain-info-area #restaurant-info-area {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+#restaurant-info-area #restaurant-info-title {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+#restaurant-info-content {
+    text-align: center;
+}
+
+#restaurant-info-content .card {
+    margin-bottom: 0.5rem;
+    border-radius: 12px;
+}

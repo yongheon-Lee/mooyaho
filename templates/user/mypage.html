@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}
+나의페이지
+{% endblock %}
+
+{% load static %}
+{% load my_filters %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/user/mypage.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="content-wrapper">
+    <div id="user-info-area">
+        <div id="user-photo-wrapper">
+            <div id="img-wrapper">
+            {% if myinfo.profile_img %}
+                <img id="user-photo" src="{{ myinfo.profile_img.url }}" alt="">
+            {% else %}
+                <img id="user-photo" src="{% static 'images/no-img.png' %}" alt="">
+            {% endif %}
+                <div id="icon-wrapper">
+                    <span class="material-icons">loop</span>
+                </div>
+            </div>
+            {% csrf_token %}
+            <input id="user-photo-changer" type="file" accept="image/*" name="profile_img" hidden />
+        </div>
+        <div id="user-info-wrapper">
+            <span>{{ user.nickname }}</span>
+            <br/>
+            <span class="badge rounded-pill {{ user.gender|get_color_by_gender }}">{{ user.gender }}</span>
+            <span class="badge rounded-pill bg-success">{{ user.age_gr }}</span>
+            <span class="badge rounded-pill bg-warning">{{ user.exp }}</span>
+            <br/>
+            {% for reason in user.reason|get_my_reason_list %}
+            <span class="badge rounded-pill bg-dark">{{ reason }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="post-area">
+        <div id="tab-area">
+            <div class="active"><span class="material-icons">grid_view</span></div>
+            <div><span class="material-icons">favorite_border</span></div>
+        </div>
+        <div class="tab-area-content" id="post-image-area">
+            {% for mypost in myposts %}
+            {% cycle 'one' 'two' 'three' as step silent %}
+            {% if step == 'one' %}
+            <div class="a-row">
+            {% endif %}
+                <div class="post-image-wrapper" data-id="{{ mypost.id }}">
+                    <img data-src="{{ mypost.hiking_img.url }}" alt="">
+                </div>
+            {% if step == 'three' or forloop.last %}
+            </div>
+            {% endif %}
+            {% endfor%}
+        </div>
+        <div class="tab-area-content hide" id="like-image-area">
+            {% for post in myfavorite %}
+            {% cycle 'one' 'two' 'three' as step silent %}
+            {% if step == 'one' %}
+            <div class="a-row">
+            {% endif %}
+                <div class="post-image-wrapper" data-id="{{ post.id }}">
+                    <img data-src="{{ post.hiking_img.url }}" alt="">
+                </div>
+            {% if step == 'three' %}
+            </div>
+            {% endif %}
+            {% endfor%}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/user/mypage.js' %}"></script>
+{% endblock %}

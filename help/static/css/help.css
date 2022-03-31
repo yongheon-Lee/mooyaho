@@ -1,0 +1,56 @@
+#notice-list {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.help-list {
+    margin: 0 auto;
+    width: 370px;
+}
+
+.notice-wrapper {
+    /*width: 100%;*/
+    text-align: center;
+}
+
+.btn-light2 {
+    background-color: #9DCDBF;
+    width: 90%;
+    height: 60px;
+    margin: 10px;
+    font-size: 20px;
+}
+
+.btn-light3 {
+    background-color: orange;
+    width: 90%;
+    height: 60px;
+    margin: 10px;
+    font-size: 20px;
+}
+
+.review-inputbox {
+    margin: 25px auto;
+    width: 100%;
+    background-color: #93beb1;
+    text-align: center;
+    padding: 1rem 1rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-inputbox textarea{
+    /* width: 300px; */
+    width: 100%;
+    height: 390px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    resize: none;
+}
+
+.container {
+    text-align: center;
+}

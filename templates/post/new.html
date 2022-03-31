@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    새 글 쓰기
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/posts.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% if request.resolver_match.url_name == 'posts-new' %}
+        <form id="new-post-form" action="/posts/new/" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="image-area">
+                <div>사진 미리보기</div>
+                <img class="hide" id="imgPreview" alt="여기에 사진 업로드">
+            </div>
+            <input type="file" id="imgInput" name="hiking_img" accept="image/*" hidden>
+            <button type="button" class="btn btn-light" id="img-upload-button">사진 등록</button>
+            {% if message %}
+            <div class="alert alert-danger" id="error-message" role="alert">
+                {{ message }}
+            </div>
+            {% endif %}
+            <div class="new-box">
+                <label class="input-group-text" for="inputGroupSelect">
+                    <select class="form-select" name="rating" id="inputGroupSelect">
+                        <option selected value="0">--별점 고르기--</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+                </label>
+                <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"/>
+                <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
+                        id="location">
+                <datalist id="datalist">
+                    {% for mountain in mountains %}
+                        <option value="{{ mountain.mountain_name }}">
+                    {% endfor %}
+                </datalist>
+                <textarea class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview"></textarea>
+            </div>
+            <div class="new-box">
+                <input type="submit" class="btn btn-light" value="등록">
+                <button type="button" class="btn btn-light"><a href="/posts/">취소</a></button>
+            </div>
+        </form>
+    {% elif request.resolver_match.url_name == 'posts-changes' %}
+        <form id="new-post-form" action="/posts/{{ post_id }}/changes/" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="image-area">
+                <img id="imgPreview" src="{{ form.initial.hiking_img.url }}" alt="여기에 사진 업로드">
+            </div>
+            <input type="file" id="imgInput" name="hiking_img" accept="image/*" hidden>
+            <button type="button" class="btn btn-light" id="img-upload-button">사진 등록</button>
+            <div class="new-box">
+                <label class="input-group-text" for="inputGroupSelect">
+                    <select class="form-select" name="rating" id="inputGroupSelect"
+                            data-oldrating="{{ form.initial.rating }}">
+                        <option value="0">--별점 고르기--</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+                </label>
+                <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"
+                        value="{{ form.initial.title }}">
+                <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
+                        id="location" value="{{ form.initial.mountain_name }}"></textarea>
+                <datalist id="datalist">
+                    {% for mountain in mountains %}
+                        <option value="{{ mountain.mountain_name }}">
+                    {% endfor %}
+                </datalist>
+                <textarea class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview">{{ form.initial.content }}</textarea>
+            </div>
+            <div class="new-box">
+                <input type="submit" class="btn btn-light" id="post-edit-btn" name="{{ post_id }}" value="수정"/>
+                <input type="button" class="btn btn-light" id="edit-cancel-btn" onclick="history.go(-1)" value="취소"/>
+            </div>
+        </form>
+    {% endif %}
+    {% csrf_token %}
+    <script type="text/javascript">
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPreview').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imgInput").change(function () {
+            readURL(this);
+            document.querySelector('#imgPreview').classList.remove('hide');
+            document.querySelector('#image-area > div').classList.add('hide');
+        });
+
+        const clickedImgUploadBtn = (e) => {
+            document.querySelector('#imgInput').click();
+        }
+
+        const checkBlankElement = (form) => {
+            for (let i = 1; i < form.length - 2; i++) {
+                let writeInputElement = form[i];
+                if (writeInputElement.type === 'button') continue;
+                if (writeInputElement.type === 'file') {
+                    const srcValue = document.querySelector('#imgPreview').getAttribute('src');
+                    if (srcValue === null) {
+                        alert('글 등록 시 이미지를 추가 해야 합니다');
+                        document.querySelector('#img-upload-button').focus();
+                        return false;
+                    }
+                } else if (writeInputElement.type === 'select-one') {
+                    if (writeInputElement.value === '0') {
+                        alert('다녀온 산 평가도 부탁드릴게요!');
+                        writeInputElement.focus();
+                        return false;
+                    }
+                } else {
+                    if (writeInputElement.value === '') {
+                        alert('빈 항목을 채워주세요');
+                        writeInputElement.focus();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        const doSubmit = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const form = document.querySelector('form');
+            if (!checkBlankElement(form)) return;
+            form.submit();
+        }
+
+        document.querySelector('#img-upload-button').addEventListener('click', clickedImgUploadBtn);
+        document.querySelector('input[type=submit]').addEventListener('click', doSubmit);
+        document.addEventListener("DOMContentLoaded", function () {
+            const ratingElement = document.querySelector('#inputGroupSelect');
+            const oldRating = parseInt(ratingElement.dataset.oldrating);
+            ratingElement[oldRating].selected = true;
+        })
+    </script>
+
+
+{% endblock %}
+

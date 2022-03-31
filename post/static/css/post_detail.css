@@ -1,0 +1,283 @@
+.post-box {
+    max-width: 422px;
+    border: 4px solid #9DCDBF;
+    border-radius: 6%;
+    margin: 10px;
+    padding: 2px;
+}
+
+.post-box hr {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    color: black;
+    size: 6px;
+}
+
+.image-box {
+    margin: 1rem;
+}
+.image-box img{
+    width: 100%;
+    border-radius: 12px;
+}
+
+/* 글쓴이 정보 */
+#detail-contents .writer-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    align-items: center;
+    margin: 1rem 1.5rem 0.5rem 1rem;
+}
+
+.writer-box .writer-info-section {
+    display: flex;
+    flex-direction: row;
+}
+
+/* 글쓴이 프로필 이미지 */
+.writer-box .writer-info-section .writer-img-wrapper {
+    border: 1px solid rgb(215, 226, 236);
+    border-radius: 28px;
+    padding: 0.2rem;
+}
+.writer-img-wrapper > img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 24px;
+}
+
+/* 글쓴이 이름*/
+.writer-box .writer-info-section .writer-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0.4rem;
+    text-align: left;
+}
+
+.writer-info > span {
+    font-size: 15px;
+}
+
+.writer-info > span:nth-child(1) {
+    font-weight: 800;
+    margin-bottom: -0.15rem;
+}
+.writer-info > div {
+    margin-top: -0.15rem;
+    display: flex;
+    align-items: center;
+}
+
+.writer-info > div > span {
+    font-size: 16px;
+}
+
+.writer-info > div > span:nth-child(3) {
+    font-size: 14px;
+}
+
+#new-post-form {
+    margin: 30px auto auto auto;
+    max-width: 350px;
+}
+
+/* 산 이름 & 별점 영역 */
+#detail-contents .mountain-info-box {
+    display: flex;
+    margin: 0 0 1rem 1rem;
+}
+
+/* 유저 정보 포스트 본문 경계선 */
+#detail-contents {
+    text-align: center;
+}
+hr {
+    height: 1px;
+    color: gray;
+    margin: 1.5rem 1rem;
+}
+
+/* 본문 영역(제목, 타이틀, 작성 시간) */
+#detail-contents .content-box {
+    margin: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+.content-box > div {
+    display: flex;
+}
+
+/* 포스트 작성 시간 영역 */
+.post-time {
+    margin-top: -0.4rem;
+    margin-bottom: 1rem;
+}
+.post-time > span {
+    color: rgb(177, 179, 184);
+    font-size: 0.8rem;
+}
+
+/* 좋아요 & 신고하기 영역 */
+#detail-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 1rem;
+}
+
+#detail-icons > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.post_like > i {
+    font-size: 20px;
+    margin-right: 0.4rem;
+    margin-top: 6px;
+}
+
+.disabled-heart-area > i {
+    font-size: 20px;
+    margin-right: 0.4rem;
+    margin-top: 6px;
+}
+
+/* 댓글 영역 */
+.comment-area > div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 0 1rem 1rem 1rem;
+    text-align: left;
+}
+
+.comment-area > div > span:nth-child(2) {
+    width: 200px;
+}
+
+#repleDeleteBtn > span {
+    color: black;
+}
+
+/* 댓글 작성 영역 */
+#detail-enter-comment .comment-input-area {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 2rem 1rem 1rem 1rem;
+}
+
+.comment-input-area > textarea {
+    width: 200px;
+    margin: 3px 0;
+}
+
+/* 글쓰기 미리보기 이미지 관련 */
+#image-area {
+    max-width: 100%;
+    height: 300px;
+    border: 1px solid rgb(199, 206, 212);
+}
+
+#image-area > img {
+    object-fit: contain;
+}
+
+.hide {
+    display: none;
+}
+
+.new-box {
+    margin: 10px auto 10px auto;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: auto;
+
+    width: 300px;
+    height: 200px;
+
+    display: none;
+
+    background-color: #9DCDBF;
+
+    text-align: center;
+    transform: translateX(-50%) translateY(-50%);
+
+}
+
+#new-post-form {
+    text-align: center;
+}
+
+input[type=text] {
+    width: 300px;
+    margin: 10px;
+}
+
+textarea[name=inputReview] {
+    width: 300px;
+    margin: 10px;
+}
+
+/* 사진 등록 버튼 */
+#img-upload-button {
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+#image-area img{
+    width: 100%;
+    height: 100%;
+}
+
+a { text-decoration:none;
+    color: black;
+}
+
+#myform {
+    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+    border: 0; /* 필드셋 테두리 제거 */
+    direction: rtl; /* 이모지 순서 반전 */
+}
+#myform input[type=radio]{
+    display: none; /* 라디오박스 감춤 */
+}
+#myform label{
+    font-size: 2em; /* 이모지 크기 */
+    color: transparent; /* 기존 이모지 컬러 제거 */
+    text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+}
+
+#myform label:hover{
+    text-shadow: 0 0 0 #a00; /* 마우스 호버 */
+}
+#myform label:hover ~ label{
+    text-shadow: 0 0 0 #a00; /* 마우스 호버 뒤에오는 이모지들 */
+}
+
+#myform fieldset legend{
+    text-align: left;
+}
+
+#detail-enter-comment {
+    text-align: center;
+}
+
+.comment-area p{
+    text-align: left;
+}
