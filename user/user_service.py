@@ -122,8 +122,11 @@ def signup(request):
                                                                age_gr=age_gr, exp=exp,
                                                                reason=int_to_str_reasons)
                     # 회원가입 후 바로 로그인 처리
-                    auth.login(request, new_user)
-                    return redirect('main')
+                    # auth.login(request, new_user)
+                    # return redirect('main')
+
+                    # 로그인에서 위치 정보를 받기 위해 로그인 화면으로 넘기기
+                    return redirect('login')
 
 
 # 로그아웃
