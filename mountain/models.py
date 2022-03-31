@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Mountain(models.Model):
     id = models.BigIntegerField(primary_key=True)
     mountain_id = models.FloatField(blank=True, null=True)
@@ -23,3 +24,7 @@ class Mountain(models.Model):
     class Meta:
         managed = True
         db_table = 'mountain'
+
+    # 각 객체가 산 이름으로 표시되도록 설정
+    def __str__(self):
+        return self.mountain_name

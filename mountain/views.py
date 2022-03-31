@@ -45,8 +45,9 @@ def home(request):
         keyword = res1['keyword'] #키워드 값만 분리
         request_recommand_mountain = res1['mountain'] #산 아이디만 분리
 
-        recommand_mountain = mountain_id_plus(request_recommand_mountain) # 받은 산 id에서 1씩 더하기
-        recommand_mountain = Mountain.objects.filter(id__in=recommand_mountain) # 리스트 요소들에 해당하는 id와 같은 객체 가져오기
+        # recommand_mountain = mountain_id_plus(request_recommand_mountain) # 받은 산 id에서 1씩 더하기
+        # recommand_mountain = Mountain.objects.filter(id__in=recommand_mountain) # 리스트 요소들에 해당하는 id와 같은 객체 가져오기
+        recommand_mountain = Mountain.objects.filter(id__in=request_recommand_mountain)
 
     if res2['data']==0:  #게시물이 없을경우
         # _____님! 게시물을 업로드해보세요~
