@@ -81,7 +81,11 @@
                         <button type="button" class="btn btn-light" data-url="{% url 'mountains' %}">전체 산 리스트</button>
                         <button type="button" class="btn btn-light" data-url="{% url 'mypage' %}">마이페이지</button>
                         <button type="button" class="btn btn-light" data-url="{% url 'help' %}">고객센터</button>
+                        {% if request.user.is_authenticated %}
                         <button type="button" class="btn btn-link" data-url="{% url 'logout' %}">로그아웃</button>
+                        {% else %}
+                        <button type="button" class="btn btn-link" data-url="{% url 'login' %}">로그인</button>
+                        {% endif %}
                     </div>
                 </div>
             </div>
