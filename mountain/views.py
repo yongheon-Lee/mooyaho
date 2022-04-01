@@ -104,15 +104,14 @@ def mountains(request):
     all_mountain = Mountain.objects.filter(id__lt=101)
     return render(request, 'mountain/all_mountain.html', {'mountains': all_mountain})
 
+
 def mountains_detail(request, id):
     my_mountain = Mountain.objects.get(id=id)
     # userviewlog 데이터 넣기
     user = request.user
-
-    user_id = user.id
-    mountain_id = Mountain.objects.get(id=id).id
-
-    if user.is_authenticated:
+    if user.is_authenticated :
+        user_id = user.id
+        mountain_id = Mountain.objects.get(id=id).id
         b = UserViewLog(mountain_id=mountain_id,
                         user_id=user_id)
         b.save()
