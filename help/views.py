@@ -62,7 +62,7 @@ def edit_notice(request, id):
                 return redirect('notice')
     # 아니라면,
     else:
-        return redirect('notice')
+        return redirect('login')
 
 
 @login_required(login_url='login')
@@ -82,7 +82,7 @@ def delete_notice(request, id):
 
     # 아니라면,
     else:
-        return redirect('notice')
+        return redirect('login')
 
 
 # 리뷰 둘러보기 가능(login 불필요)
