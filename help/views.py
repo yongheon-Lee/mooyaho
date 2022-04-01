@@ -5,18 +5,15 @@ from django.contrib.auth.decorators import login_required
 from user.user_models import MooyahoUser
 # Create your views here.
 
-@login_required(login_url='/login')
+
 def index(request):
     return render(request, 'help/help.html')
 
-@login_required(login_url='/login')
+
 def notice(request):
-    user = request.user.is_authenticated
-    if user:
-        all_notice = Notice.objects.filter(deleted=False).order_by('-id')
-        return render(request, 'help/notice.html', {'notice': all_notice})
-    else:
-        return redirect('/login')
+    all_notice = Notice.objects.filter(deleted=False).order_by('-id')
+    return render(request, 'help/notice.html', {'notice': all_notice})
+
 
 def post_notice(request):
     if request.method == "GET":
@@ -76,7 +73,7 @@ def delete_notice(request, id):
         print("사용자 틀림.")
         return redirect('notice')
 
-@login_required(login_url='/login')
+
 def review(request):
     # all_review = Review.objects.all()
     all_review = Review.objects.filter(deleted=0).order_by('-id')
