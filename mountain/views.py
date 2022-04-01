@@ -112,7 +112,6 @@ def mountains_detail(request, id):
     if user.is_authenticated :
         user_id = user.id
         mountain_id = Mountain.objects.get(id=id).id
-
         b = UserViewLog(mountain_id=mountain_id,
                         user_id=user_id)
         b.save()
