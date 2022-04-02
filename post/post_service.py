@@ -51,7 +51,7 @@ def post_detail(request, pk):
         }
         # userviewlog에 게시물의 산의 id 넣기
         userviewlog=UserViewLog(user_id=request.user.id,
-                                post=clicked_post.mountain_id)
+                                post_mountain_id=clicked_post.mountain_id)
         userviewlog.save()
 
         return render(request, 'post/detail.html', post_detail_context)
