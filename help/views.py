@@ -71,13 +71,16 @@ def delete_notice(request, id):
     superuser = request.user.is_superuser
 
     # 관리자라면,
-    if superuser:
+    if superuser is True:
         my_notice = Notice.objects.get(id=id)
         now_user_id = MooyahoUser.objects.get(nickname=my_notice.user_id)
 
         if request.user.id == now_user_id.id:
             my_notice.deleted = True
             my_notice.save()
+            return redirect('notice')
+
+        else:
             return redirect('notice')
 
     # 아니라면,
