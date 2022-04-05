@@ -136,7 +136,6 @@ def mountains_detail(request, id):
     return render(request, 'mountain/mountains_detail.html', {'mountain_info': my_mountain, 'restaurant_info': json.dumps(restaurant_info)})
 
 
-@login_required(login_url='/login/')
 def mountain_list(request):
     result = True
     mountains_name = []
