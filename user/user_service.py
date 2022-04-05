@@ -37,6 +37,7 @@ def login(request):
                 return render(request, 'user/login.html', {'error': '이메일 혹은 비밀번호를 다시 확인해주세요.'})
 
 
+
 # 회원가입
 def signup(request):
     # 로그인한 상태인지 확인

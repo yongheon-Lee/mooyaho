@@ -112,7 +112,6 @@ def mountains_detail(request, id):
     if user.is_authenticated :
         user_id = user.id
         mountain_id = Mountain.objects.get(id=id).id
-
         b = UserViewLog(mountain_id=mountain_id,
                         user_id=user_id)
         b.save()
@@ -137,7 +136,6 @@ def mountains_detail(request, id):
     return render(request, 'mountain/mountains_detail.html', {'mountain_info': my_mountain, 'restaurant_info': json.dumps(restaurant_info)})
 
 
-@login_required(login_url='/login/')
 def mountain_list(request):
     result = True
     mountains_name = []

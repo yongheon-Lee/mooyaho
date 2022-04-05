@@ -1,11 +1,25 @@
 
 const clickedNavigateButton = (e) => {
+    const isAuthenticated = (e.target.parentElement.parentElement.dataset.isAuthenticated === 'True'); // 로그인 or 비로그인 확인
+    const publicUrlGroup = ['/mountains/', '/help/', '/login/']; // 비로그인 유저에게 오픈 된 메뉴(url) 그룹
     const url = e.target.dataset.url;
-    if (url === '/logout/') {
-        localStorage.removeItem('mountainNameList');
-    }
     
-    location.href = url;
+    if (isAuthenticated || publicUrlGroup.includes(url)) { // 로그인 유저 or 오픈된 메뉴(url) 그룹 요청시
+        if (url === '/logout/') {
+            localStorage.removeItem('mountainNameList');
+        }
+        
+        location.href = url;
+    } else { // 접속 불가한 메뉴(url) 요청 시
+        const modalContent = document.querySelector('#custom-modal-content');
+        modalContent.innerHTML = `
+            <div>로그인 후 이용 가능한 메뉴 입니다.</div>
+            <a href='/login/'>로그인 하러 가기!</a>
+            <div style="margin-top:1rem">둘러보기로 이용 가능 메뉴는</div>
+            <div><b>전체 산 리스트</b>, <b>고객센터</b> 입니다.</div>
+        `;
+        document.querySelector('#modal-execute-btn').click();
+    }
 }
 
 const setMountainListToLocalStorage = () => {

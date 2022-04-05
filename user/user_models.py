@@ -82,7 +82,7 @@ class UserViewLog(models.Model):
         db_table = "userviewlog"
 
     user = models.ForeignKey('user.MooyahoUser', on_delete=models.CASCADE)
-    post = models.BigIntegerField(null=True, blank=True)
+    post_mountain_id = models.IntegerField(null=True, blank=True)
     mountain = models.ForeignKey('mountain.Mountain', on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
