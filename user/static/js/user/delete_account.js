@@ -5,8 +5,12 @@ $('#complete-btn').click(function (){
 
     // 탈퇴 처리
     if (delete_confirm === true){
+
         // 신고 내용 가져오기
         let delete_reason = document.querySelector('#deleteReason').value;
+
+        // csrf 토큰 가져오기
+        const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
 
         // 백엔드로 넘길 데이터 작성
         let params = {
@@ -24,7 +28,8 @@ $('#complete-btn').click(function (){
             success: function (data) {
                 if (data.result === 'ok'){
                     alert('탈퇴 처리가 완료됐습니다. 이용해 주셔서 감사합니다.');
-                    window.location = '/login/';
+                    $('#deleteReason').val('');
+                    window.location = '/logout/';
                 }
             },
             error: function (request, status, error){
