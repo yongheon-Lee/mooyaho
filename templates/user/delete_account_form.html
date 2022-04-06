@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    회원탈퇴 양식
+{% endblock %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/user/delete_account_form.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="delete-account-reason-input-box">
+            <form action="{% url 'delete-account' %}" method="post">
+                {% csrf_token %}
+                <textarea name="deleteReason" placeholder="탈퇴 사유를 입력해 주세요."></textarea>
+                <div class="register-or-cancel-btn-wrapper">
+                    <input id="complete-btn" class="btn btn-success" type="submit" value="제출">
+                    <input id="cancel-btn" class="btn btn-light" type="button" value="취소" onclick="history.go(-1)">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
