@@ -38,6 +38,11 @@
             {% for reason in user.reason|get_my_reason_list %}
             <span class="badge rounded-pill bg-dark">{{ reason }}</span>
             {% endfor %}
+            <div id="delete-account-link-area">
+                <a href="{% url 'delete-account' %}">
+                    회원탈퇴
+                </a>
+            </div>
         </div>
     </div>
     <div id="post-area">

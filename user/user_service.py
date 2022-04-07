@@ -26,6 +26,8 @@ def login(request):
             longitude = request.POST['longitude']
 
             exist_user = auth.authenticate(request, username=email, password=password)
+
+            # DB에 유저 정보가 있으면,
             if exist_user is not None:
                 exist_user.latitude = latitude
                 exist_user.longitude = longitude
@@ -33,8 +35,10 @@ def login(request):
                 auth.login(request, exist_user)
                 return redirect('main')
 
+            # 없다면,
             else:
-                return render(request, 'user/login.html', {'error': '이메일 혹은 비밀번호를 다시 확인해주세요.'})
+                message = {'error': '이메일 혹은 비밀번호를 다시 확인해주세요.'}
+                return render(request, 'user/login.html', message)
 
 
 # 회원가입
@@ -139,7 +143,6 @@ def logout(request):
 # 마이 페이지
 @login_required(login_url='login')
 def my_page(request):
-
     # 현재 유저 id
     user_id = request.user.id
 
@@ -173,6 +176,36 @@ def my_page(request):
         except Exception as e:
             print(e)
             return JsonResponse({'result': 'fail', 'msg': '프로필 사진 변경에 실패하였습니다'})
+
+
+@login_required(login_url='login')
+def delete_account(request):
+    if request.method == 'GET':
+        return render(request, 'user/delete_account_form.html')
+
+    elif request.method == 'POST':
+        # 프론트에서 넘어온 값 읽기
+        json_object = json.loads(request.body)
+
+        current_user = MooyahoUser.objects.get(id=request.user.id)
+
+        # 탈퇴 사유 값 가져오기
+        current_user.disabled_reason = json_object.get('delete_reason')
+
+        # 계정 비활성화 여부 설정
+        current_user.disabled = True
+
+        # 계정 인증 가능 여부 설정
+        current_user.is_active = False
+        current_user.save()
+
+        # 로그아웃 처리
+        # auth.logout(request)
+
+        # 프론트로 넘길 데이터 담기
+        context = {'result': 'ok'}
+        return JsonResponse(context)
+
 
 def duplication_check(request):
     duplication_check_data = json.loads(request.body)

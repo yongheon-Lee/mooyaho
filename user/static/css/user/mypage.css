@@ -40,6 +40,10 @@
     padding: 1.5rem 1.5rem 1.5rem 1rem;
 }
 
+#user-info-wrapper #delete-account-link-area {
+    width: 100%;
+}
+
 /* nav탭 */ 
 #tab-area {
     display: flex;
