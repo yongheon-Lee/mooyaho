@@ -1,0 +1,40 @@
+.container {
+    text-align: center;
+}
+
+.delete-account-reason-input-box {
+    margin: 25px auto;
+    width: 100%;
+    background-color: #93beb1;
+    text-align: center;
+    padding: 1rem 1rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.delete-account-reason-input-box textarea{
+    width: 100%;
+    height: 370px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 10px;
+    resize: none;
+}
+
+form .register-or-cancel-btn-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+form .register-or-cancel-btn-wrapper #complete-btn {
+    width: 150px;
+}
+
+form .register-or-cancel-btn-wrapper #cancel-btn {
+    width: 150px;
+}
