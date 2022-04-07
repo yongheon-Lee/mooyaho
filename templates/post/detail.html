@@ -24,10 +24,13 @@
                     <span>{{ clicked_post.user.nickname }}</span>
                     <div>
                         <span class="material-icons">location_on</span>
-                        <a href="/mountains_detail/{{ clicked_post.mountain_id }}">
+                        {% if clicked_post.mountain_id < 101%}
+                            <a href="/mountains_detail/{{ clicked_post.mountain_id }}">
+                                <span>{{ clicked_post.mountain_name }}</span>
+                            </a>
+                        {% else %}
                             <span>{{ clicked_post.mountain_name }}</span>
-                        </a>
-
+                        {% endif %}
                         <span>&nbsp;
                             {% for i in rating %}
                                 {{ i }}
