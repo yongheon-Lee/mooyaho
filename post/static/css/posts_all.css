@@ -54,6 +54,7 @@
 /* 사진 영역 */
 .image-box {
     margin: 1rem;
+    cursor: pointer;
 }
 
 .image-box img{
@@ -65,6 +66,7 @@
 
 .content-box {
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 .content-box div.title {
