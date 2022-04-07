@@ -63,7 +63,7 @@ class MooyahoUser(AbstractUser):
     gender = models.CharField(max_length=2, choices=gender_conf, verbose_name='성별')
     age_gr = models.CharField(max_length=10, choices=age_gr_conf, verbose_name='연령대')
     disabled = models.BooleanField(default=False, verbose_name='탈퇴 여부')
-    disabled_reason = models.TextField(default='', verbose_name='탈퇴 사유')
+    disabled_reason = models.TextField(null=True, verbose_name='탈퇴 사유')
     superuser = models.BooleanField(default=False, verbose_name='관리자 여부')
     profile_img = models.ImageField(blank=True, upload_to=profile_img_upload_path,
                                     default='images/no-img.png', verbose_name='프로필 사진')

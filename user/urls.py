@@ -9,5 +9,6 @@ urlpatterns = [
     path('signup/doublecheck/', user_service.duplication_check, name='duplication_check'),
     path('logout/', user_service.logout, name='logout'),
     path('mypage/', user_service.my_page, name='mypage'),
+    path('delete-account/', user_service.delete_account, name='delete-account'),
 ]
 # + static(settings.USER_MEDIA_URL, document_root=settings.USER_MEDIA_ROOT)
