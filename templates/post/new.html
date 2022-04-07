@@ -7,23 +7,33 @@
 {% load static %}
 
 {% block css %}
+    <style type="text/css">
+        img {
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        #imgPreview > div {
+            max-width: 100%;
+            height: 300px;
+        }
+    </style>
     <link rel="stylesheet" type="text/css" href="{% static 'css/posts.css' %}">
+
 {% endblock %}
 
 {% block content %}
     {% if request.resolver_match.url_name == 'posts-new' %}
         <form id="new-post-form" action="/posts/new/" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <div id="image-area">
-                <div>사진 미리보기</div>
-                <img class="hide" id="imgPreview" alt="여기에 사진 업로드">
+            <div id="imgPreview" style="max-width: 100%;height: 300px;">
             </div>
             <input type="file" id="imgInput" name="hiking_img" accept="image/*" hidden>
             <button type="button" class="btn btn-light" id="img-upload-button">사진 등록</button>
             {% if message %}
-            <div class="alert alert-danger" id="error-message" role="alert">
-                {{ message }}
-            </div>
+                <div class="alert alert-danger" id="error-message" role="alert">
+                    {{ message }}
+                </div>
             {% endif %}
             <div class="new-box">
                 <label class="input-group-text" for="inputGroupSelect">
@@ -38,7 +48,7 @@
                 </label>
                 <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"/>
                 <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
-                        id="location">
+                       id="location">
                 <datalist id="datalist">
                     {% for mountain in mountains %}
                         <option value="{{ mountain.mountain_name }}">
@@ -72,15 +82,16 @@
                     </select>
                 </label>
                 <input type="text" class="form-control" placeholder="글 제목" name="title" id="title"
-                        value="{{ form.initial.title }}">
+                       value="{{ form.initial.title }}">
                 <input type="text" list="datalist" class="form-control" placeholder="산 이름 입력" name="inputMt"
-                        id="location" value="{{ form.initial.mountain_name }}"></textarea>
+                       id="location" value="{{ form.initial.mountain_name }}"></textarea>
                 <datalist id="datalist">
                     {% for mountain in mountains %}
                         <option value="{{ mountain.mountain_name }}">
                     {% endfor %}
                 </datalist>
-                <textarea class="form-control" placeholder="산의 후기 남겨주세요" name="inputReview">{{ form.initial.content }}</textarea>
+                <textarea class="form-control" placeholder="산의 후기 남겨주세요"
+                          name="inputReview">{{ form.initial.content }}</textarea>
             </div>
             <div class="new-box">
                 <input type="submit" class="btn btn-light" id="post-edit-btn" name="{{ post_id }}" value="수정"/>
@@ -90,6 +101,90 @@
     {% endif %}
     {% csrf_token %}
     <script type="text/javascript">
+
+        let refs = {};
+        refs.imagePreviews = document.querySelector('#imgPreview');
+        refs.fileSelector = document.querySelector('input[type=file]');
+
+        function addImageBox(container) {
+            let imageBox = document.createElement("div");
+            let progressBox = document.createElement("progress");
+            imageBox.appendChild(progressBox);
+            container.appendChild(imageBox);
+
+            return imageBox;
+        }
+
+        function processFile(file) {
+            if (!file) {
+                return;
+            }
+            console.log(file);
+
+            let imageBox = addImageBox(refs.imagePreviews);
+
+            // Load the data into an image
+            new Promise(function (resolve, reject) {
+                let rawImage = new Image();
+
+                rawImage.addEventListener("load", function () {
+                    resolve(rawImage);
+                });
+
+                rawImage.src = URL.createObjectURL(file);
+            })
+                .then(function (rawImage) {
+                    // Convert image to webp ObjectURL via a canvas blob
+                    return new Promise(function (resolve, reject) {
+                        let canvas = document.createElement('canvas');
+                        let ctx = canvas.getContext("2d");
+
+                        canvas.width = rawImage.width;
+                        canvas.height = rawImage.height;
+                        ctx.drawImage(rawImage, 0, 0);
+
+                        canvas.toBlob(function (blob) {
+                            resolve(URL.createObjectURL(blob));
+                        }, "image/webp");
+                    });
+                })
+                .then(function (imageURL) {
+                    // Load image for display on the page
+                    return new Promise(function (resolve, reject) {
+                        let scaledImg = new Image();
+
+                        scaledImg.addEventListener("load", function () {
+                            resolve({imageURL, scaledImg});
+                        });
+
+                        scaledImg.setAttribute("src", imageURL);
+                    });
+                })
+                .then(function (data) {
+                    // Inject into the DOM
+                    imageBox.innerHTML = "";
+                    {#let imageLink = document.createElement("div");#}
+                    imageBox.appendChild(data.scaledImg);
+                    {#imageBox.appendChild(imageLink);#}
+                });
+        }
+
+        function processFiles(files) {
+            for (let file of files) {
+                document.getElementById("imgPreview").innerHTML = "";
+                processFile(file);
+            }
+        }
+
+        function fileSelectorChanged() {
+            processFiles(refs.fileSelector.files);
+            {#refs.fileSelector.value = "";#}
+            document.querySelector('#imgPreview').classList.remove('hide');
+            document.querySelector('#image-area > div').classList.add('hide');
+        }
+
+        refs.fileSelector.addEventListener("change", fileSelectorChanged);
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -101,9 +196,10 @@
         }
 
         $("#imgInput").change(function () {
-            readURL(this);
-            document.querySelector('#imgPreview').classList.remove('hide');
-            document.querySelector('#image-area > div').classList.add('hide');
+            {#readURL(this)#}
+            {#processFile(this)#}
+            {#document.querySelector('#imgPreview').classList.remove('hide');#}
+            {#document.querySelector('#image-area > div').classList.add('hide');#}
         });
 
         const clickedImgUploadBtn = (e) => {
