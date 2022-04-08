@@ -1,4 +1,4 @@
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -39,6 +39,7 @@ def login(request):
             else:
                 message = {'error': '이메일 혹은 비밀번호를 다시 확인해주세요.'}
                 return render(request, 'user/login.html', message)
+
 
 
 # 회원가입
