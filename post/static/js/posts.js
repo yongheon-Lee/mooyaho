@@ -8,7 +8,7 @@ function changeSearchToAdd() {
     img1.removeEventListener('click', clickedSearchButton);
     img1.innerHTML = `<div onclick="location.href='/posts/new'"
         style="color: black;">
-        <span class="material-icons" style="font-size: 2rem;">
+        <span class="material-icons" style="font-size: 2rem; cursor: pointer;">
         create
         </span>
     </div>`;

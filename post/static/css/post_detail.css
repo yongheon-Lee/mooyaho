@@ -149,6 +149,10 @@ hr {
     margin-top: 6px;
 }
 
+#content #detail-icons #post-report-wrapper {
+    cursor: pointer;
+}
+
 /* 댓글 영역 */
 .comment-area > div{
     display: flex;
