@@ -234,12 +234,49 @@
             return true;
         }
 
+        const postForm = (url, data) => { // TODO: util 성 함수 모아두는 곳이 있으면 좋겠네요 ㅎㅎ
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: data,
+                contentType: false,
+                processData: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", document.querySelector('input[name=csrfmiddlewaretoken]').value);
+                },
+                success: function (data) {
+                    window.location.href = data.redirect
+                },
+                error: function () {
+                    alert('오류가 발생했습니다!');
+                }
+            });
+        }
+
+        const makeWebpAndSendForm = (form, rawImage) => {
+            const canvas = document.createElement('canvas');
+            canvas.width = rawImage.naturalWidth;
+            canvas.height = rawImage.naturalHeight;
+            canvas.getContext('2d').drawImage(rawImage, 0, 0);
+            canvas.toBlob(
+                (blob) => {
+                    const formData = new FormData(form);
+                    formData.set('hiking_img', blob, 'posting.webp');
+                    postForm(form.action, formData);
+                },
+                'image/webp',
+            );
+        }
+
         const doSubmit = (e) => {
             e.preventDefault();
             e.stopPropagation();
             const form = document.querySelector('form');
             if (!checkBlankElement(form)) return;
-            form.submit();
+
+            const rawImage = new Image();
+            rawImage.onload = () => {makeWebpAndSendForm(form, rawImage)};
+            rawImage.src = URL.createObjectURL(form[1].files[0]);
         }
 
         document.querySelector('#img-upload-button').addEventListener('click', clickedImgUploadBtn);
