@@ -109,6 +109,6 @@ for(let i=0; i<footerButtons.length; i++) {
     footerButtons[i].addEventListener('click', clickedNavigateButton);
 }
 
-document.querySelector('#search-wrapper').addEventListener('click', clickedSearchButton);
+document.querySelector('#search-icon').addEventListener('click', clickedSearchButton);
 document.querySelector('#search-back-wrapper').addEventListener('click', clickedSearchBackButton);
 window.addEventListener('keydown', enterSearch);
