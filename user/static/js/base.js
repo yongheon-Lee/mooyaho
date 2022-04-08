@@ -1,6 +1,6 @@
 
 const clickedNavigateButton = (e) => {
-    const isAuthenticated = (e.target.parentElement.parentElement.dataset.isAuthenticated === 'true'); // 로그인 or 비로그인 확인
+    const isAuthenticated = (e.target.parentElement.parentElement.dataset.isAuthenticated === 'True'); // 로그인 or 비로그인 확인
     const publicUrlGroup = ['/mountains/', '/help/', '/login/']; // 비로그인 유저에게 오픈 된 메뉴(url) 그룹
     const url = e.target.dataset.url;
     
@@ -109,6 +109,6 @@ for(let i=0; i<footerButtons.length; i++) {
     footerButtons[i].addEventListener('click', clickedNavigateButton);
 }
 
-document.querySelector('#search-wrapper').addEventListener('click', clickedSearchButton);
+document.querySelector('#search-icon').addEventListener('click', clickedSearchButton);
 document.querySelector('#search-back-wrapper').addEventListener('click', clickedSearchBackButton);
 window.addEventListener('keydown', enterSearch);

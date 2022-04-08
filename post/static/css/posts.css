@@ -46,6 +46,14 @@
     margin: 10px auto 10px auto;
 }
 
+.new-box #inputGroupSelect {
+    cursor: pointer;
+}
+
+.new-box #location {
+    cursor: pointer;
+}
+
 .image-box {
     padding: 30px;
     width: 100%;

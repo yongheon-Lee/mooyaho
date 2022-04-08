@@ -110,7 +110,7 @@ def post(request):
             rating=request.POST['rating']
         )
         new_posting.save()
-        return redirect(f'/posts/{str(new_posting.id)}/')
+        return JsonResponse({'result': 'ok', 'redirect': f'/posts/{str(new_posting.id)}/'})
 
 
 # 글 수정 기능

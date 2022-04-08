@@ -22,7 +22,14 @@
                 </div>
                 <div class="writer-info">
                     <span>{{ content.user.nickname }}</span>
-                    <span>{{ content.mountain_name }}</span>
+                    <div id="mountain-info">
+                        <span>{{ content.mountain_name }}</span>
+                        {% if content.mountain_id < 101 %}
+                            <a href="/mountains_detail/{{ content.mountain_id }}/">
+                                <span class="material-icons mountain-icon">image_search</span>
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             <div class="image-box">

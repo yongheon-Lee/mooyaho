@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,7 +17,6 @@
 
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block css %}{% endblock %}
 </head>
@@ -34,9 +33,9 @@
                 <div id="menu-wrapper">
                     <i class="material-icons" id="menu-icon" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop">menu</i>
                 </div>
-                <div id="logo-wrapper">
+                <a id="logo-wrapper" href="{% url 'main' %}">
                     <img src="{% static 'images/mooyaho_logo.png' %}" alt="">
-                </div>
+                </a>
                 <div id="search-back-wrapper" class="hide">
                     <i class="material-icons">arrow_back</i>
                 </div>
@@ -46,7 +45,7 @@
                     </datalist>
                 </div>
                 <div id="search-wrapper">
-                    <i class="material-icons">search</i>
+                    <i class="material-icons" id="search-icon">search</i>
                 </div>
                 
             </div>
