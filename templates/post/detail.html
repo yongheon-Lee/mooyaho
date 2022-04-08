@@ -24,7 +24,13 @@
                     <span>{{ clicked_post.user.nickname }}</span>
                     <div>
                         <span class="material-icons">location_on</span>
-                        <span>{{ clicked_post.mountain_name }}</span>
+                        {% if clicked_post.mountain_id < 101%}
+                            <a href="/mountains_detail/{{ clicked_post.mountain_id }}">
+                                <span>{{ clicked_post.mountain_name }}</span>
+                            </a>
+                        {% else %}
+                            <span>{{ clicked_post.mountain_name }}</span>
+                        {% endif %}
                         <span>&nbsp;
                             {% for i in rating %}
                                 {{ i }}
@@ -35,19 +41,27 @@
             </div>
             <div class="writer-action-section">
                 {% if clicked_post.user == user %}
-                <div class="btn-group dropstart">
-                    <div data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="btn-group dropstart">
+                        <div data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="material-icons finger-pointer">
                             more_vert
                         </span>
+                        </div>
+                        <ul class="dropdown-menu" style="min-width: 4rem;">
+
+                            <li>
+                                <button type="button" class="dropdown-item" id="post-to-edit-btn"
+                                        name="{{ clicked_post.id }}">수정
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item" id="post-delete-btn"
+                                        name="{{ clicked_post.id }}">삭제
+                                </button>
+                            </li>
+
+                        </ul>
                     </div>
-                    <ul class="dropdown-menu" style="min-width: 4rem;">
-                    
-                        <li><button type="button" class="dropdown-item" id="post-to-edit-btn" name="{{ clicked_post.id }}">수정</button></li>
-                        <li><button type="button" class="dropdown-item" id="post-delete-btn" name="{{ clicked_post.id }}">삭제</button></li>
-                    
-                    </ul>
-                </div>
                 {% endif %}
             </div>
         </div>
@@ -67,36 +81,24 @@
     <div id="detail-icons">
         {% csrf_token %}
         <div>
-            <!-- 해당 글 작성자와 현재 유저가 다르면 좋아요 버튼 활성화 -->
-            {% if clicked_post.user != user %}
-                <a class="post_like" id="{{ clicked_post.id }}" type="button">
-                    {% if user in clicked_post.likes.all %}
-                        <i class="fas fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
-                    {% else %}
-                        <i class="far fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
-                    {% endif %}
-                </a>
-            {% else %}
-                <!-- 해당 글 작성자와 현재 유저가 같으면 좋아요 버튼 비활성화 -->
-                <div class="disabled-heart-area">
-                    {% if user in clicked_post.likes.all %}
-                        <i class="fas fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
-                    {% else %}
-                        <i class="far fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
-                    {% endif %}
-                </div>
-            {% endif %}
+            <a class="post_like" id="{{ clicked_post.id }}" type="button">
+                {% if user in clicked_post.likes.all %}
+                    <i class="fas fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#bd1f00"></i>
+                {% else %}
+                    <i class="far fa-heart fa-2x" id="like_heart{{ clicked_post.id }}" style="color:#3d3d3d"></i>
+                {% endif %}
+            </a>
             <span id="like_count-{{ clicked_post.id }}" style="margin: 0">
                 좋아요&nbsp;{{ clicked_post.likes.all.count }}개
             </span>
         </div>
         <!-- 해당 글의 작성자와 글을 누른 유저가 같을 경우 신고 버튼 비활성화 -->
         {% if clicked_post.user != user %}
-        <div>
+        <div id="post-report-wrapper">
             <span id="modal-report" onclick="modalReport()">
                 🚨
             </span>&nbsp;
-            <span>신고</span>
+                <span>신고</span>
         </div>
         {% endif %}
     </div>
@@ -111,7 +113,7 @@
                     <span>{{ comment.comment }}</span>
                     {% if request.user == comment.author %}
                         <button type="button" class="btn btn-link" id="repleDeleteBtn" name="{{ clicked_post.id }}"
-                            onclick="repleDelete({{ comment.id }})">
+                                onclick="repleDelete({{ comment.id }})">
                             <span class="material-icons">
                                 delete
                             </span>
@@ -123,7 +125,8 @@
         <div class="comment-input-area">
             <span id="author"><b>{{ request.user.nickname }}</b></span>
             <textarea style="resize: none" class="comment-input" id="comments" name="comments"></textarea>
-            <input type="button" class="btn btn-light" id="repleBtn" disabled="disabled" name="{{ clicked_post.id }}" value="게시">
+            <input type="button" class="btn btn-light" id="repleBtn" disabled="disabled" name="{{ clicked_post.id }}"
+                   value="게시">
             {% csrf_token %}
         </div>
     </div>

@@ -16,7 +16,7 @@
     {% for mountain in mountains %}
     {% with id=mountain.id|intToStr %}
     <div class="image-wrapper" data-id="{{id}}">
-        {% with image_path='images/mountains/mountain_'|add:id|add:'.jpeg' %}
+        {% with image_path='images/mountains/mountain_'|add:id|add:'.webp' %}
             <img class="mountain-image" data-src="{% static image_path %}">
             <p>{{mountain.mountain_name}}</p>
         {% endwith %}

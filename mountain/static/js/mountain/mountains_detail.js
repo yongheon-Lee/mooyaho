@@ -195,6 +195,7 @@ const makeInfoCard = (info) => {
     } else {
         aElement.setAttribute('href', `https://search.naver.com/search.naver?query=${aElement.textContent} ${info.address}`);
     }
+    aElement.setAttribute('target', '_blank'); // a태그 클릭 시 새 탭 or 새 윈도우에서 열기 옵션
 
     h5.appendChild(aElement);
     secondDiv.appendChild(h5);

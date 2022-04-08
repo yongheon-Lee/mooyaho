@@ -8,7 +8,7 @@ function changeSearchToAdd() {
     img1.removeEventListener('click', clickedSearchButton);
     img1.innerHTML = `<div onclick="location.href='/posts/new'"
         style="color: black;">
-        <span class="material-icons" style="font-size: 2rem;">
+        <span class="material-icons" style="font-size: 2rem; cursor: pointer;">
         create
         </span>
     </div>`;
@@ -260,7 +260,7 @@ $('#reportBtn').click(function () {
                 xhr.setRequestHeader("X-CSRFToken", csrfToken);
             },
             success: function (data) {
-                alert(data.author + '님의 신고를 접수했습니다.')
+                alert(data.author + '님의 신고를 접수했습니다. 신고내용은 고객센터-리뷰 에서 확인하실 수 있습니다.')
                 // 신고 내용 입력창 내용 초기화
                 $('#contents').val('');
                 // 모달 정의

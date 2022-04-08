@@ -51,9 +51,21 @@
     margin-top: -0.15rem;
 }
 
+#mountain-info{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+.mountain-icon{
+    margin-top: 6px;
+    margin-left: 3px;
+    font-size: 17px;
+    color: black;
+}
 /* 사진 영역 */
 .image-box {
     margin: 1rem;
+    cursor: pointer;
 }
 
 .image-box img{
@@ -65,6 +77,7 @@
 
 .content-box {
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 .content-box div.title {

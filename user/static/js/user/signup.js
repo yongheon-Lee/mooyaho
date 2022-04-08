@@ -162,6 +162,22 @@ const checkSpecialCharacter = (inputElement) => {
     return result;
 }
 
+// 비밀번호 형식 확인
+const checkPasswordFormat = (inputElement) => {
+    const passwordReg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+    let msg = '좋아요:)';
+    result = true;
+    
+    if (passwordReg.test(inputElement.value)) {
+        showValidationResult(true, inputElement, msg);
+    } else {
+        msg = '8~16자 영문 대/소문자, 숫자, 특수문자를 꼭 사용해주세요.';
+        showValidationResult(false, inputElement, msg);
+        result = false;
+    }
+    return result;
+}
+
 // 입력 필드 검증
 const checkWriteInputValidation = (targetElement) => {
     const inputFieldName = targetElement.name;
@@ -171,6 +187,7 @@ const checkWriteInputValidation = (targetElement) => {
         checkDuplication(targetElement);
     } else if (inputFieldName === 'password') {
         if(!checkBlank(targetElement)) return;
+        if(!checkPasswordFormat(targetElement)) return;
     } else if (inputFieldName === 'password_confirm') {
         if(!checkBlank(targetElement)) return;
         if(!checkPwConfirm(targetElement)) return;

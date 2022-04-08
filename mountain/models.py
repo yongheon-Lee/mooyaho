@@ -20,6 +20,7 @@ class Mountain(models.Model):
     maxx = models.FloatField(blank=True, null=True)
     miny = models.FloatField(blank=True, null=True)
     minx = models.FloatField(blank=True, null=True)
+    province = models.CharField(max_length=30, null=True, blank=True)
 
     class Meta:
         managed = True

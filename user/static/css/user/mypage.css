@@ -40,6 +40,10 @@
     padding: 1.5rem 1.5rem 1.5rem 1rem;
 }
 
+#user-info-wrapper #delete-account-link-area {
+    width: 100%;
+}
+
 /* nav탭 */ 
 #tab-area {
     display: flex;
@@ -96,6 +100,7 @@
     height: 114px;
     cursor: pointer;
     background-color: rgb(215, 226, 236);
+    object-fit: cover;
 }
 
 /* 두번째(좋아요) 탭 */
