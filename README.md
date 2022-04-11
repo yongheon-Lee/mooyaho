@@ -7,7 +7,8 @@
 <br>
 
 ### 홈페이지
-- https://mooyaho-kor.com/
+- https://mooyaho-kor.com/ (수정 전 버젼)
+- https://beloved-coder.shop/ (최신 버젼)
 <br>
 
 ### 소개     
